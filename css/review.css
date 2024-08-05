@@ -1,0 +1,29 @@
+.review-div {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 0.7rem;
+  border-radius: 6px;
+  background-color: whitesmoke;
+}
+.review-div .image {
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.review-details p {
+  margin: 0;
+}
+.review-details .reviewer {
+  font-weight: 500;
+}
+.review-details .review {
+  font-size: 0.8rem;
+}
+.review-details .rating img {
+  width: 14px;
+  height: 14px;
+}/*# sourceMappingURL=review.css.map */

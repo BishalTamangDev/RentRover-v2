@@ -1,0 +1,12 @@
+.room-detail-container {
+  margin-top: 68px;
+  padding-top: 1rem;
+}
+
+#move-out-date-div {
+  display: none;
+}
+
+#error-message {
+  display: none;
+}/*# sourceMappingURL=room-detail.css.map */

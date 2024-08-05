@@ -1,0 +1,9 @@
+.applicant-photo-container {
+  width: 140px;
+  min-width: 140px;
+  height: 140px;
+  min-height: 140px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  overflow: hidden;
+}/*# sourceMappingURL=room-application.css.map */

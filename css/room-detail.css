@@ -1,0 +1,54 @@
+.room-detail-container .top-section .rating-div .rating img {
+  width: 18px;
+  height: 18px;
+}
+.room-detail-container .room-image-container .left {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+.room-detail-container .room-image-container .left img {
+  width: 100%;
+  height: 100%;
+}
+.room-detail-container .room-image-container .right .room-image {
+  width: 14%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  background-color: whitesmoke;
+}
+.room-detail-container .details {
+  gap: 1rem;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.room-detail-container .details .requirements-amenities-reviews .amenity-container .amenity {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100px;
+  border: 1px solid rgb(231, 231, 231);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+.room-detail-container .details .requirements-amenities-reviews .amenity-container .amenity img {
+  width: 50px;
+  height: 50px;
+}
+.room-detail-container .details .requirements-amenities-reviews .amenity-container .amenity p {
+  text-align: center;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: gray;
+}
+.room-detail-container .details .specifications .specification-table tr .title {
+  font-weight: 500;
+}
+
+@media (min-width: 1200px) {
+  body .specifications .specification-table {
+    min-width: 340px;
+  }
+}/*# sourceMappingURL=room-detail.css.map */

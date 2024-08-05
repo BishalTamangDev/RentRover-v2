@@ -1,0 +1,37 @@
+.filter-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0.8rem;
+    align-items: center;
+    margin-top: 3rem;
+
+    label{
+        font-size: 0.9rem;
+    }
+
+    .parameter {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        align-items: center;
+
+        select {
+            border: 1px solid rgb(226, 226, 226);
+        }
+    }
+
+    .clear {
+        display: none;
+        border: 1px solid rgb(226, 226, 226);
+        border-radius: 0.3rem;
+        padding: 0.22rem 0.6rem;
+        cursor: pointer;
+
+        p {
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+            margin: 0;
+        }
+    }
+}

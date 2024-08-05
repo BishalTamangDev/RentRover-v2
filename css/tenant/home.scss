@@ -1,0 +1,69 @@
+.search-container {
+    margin-top: 68px;
+    background-image: url('/rentrover/assets/images/room-2.jpg');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 200px;
+    justify-content: end;
+}
+
+.filter-container-with-background {
+    display: none;
+    position: fixed;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 500;
+    height: 100vh;
+    background-color: rgba($color: #000000, $alpha: 0.6);
+    padding: 1rem;
+}
+
+// filter
+.filter-container {
+    display: flex;
+    top: 25%;
+    background-color: white;
+    width: 500px;
+    padding: 0.8rem;
+
+    .form-select-sm,
+    input {
+        border: 0.1px solid rgb(230, 230, 230);
+    }
+}
+
+#filter-trigger{
+    display: inline-block;
+}
+
+@media (min-width: 1200px) {
+    .filter-container-with-background {
+        display: flex;
+        position: initial;
+        max-width: 250px;
+        z-index: 0;
+        height: fit-content;
+        width: fit-content;
+        background-color: initial;
+        padding: 0;
+        
+        .filter-container {
+            position: initial;
+            .top {
+                #filter-close {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    #filter-trigger{
+        display: none;
+    }
+}

@@ -1,0 +1,121 @@
+.room-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  row-gap: 1.5rem;
+}
+
+.room {
+  display: flex;
+  flex-direction: column;
+  min-width: 49%;
+  background: white;
+}
+.room .room-image-div {
+  width: 100%;
+  aspect-ratio: 4/2.5;
+  overflow: hidden;
+  border-radius: 0.6rem;
+  background-color: whitesmoke;
+}
+.room .room-details {
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem;
+}
+.room .room-details p {
+  margin: 0;
+}
+.room .room-details .location-wishlist {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+.room .room-details .location-wishlist .location-container {
+  overflow: hidden;
+  max-height: 3rem;
+}
+.room .room-details .location-wishlist .location-container abbr {
+  text-decoration: none;
+}
+.room .room-details .location-wishlist .location-container abbr p {
+  font-weight: 600;
+}
+.room .room-details .location-wishlist i {
+  margin-top: 5px;
+  cursor: pointer;
+  margin-left: 0.2rem;
+}
+.room .room-details .spec {
+  font-size: 0.9rem;
+}
+.room .room-details .rent {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.room .room-details .room-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 0.6rem;
+}
+.room .room-details .room-bottom .rating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+.room .room-details .room-bottom .rating img {
+  width: 18px;
+  height: 18px;
+}
+.room .room-details .room-bottom .show-more-btn {
+  font-size: 0.9rem;
+}
+
+@media (min-width: 768px) {
+  .room {
+    flex-direction: row;
+    gap: 1rem;
+    border: 1px solid whitesmoke;
+    border-radius: 6px;
+    padding: 0.4rem;
+    padding: 0.5rem;
+  }
+  .room .room-image-div {
+    width: 50%;
+    border-radius: 6px;
+    aspect-ratio: 4/3;
+  }
+  .room .room-details {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+  .room .room-details .room-bottom .show-more-btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+@media (min-width: 1200px) {
+  .room-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .room-container .room {
+    gap: 0;
+    width: 49%;
+  }
+  .room-container .room .room-image-div {
+    width: 90%;
+  }
+  .room-container .room .room-details {
+    width: 100%;
+    row-gap: 0.6rem;
+    padding-left: 0.5rem;
+  }
+}/*# sourceMappingURL=room.css.map */

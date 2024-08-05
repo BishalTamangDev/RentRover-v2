@@ -1,0 +1,104 @@
+header {
+    top: 0;
+    left: 0;
+    z-index: 100;
+
+    .header-container {
+        a {
+            img {
+                width: 100px;
+            }
+        }
+
+        .wishlist-notification-profile {
+
+            // wishlist
+            .wishlist-container {
+                .wishlist-counter {
+                    top: -8px;
+                    background-color: rgba($color: white, $alpha: 0.6);
+                    border-radius: 50%;
+                    width: 26px;
+                    height: 26px;
+                }
+            }
+
+            // notification
+            .notification-section {
+                .notification-icon {
+                    .notification-counter {
+                        top: -6px;
+                        background-color: rgba($color: white, $alpha: 0.6);
+                        border-radius: 50%;
+                        width: 26px;
+                        margin-left: 8px;
+                        height: 26px;
+                    }
+                }
+
+                .notification-container {
+                    display: flex;
+                    margin-top: 6px;
+                    right: 0;
+                    background-color: white;
+
+                    .notification {
+                        padding: 0.4rem;
+
+                        &:hover {
+                            cursor: pointer;
+                            background-color: whitesmoke;
+                        }
+
+                        .notification-icon {
+                            width: 30px;
+                            min-width: 36px;
+                            height: 36px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            background-color: whitesmoke;
+                        }
+
+                        min-width: 340px;
+                    }
+                }
+            }
+
+            .profile-container {
+                .profile {
+                    height: 36px;
+                    width: 36px;
+                    border-radius: 100%;
+                    overflow: hidden;
+                }
+
+                .profile-menu {
+                    right: 0;
+                    margin-top: 6px;
+                    width: 200px;
+                    background-color: white;
+
+                    ul {
+                        margin: 0;
+                        padding: 0;
+                        list-style-type: none;
+
+                        li {
+                            padding: 0.8rem;
+                            cursor: pointer;
+                            font-size: 0.9rem;
+
+                            &:hover {
+                                background-color: rgb(248, 248, 248);
+                            }
+
+                            i {
+                                width: 18px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

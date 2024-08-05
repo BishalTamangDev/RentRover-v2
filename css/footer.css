@@ -1,0 +1,27 @@
+footer .footer-container ul {
+  padding: 0;
+  list-style-type: none;
+}
+footer .footer-container ul li {
+  margin-bottom: 0.5rem;
+}
+footer .footer-container ul li span {
+  margin-left: 0.6rem;
+}
+footer .footer-container .footer-section {
+  min-width: 49%;
+}
+footer .footer-container .footer-section .heading {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 992px) {
+  footer .footer-container .footer-section {
+    min-width: unset;
+    width: 24%;
+  }
+  footer .footer-container .footer-section .heading {
+    margin-bottom: 1rem;
+  }
+}/*# sourceMappingURL=footer.css.map */

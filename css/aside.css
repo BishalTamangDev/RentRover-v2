@@ -1,0 +1,147 @@
+aside,
+.panel-aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+  height: 100vh;
+  background-color: white;
+  width: 83px;
+  z-index: 100;
+}
+aside::-webkit-scrollbar,
+.panel-aside::-webkit-scrollbar {
+  width: 4px;
+  background: none;
+}
+aside::-webkit-scrollbar-thumb,
+.panel-aside::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(223, 223, 223);
+}
+aside .menu-bar-div,
+.panel-aside .menu-bar-div {
+  margin-top: 1rem;
+  padding: calc(6px + 1.5rem);
+}
+aside ul,
+.panel-aside ul {
+  list-style-type: none;
+  margin: 0;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 1rem;
+  padding-top: 7rem;
+}
+aside ul li,
+.panel-aside ul li {
+  padding: 0.5rem;
+  padding-left: 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid white;
+  color: black;
+}
+aside ul li i,
+.panel-aside ul li i {
+  width: 24px;
+}
+aside ul li span,
+.panel-aside ul li span {
+  display: none;
+}
+aside ul li:hover,
+.panel-aside ul li:hover {
+  color: var(--brand-color);
+}
+aside ul .active,
+.panel-aside ul .active {
+  border: 1px solid var(--brand-color);
+  color: var(--brand-color);
+}
+
+header {
+  z-index: var(--fixed-z-index);
+  background-color: white;
+  border-bottom: 1px solid rgb(224, 223, 223);
+}
+header .notification-section .notification-icon .notification-counter {
+  top: -6px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  width: 26px;
+  margin-left: 8px;
+  height: 26px;
+}
+header .notification-section .notification-container {
+  display: flex;
+  margin-top: 6px;
+  right: 0;
+  background-color: white;
+}
+header .notification-section .notification-container .notification {
+  padding: 0.4rem;
+  min-width: 340px;
+}
+header .notification-section .notification-container .notification:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+}
+header .notification-section .notification-container .notification .notification-icon {
+  width: 30px;
+  min-width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: whitesmoke;
+}
+header .profile-container .profile {
+  height: 36px;
+  width: 36px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+header .profile-container .profile-menu {
+  right: 0;
+  margin-top: 6px;
+  width: 200px;
+  background-color: white;
+}
+header .profile-container .profile-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+header .profile-container .profile-menu ul li {
+  padding: 0.8rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+header .profile-container .profile-menu ul li:hover {
+  background-color: rgb(248, 248, 248);
+}
+header .profile-container .profile-menu ul li i {
+  width: 18px;
+}
+
+main {
+  padding: 24px;
+  padding-top: 96px;
+  padding-left: 95px;
+}
+
+@media (min-width: 1200px) {
+  aside {
+    width: 220px;
+  }
+  aside .menu-bar-div {
+    visibility: hidden;
+  }
+  aside ul li span {
+    display: inline-block;
+  }
+  main {
+    padding-left: 232px;
+  }
+}/*# sourceMappingURL=aside.css.map */

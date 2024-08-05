@@ -1,0 +1,73 @@
+header {
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+header .header-container a img {
+  width: 100px;
+}
+header .header-container .wishlist-notification-profile .wishlist-container .wishlist-counter {
+  top: -8px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+}
+header .header-container .wishlist-notification-profile .notification-section .notification-icon .notification-counter {
+  top: -6px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  width: 26px;
+  margin-left: 8px;
+  height: 26px;
+}
+header .header-container .wishlist-notification-profile .notification-section .notification-container {
+  display: flex;
+  margin-top: 6px;
+  right: 0;
+  background-color: white;
+}
+header .header-container .wishlist-notification-profile .notification-section .notification-container .notification {
+  padding: 0.4rem;
+  min-width: 340px;
+}
+header .header-container .wishlist-notification-profile .notification-section .notification-container .notification:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+}
+header .header-container .wishlist-notification-profile .notification-section .notification-container .notification .notification-icon {
+  width: 30px;
+  min-width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: whitesmoke;
+}
+header .header-container .wishlist-notification-profile .profile-container .profile {
+  height: 36px;
+  width: 36px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+header .header-container .wishlist-notification-profile .profile-container .profile-menu {
+  right: 0;
+  margin-top: 6px;
+  width: 200px;
+  background-color: white;
+}
+header .header-container .wishlist-notification-profile .profile-container .profile-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+header .header-container .wishlist-notification-profile .profile-container .profile-menu ul li {
+  padding: 0.8rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+header .header-container .wishlist-notification-profile .profile-container .profile-menu ul li:hover {
+  background-color: rgb(248, 248, 248);
+}
+header .header-container .wishlist-notification-profile .profile-container .profile-menu ul li i {
+  width: 18px;
+}/*# sourceMappingURL=header.css.map */

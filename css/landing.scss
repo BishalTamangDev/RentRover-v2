@@ -1,0 +1,36 @@
+.landing-container{
+    height: 400px;
+    margin-top: 70px;
+    background-size: cover;
+    background-position-y: center;
+    background-image: url('/rentrover/assets/images/room-2.jpg');
+
+    .landing-info{
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        max-width: 600px;
+        border-radius: 0 1rem 0 0;
+        border-bottom: 1px solid whitesmoke;
+        border-left: 1px solid whitesmoke;
+        background-color: rgba($color: white, $alpha: 0.8);
+    }
+}
+
+.service-container{
+    .service{
+        img{
+            height: 100px;
+            width: 100px;
+        }
+    }
+}
+
+@media(min-width: 768px){
+    .service{
+        width: 30%;
+        img{
+            width: 80px;
+        }
+    }
+}

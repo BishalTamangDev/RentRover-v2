@@ -1,0 +1,26 @@
+.user-profile-container {
+  padding-bottom: 3rem;
+}
+.user-profile-container .photo-username-email .photo {
+  width: 64px;
+  min-width: 64px;
+  height: 64px;
+  min-height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.user-profile-container .password-container #password-form {
+  width: 100%;
+}
+
+.document-div .document {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+
+@media (min-width: 1200px) {
+  .user-profile-container .password-container #password-form {
+    width: 50%;
+  }
+}/*# sourceMappingURL=user-detail.css.map */

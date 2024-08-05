@@ -1,0 +1,66 @@
+.user-feedback-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.user-feedback {
+  display: flex;
+  flex-direction: column;
+  background-color: whitesmoke;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  height: -moz-fit-content;
+  height: fit-content;
+  overflow: hidden;
+  gap: 0.6rem;
+}
+.user-feedback p, .user-feedback a {
+  margin: 0;
+}
+.user-feedback .user-feedback-top {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}
+.user-feedback .user-feedback-top .img-div {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  overflow: hidden;
+  background-color: rgb(202, 202, 202);
+}
+.user-feedback .user-feedback-top .user-details {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.user-feedback .user-feedback-top .user-details .feedback-role {
+  font-size: 0.8rem;
+  color: gray;
+}
+.user-feedback .feedback {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.user-feedback .feedback .feedback-detail {
+  max-height: 140px;
+  overflow: hidden;
+}
+.user-feedback .feedback .rating-div img {
+  width: 15px;
+}
+.user-feedback .action a {
+  font-size: 0.8rem;
+}
+
+@media (min-width: 992px) {
+  .user-feedback-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .user-feedback {
+    max-width: 49.1%;
+  }
+}/*# sourceMappingURL=feedback.css.map */
