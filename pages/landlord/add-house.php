@@ -46,11 +46,11 @@ $page = "houses";
                 <!-- top section -->
                 <div class="d-flex flex-row justify-content-between top-section">
                     <!-- heading -->
-                    <p class="m-0 fs-3 fw-semibold"> Add New House </p>
+                    <p class="m-0 fs-3 fw-semibold"> <?=$task == "add" ? "Add New House" : "Edit House"?> </p>
                     <!-- rest or cancel -->
                     <div class="d-flex flex-row gap-2 justify-content-end mb-3">
                         <a class="btn btn-outline-secondary" id="form-reset"> Reset </a>
-                        <a href="/rentrover/pages/landlord/houses.php" class="btn btn-danger"> Cancel </a>
+                        <a href="/rentrover/landlord/houses" class="btn btn-danger"> Cancel </a>
                     </div>
                 </div>
 

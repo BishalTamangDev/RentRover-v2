@@ -75,7 +75,7 @@
                                 <p class="fw-semibold small"> 2.4 </p>
                             </div>
 
-                            <a href="/rentrover/pages/tenant/room-detail.php" class="btn btn-outlined-brand show-more-btn">
+                            <a href="/rentrover/tenant/room-detail/1" class="btn btn-outlined-brand show-more-btn">
                                 Show More </a>
                         </div>
                     </div>

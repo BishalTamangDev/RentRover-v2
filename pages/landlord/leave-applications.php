@@ -125,7 +125,7 @@ $page = "leave-applications";
                         <div class="action mt-2">
                             <button class="btn btn-success" id="leave-application-acknowledge-btn"> <i
                                     class="fa-solid fa-check mr-2"></i> Mark as read </button>
-                            <a href="/rentrover/pages/landlord/tenant-detail.php" class="btn btn-outlined-brand"
+                            <a href="/rentrover/landlord/tenant-detail/1" class="btn btn-outlined-brand"
                                 id="show-tenant-detail"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Show
                                 Tenant Details </a>
                         </div>

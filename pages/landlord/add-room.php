@@ -49,7 +49,7 @@ $page = "rooms";
                     <!-- rest or cancel -->
                     <div class="d-flex flex-row gap-2 justify-content-end mb-3">
                         <a class="btn btn-outline-secondary" id="form-reset"> Reset </a>
-                        <a class="btn btn-danger" href="/rentrover/pages/landlord/rooms.php"> Cancel </a>
+                        <a class="btn btn-danger" href="/rentrover/landlord/rooms"> Cancel </a>
                     </div>
                 </div>
 

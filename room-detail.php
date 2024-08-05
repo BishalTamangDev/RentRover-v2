@@ -25,13 +25,17 @@
 
     <!-- favicon -->
     <link rel="stylesheet" href="/rentrover/css/style.css">
+    <link rel="stylesheet" href="/rentrover/css/header-unsigned.css">
     <link rel="stylesheet" href="/rentrover/css/room-detail.css">
     <link rel="stylesheet" href="/rentrover/css/review.css">
 </head>
 
 <body>
+    <!-- header -->
+    <?php require_once __DIR__ . '/sections/header-unsigned.php';?>
+
     <!-- room detail -->
-    <section class="container mt-5 room-detail-container pb-5">
+    <section class="container room-detail-container pb-5" style="margin-top: 5rem;">
         <!-- top section -->
         <!-- address, rating, wishlist -->
         <div class="d-flex flex-row justify-content-between">
@@ -243,7 +247,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <a href="/rentrover/login.php" class="btn btn-brand fit-content mt-3"> Login Now </a>
+                <a href="/rentrover/login" class="btn btn-brand fit-content mt-3"> Login Now </a>
             </div>
         </div>
     </div>

@@ -65,7 +65,7 @@ if(!isset($page))
                     <tr class="house-row">
                         <th scope="row" class="serial"> 1 </th>
                         <td>
-                            <a href="/rentrover/pages/admin/user-detail.php" class="text-primary"> Rupak Dangi </a>
+                            <a href="/rentrover/admin/user-detail/1" class="text-primary"> Rupak Dangi </a>
                         </td>
                         <td> Lalitpur </td>
                         <td> BHK </td>
@@ -78,7 +78,7 @@ if(!isset($page))
                     <tr class="house-row">
                         <th scope="row" class="serial"> 2 </th>
                         <td>
-                            <a href="/rentrover/pages/admin/user-detail.php" class="text-primary">
+                            <a href="/rentrover/admin/user-detail/2" class="text-primary">
                                 Shristi Pradhan
                             </a>
                         </td>

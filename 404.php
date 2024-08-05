@@ -27,7 +27,7 @@
     <div class="d-flex flex-column gap-2 m-auto p-2 fit-content 404-container mt-auto">
         <p class="fs-1 m-0 fw-semibold"> Page Not Found! </p>
         <p class="m-0"> The page you are looking for is not available, or <br> there might be an error in the url. </p>
-        <a href="/rentrover/landing.php"> Home </a>
+        <a href="/rentrover/"> Home </a>
     </div>
 </body>
 </html>

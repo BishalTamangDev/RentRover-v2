@@ -1,6 +1,6 @@
 <?php
 if (!isset($tab)) {
-    $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
+    $tab = "view";
 }
 ?>
 <!DOCTYPE html>
@@ -44,30 +44,30 @@ if (!isset($tab)) {
         <aside class="">
             <ul>
                 <li class="<?php if ($tab == 'view' || $tab == 'edit')
-                    echo "active"; ?>" onclick="window.location.href='/rentrover/pages/tenant/profile.php?tab=view'">
+                    echo "active"; ?>" onclick="window.location.href='/rentrover/tenant/profile/'">
                     <i class="fa fa-user"></i> <span> My Profile </span> </li>
                 <li class="<?php if ($tab == 'security')
                     echo "active"; ?>"
-                    onclick="window.location.href='/rentrover/pages/tenant/profile.php?tab=security'"> <i
+                    onclick="window.location.href='/rentrover/tenant/profile/security'"> <i
                         class="fa fa-lock"></i> <span> Password & Security </span> </li>
                 <li class="<?php if ($tab == 'room-notice')
                     echo "active"; ?>"
-                    onclick="window.location.href='/rentrover/pages/tenant/profile.php?tab=room-notices'"> <i
+                    onclick="window.location.href='/rentrover/tenant/profile/room-notices'"> <i
                         class="fa-solid fa-bullhorn"></i> <span> Landlord Notices </span> </li>
                 <li class="<?php if ($tab == 'tenancy-history')
                     echo "active"; ?>"
-                    onclick="window.location.href='/rentrover/pages/tenant/profile.php?tab=tenancy-histories'"> <i
+                    onclick="window.location.href='/rentrover/tenant/profile/tenancy-histories'"> <i
                         class="fa-solid fa-timeline"></i> <span> Tenancy History </span> </li>
                 <li class="<?php if ($tab == 'applied-room')
                     echo "active"; ?>"
-                    onclick="window.location.href='/rentrover/pages/tenant/profile.php?tab=applied-rooms'"> <i
+                    onclick="window.location.href='/rentrover/tenant/profile/applied-rooms'"> <i
                         class="fa-solid fa-file-contract"></i> <span> Applied Rooms </span> </li>
                 <li class="<?php if ($tab == 'custom-application')
                     echo "active"; ?>"
-                    onclick="window.location.href='/rentrover/pages/tenant/profile.php?tab=custom-applications'"> <i
+                    onclick="window.location.href='/rentrover/tenant/profile/custom-applications'"> <i
                         class="fa-solid fa-gears"></i> <span> Custom Application </span> </li>
                 <li class="<?php if ($tab == 'issue')
-                    echo "active"; ?>" onclick="window.location.href='/rentrover/pages/tenant/profile.php?tab=issues'">
+                    echo "active"; ?>" onclick="window.location.href='/rentrover/tenant/profile/issues'">
                     <i class="fa-solid fa-triangle-exclamation"></i> <span> Issues </span> </li>
             </ul>
         </aside>

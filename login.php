@@ -32,7 +32,7 @@
     <section class="container position-absolute rounded login-container">
         <div class="heading d-flex flex-row w-100 justify-content-between mb-4 align-items-centers">
             <h1 class="m-0 fw-semibold"> Login </h1>
-            <a href="/rentrover/landing.php" class="fa fa-multiply fs-4 pointer mt-2 text-secondary"> </a>
+            <a href="/rentrover/" class="fa fa-multiply fs-4 pointer mt-2 text-secondary"> </a>
         </div>
 
         <hr class="mb-3" />
@@ -74,9 +74,9 @@
 
             <div class="d-flex flex-column gap-1 flex-md-row justify-content-between mt-2 bottom">
                 <p class="m-0 small">
-                    Donot have an account? <a href="/rentrover/registration.php" class="text-primary"> Register Now </a>
+                    Donot have an account? <a href="/rentrover/registration" class="text-primary"> Register Now </a>
                 </p>
-                <a href="/rentrover/password-recovery.php" class="text-dark small"> Forgot password? </a>
+                <a href="/rentrover/password-recovery" class="text-dark small"> Forgot password? </a>
             </div>
         </form>
     </section>

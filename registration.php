@@ -89,7 +89,7 @@
 
             <div class="d-flex flex-column gap-3 flex-md-row justify-content-between mt-2 bottom">
                 <p class="m-0 small">
-                    Already have an account? <a href="/rentrover/login.php" class="text-primary"> Log in </a>
+                    Already have an account? <a href="/rentrover/login" class="text-primary"> Log in </a>
                 </p>
             </div>
         </form>

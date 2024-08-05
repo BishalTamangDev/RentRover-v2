@@ -60,7 +60,7 @@ $page = "rooms";
         </section>
 
         <!-- add room button -->
-        <a href="/rentrover/pages/landlord/add-room.php"
+        <a href="/rentrover/landlord/add-room"
             class="d-flex flex-row gap-2 align-items-center btn btn-brand mb-3 mt-4 fit-content"> <i class="fa fa-add"></i>
             Add New Room </a>
 
@@ -127,7 +127,7 @@ $page = "rooms";
                         <td> Unacquired </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/landlord/room-detail.php" class="text-primary small">
+                            <a href="/rentrover/landlord/room-detail/1" class="text-primary small">
                                 Show details
                             </a>
                         </td>
@@ -142,7 +142,7 @@ $page = "rooms";
                         <td> Acquired </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/landlord/room-detail.php" class="text-primary small">
+                            <a href="/rentrover/landlord/room-detail/2" class="text-primary small">
                                 Show details
                             </a>
                         </td>
@@ -157,7 +157,7 @@ $page = "rooms";
                         <td> Acquired </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/pages/landlord/room-detail.php" class="text-primary small">
+                            <a href="/rentrover/landlord/room-detail/3" class="text-primary small">
                                 Show details
                             </a>
                         </td>

@@ -68,5 +68,5 @@
 </div>
 
 <!-- change password -->
-<a href="/rentrover/pages/landlord/profile.php?tab=password-change" class="btn btn-dark mt-2 fit-content"> Change
+<a href="/rentrover/landlord/profile/password-change" class="btn btn-dark mt-2 fit-content"> Change
     Password </a>

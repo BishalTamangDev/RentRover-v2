@@ -68,7 +68,7 @@ if (!isset($page))
                         <td> 2 </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/admin/house-detail.php" class="text-primary small"> Show details
+                            <a href="/rentrover/admin/house-detail/1" class="text-primary small"> Show details
                             </a>
                         </td>
                     </tr>
@@ -80,7 +80,7 @@ if (!isset($page))
                         <td> 5 </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/admin/house-detail.php" class="text-primary small"> Show details
+                            <a href="/rentrover/admin/house-detail/2" class="text-primary small"> Show details
                             </a>
                         </td>
                     </tr>

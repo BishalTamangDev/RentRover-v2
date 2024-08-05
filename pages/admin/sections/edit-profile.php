@@ -5,7 +5,7 @@
             <i class="fa fa-edit fs-5 text-secondary"></i>
             <h5 class="m-0"> Edit Profile </h5>
         </div>
-        <a href="/rentrover/pages/admin/profile.php?tab=view" class="btn btn-danger p-1 px-2"> Cancel </a>
+        <a href="/rentrover/admin/profile/view" class="btn btn-danger p-1 px-2"> Cancel </a>
     </div>
 
     <label for="profile-photo" class="mb-2"> Change profile photo </label>

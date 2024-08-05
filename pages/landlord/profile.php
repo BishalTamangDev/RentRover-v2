@@ -49,7 +49,7 @@
                 <div class="username-email">
                     <p class="m-0 fw-semibold"> Mr. Beast | Landlord </p>
                     <p class="m-0 text-secondary small"> someone@gmail.com </p>
-                    <a href="/rentrover/pages/landlord/profile.php?tab=edit" class="mt-3 text-primary small"> Edit Information </a>
+                    <a href="/rentrover/landlord/profile/edit" class="mt-3 text-primary small"> Edit Information </a>
                 </div>
             </div>
 

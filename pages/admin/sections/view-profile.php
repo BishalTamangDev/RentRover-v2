@@ -1,4 +1,4 @@
-<div class="d-nones mb-3 w-100 profile-informations">
+<div class="mb-3 w-100 profile-informations">
     <div class="d-flex">
         <div class="w-50">
             <p class="m-0 text-secondary"> First Name </p>
@@ -67,5 +67,5 @@
     </div>
 
     <!-- password -->
-    <a href="/rentrover/pages/admin/profile.php?tab=password-change" class="btn btn-dark mt-3"> Change Password </a>
+    <a href="/rentrover/admin/profile/password-change" class="btn btn-dark mt-3"> Change Password </a>
 </div>

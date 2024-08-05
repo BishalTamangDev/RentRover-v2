@@ -97,7 +97,7 @@ $page = "users";
                         <td> 984514586 </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/admin/user-detail.php" class="text-primary small"> Show details
+                            <a href="/rentrover/admin/user-detail/1" class="text-primary small"> Show details
                             </a>
                         </td>
                     </tr>
@@ -110,7 +110,7 @@ $page = "users";
                         <td> 984514586 </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/admin/user-detail.php" class="text-primary small"> Show details
+                            <a href="/rentrover/admin/user-detail/1" class="text-primary small"> Show details
                             </a>
                         </td>
                     </tr>

@@ -247,7 +247,7 @@
 
                     <!-- actions :: edit || delete -->
                     <div class="room-operations">
-                        <a href="/rentrover/pages/landlord/add-room.php" type="button" class="btn btn-brand"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Edit </a>
+                        <a href="/rentrover/landlord/add-room/edit" type="button" class="btn btn-brand"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Edit </a>
                         <button class="btn btn-danger" data-leave-application-id="" data-bs-toggle="modal"
                             data-bs-target="#deleteRoomModal"> <i class="fa fa-trash"></i> Delete Room </button>
                     </div>

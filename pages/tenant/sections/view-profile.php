@@ -15,7 +15,7 @@ if (!isset($tab))
         <div class="username-email">
             <p class="m-0 fw-semibold"> Mr. Beast | Landlord</p>
             <p class="m-0 text-secondary small"> someone@gmail.com </p>
-            <a href="/rentrover/pages/tenant/profile.php?tab=edit" class="mt-3 text-primary small"> Edit Information
+            <a href="/rentrover/tenant/profile/edit" class="mt-3 text-primary small"> Edit Information
             </a>
         </div>
     </div>
@@ -124,7 +124,7 @@ if (!isset($tab))
                     <i class="fa fa-edit fs-5 text-secondary"></i>
                     <h5 class="m-0"> Edit Profile </h5>
                 </div>
-                <a href="/rentrover/pages/tenant/profile.php?tab=view" class="btn btn-danger p-1 px-2"> Cancel </a>
+                <a href="/rentrover/tenant/profile/" class="btn btn-danger p-1 px-2"> Cancel </a>
             </div>
 
             <!-- new profile picture -->

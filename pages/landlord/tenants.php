@@ -98,7 +98,7 @@
                         <td> 0000-00-00 </td>
                         <td> Still residing </td>
                         <td class="action">
-                            <a href="/rentrover/pages/landlord/tenant-detail.php" class="text-primary pointer small">
+                            <a href="/rentrover/landlord/tenant-detail/1" class="text-primary pointer small">
                                 Show details
                             </a>
                         </td>
@@ -112,7 +112,7 @@
                         <td> 0000-00-00 </td>
                         <td> 0000-00-00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/landlord/tenant-detail.php" class="text-primary pointer small">
+                            <a href="/rentrover/landlord/tenant-detail/2" class="text-primary pointer small">
                                 Show details
                             </a>
                         </td>

@@ -48,7 +48,7 @@ $page = "houses";
         </section>
 
         <!-- add house button -->
-        <a href="/rentrover/pages/landlord/add-house.php"
+        <a href="/rentrover/landlord/add-house"
             class="d-flex flex-row gap-2 align-items-center btn btn-brand mb-3 mt-4 fit-content"> <i
                 class="fa fa-add"></i> Add New House </a>
 
@@ -71,7 +71,7 @@ $page = "houses";
                         <td> 2 </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/landlord/house-detail.php" class="text-primary small">
+                            <a href="/rentrover/landlord/house-detail/1" class="text-primary small">
                                 Show details
                             </a>
                         </td>
@@ -83,7 +83,7 @@ $page = "houses";
                         <td> 5 </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/landlord/house-detail.php" class="text-primary small">
+                            <a href="/rentrover/landlord/house-detail/2" class="text-primary small">
                                 Show details
                             </a>
                         </td>

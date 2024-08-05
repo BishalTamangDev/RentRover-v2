@@ -1,8 +1,8 @@
 <!-- password & security -->
-<div class="d-flex flex-column user-profile-container profile-content">
+<div class="d-flex flex-column user-profile-container">
     <div class="d-flex flex-row justify-content-between align-items-center">
         <p class="m-0 fs-4 fw-semibold"> Change Password </p>
-        <a href="/rentrover/pages/admin/profile.php?tab=view" class="btn btn-danger"> Cancel </a>
+        <a href="/rentrover/admin/profile/view" class="btn btn-danger"> Cancel </a>
     </div>
 
     <form method="POST" class="form d-flex flex-column gap-2 mt-4" id="password-form">

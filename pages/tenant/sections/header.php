@@ -1,14 +1,14 @@
 <header class="position-fixed w-100 header ">
     <div class="container py-3 bg-white d-flex flex-row align-items-center justify-content-between header-container">
-        <a href="/rentrover/pages/tenant/home.php">
+        <a href="/rentrover/tenant/home">
             <img src="/rentrover/assets/brands/rentrover-rectangular-logo.png" alt="">
         </a>
 
         <div class="d-flex flex-row gap-4 align-items-center wishlist-notification-profile">
             <!-- wishlist -->
             <div class="position-relative wishlist-container pointer"
-                onclick="window.location.href='/rentrover/pages/tenant/wishlist.php'">
-                <a href="/pages/tenant/wishlist.php" class="text-secondary">
+                onclick="window.location.href='/rentrover/tenant/wishlist'">
+                <a href="/rentrover/tenant/wishlist" class="text-secondary">
                     <i class="fa-regular fa-bookmark pt-1"></i>
                 </a>
 
@@ -30,7 +30,7 @@
                     <div class="d-flex flex-row justify-content-between p-3 border-bottom notification-heading">
                         <div class="heading">
                             <h5 class="m-0"> Notifications </h5>
-                            <a href="/rentrover/pages/tenant/notifications.php" class="text-primary small"> See all </a>
+                            <a href="/rentrover/tenant/notifications" class="text-primary small"> See all </a>
                         </div>
                         <i class="fa fa-multiply fs-5 pointer" id="notification-close"></i>
                     </div>
@@ -63,11 +63,10 @@
                 <!-- user menu -->
                 <div class="position-absolute shadow-sm profile-menu" id="profile-menu">
                     <ul>
-                        <li onclick="window.location.href='/rentrover/pages/tenant/profile.php'">
+                        <li onclick="window.location.href='/rentrover/tenant/profile'">
                             <i class="fa fa-user"></i> <span> My Profile </span>
                         </li>
-
-                        <li onclick="window.location.href='/rentrover/pages/tenant/profile.php'"> <i
+                        <li onclick="window.location.href='/rentrover/tenant/profile/my-room'"> <i
                                 class="fa-solid fa-person-shelter"></i> <span> My Room </span> </li>
                         <li onclick="window.location.href='/rentrover/pages/tenant/app/logout.php'"> <i
                                 class="fa-solid fa-arrow-right-from-bracket"></i> <span> Logout </span> </li>

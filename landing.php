@@ -35,17 +35,7 @@
 
 <body>
     <!-- header -->
-    <header class="position-fixed w-100 header unsigned-header">
-        <div class="container py-3 bg-white d-flex flex-row align-items-center justify-content-between">
-            <a href="/rentrover/landing.php">
-                <img src="/rentrover/assets/brands/rentrover-rectangular-logo.png" alt="">
-            </a>
-
-            <div class="d-flex flex-row gap-3 align-items-center">
-                <a href="/rentrover/login.php" class="btn btn-brand"> Log&nbsp;In </a>
-            </div>
-        </div>
-    </header>
+    <?php require_once __DIR__ . '/sections/header-unsigned.php';?>
 
     <!-- landing-container -->
     <section class="container position-relative landing-container">
@@ -55,7 +45,7 @@
                 Accommodation Solutions.
             </h5>
 
-            <a href="/rentrover/registration.php" class="btn btn-brand fit-content" id="register-btn"> Register&nbsp;Now </a>
+            <a href="/rentrover/registration" class="btn btn-brand fit-content" id="register-btn"> Register&nbsp;Now </a>
         </div>
     </section>
 
@@ -100,7 +90,7 @@
                             <p class="fw-semibold small"> 2.4 </p>
                         </div>
 
-                        <a href="/rentrover/room-detail.php" class="btn btn-outlined-brand show-more-btn"> Show More </a>
+                        <a href="/rentrover/room-detail/1" class="btn btn-outlined-brand show-more-btn"> Show More </a>
                     </div>
                 </div>
             </div>
@@ -139,7 +129,7 @@
                             <p class="fw-semibold small"> 2.4 </p>
                         </div>
 
-                        <a href="/rentrover/room-detail.php" class="btn btn-outlined-brand show-more-btn"> Show More </a>
+                        <a href="/rentrover/room-detail/2" class="btn btn-outlined-brand show-more-btn"> Show More </a>
                     </div>
                 </div>
             </div>
@@ -178,7 +168,7 @@
                             <p class="fw-semibold small"> 2.4 </p>
                         </div>
 
-                        <a href="/rentrover/room-detail.php" class="btn btn-outlined-brand show-more-btn"> Show More </a>
+                        <a href="/rentrover/room-detail/3" class="btn btn-outlined-brand show-more-btn"> Show More </a>
                     </div>
                 </div>
             </div>
@@ -217,7 +207,7 @@
                             <p class="fw-semibold small"> 2.4 </p>
                         </div>
 
-                        <a href="/rentrover/room-detail.php" class="btn btn-outlined-brand show-more-btn"> Show More </a>
+                        <a href="/rentrover/room-detail/4" class="btn btn-outlined-brand show-more-btn"> Show More </a>
                     </div>
                 </div>
             </div>

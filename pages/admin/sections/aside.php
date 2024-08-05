@@ -37,7 +37,7 @@ if (!isset($page))
     <!-- header -->
     <header class="position-fixed w-100 d-flex flex-row gap-3 p-3 justify-content-end align-items-center header">
         <!-- search form -->
-        <form action="" class="d-flex flex-row accordion">
+        <form action="" method="POST" class="d-flex flex-row accordion">
             <input type="search" name="content" placeholder="search here" class="form-control" id="">
         </form>
 
@@ -53,7 +53,7 @@ if (!isset($page))
                 <div class="d-flex flex-row justify-content-between p-3 border-bottom notification-heading">
                     <div class="d-flex flex-column gap-1 title">
                         <h5 class="m-0"> Notifications </h5>
-                        <a href="/rentrover/pages/admin/notifications.php" class="m-0 small text-primary"> Show all </a>
+                        <a href="/rentrover/admin/notifications" class="m-0 small text-primary"> Show all </a>
                     </div>
 
                     <i class="fa fa-multiply fs-5 pointer" id="notification-close"></i>
@@ -87,8 +87,9 @@ if (!isset($page))
             <!-- user menu -->
             <div class="position-absolute shadow-sm profile-menu" id="profile-menu">
                 <ul>
-                    <li onclick="window.location.href='/rentrover/pages/admin/profile.php'"> <i class="fa fa-user"></i>
-                        <span> My Profile </span> </li>
+                    <li onclick="window.location.href='/rentrover/admin/profile'"> <i class="fa fa-user"></i>
+                        <span> My Profile </span>
+                    </li>
                     <li onclick="window.location.href='/rentrover/pages/admin/app/logout.php'"> <i
                             class="fa-solid fa-arrow-right-from-bracket"></i> <span> Logout </span> </li>
                 </ul>
@@ -106,49 +107,49 @@ if (!isset($page))
         <ul>
             <!-- home -->
             <li class="<?= $page == 'dashboard' ? 'active' : 'inactive'; ?>"
-                onclick="window.location.href='/rentrover/pages/admin/dashboard.php'">
+                onclick="window.location.href='/rentrover/admin/dashboard'">
                 <i class="fa fa-home"></i>
                 <span id="ul-span"> Dashboard </span>
             </li>
 
             <!-- users -->
-            <li class="<?= $page == 'users' ? 'active' : 'inactive'; ?>"
-                onclick="window.location.href='/rentrover/pages/admin/users.php'">
+            <li class="<?= $page == 'users' || $page == "user-detail" ? 'active' : 'inactive'; ?>"
+                onclick="window.location.href='/rentrover/admin/users'">
                 <i class="fa fa-users"></i>
                 <span> Users </span>
             </li>
 
             <!-- houses -->
-            <li class="<?= $page == 'houses' ? 'active' : 'inactive'; ?>"
-                onclick="window.location.href='/rentrover/pages/admin/houses.php'">
+            <li class="<?= $page == 'houses' || $page == "house-detail" ? 'active' : 'inactive'; ?>"
+                onclick="window.location.href='/rentrover/admin/houses'">
                 <i class="fa fa-building"></i>
                 <span> Houses </span>
             </li>
 
             <!-- rooms -->
-            <li class="<?= $page == 'rooms' ? 'active' : 'inactive'; ?>"
-                onclick="window.location.href='/rentrover/pages/admin/rooms.php'">
+            <li class="<?= $page == 'rooms' || $page == "room-detail" ? 'active' : 'inactive'; ?>"
+                onclick="window.location.href='/rentrover/admin/rooms'">
                 <i class="fa-solid fa-person-shelter"></i>
                 <span> Rooms </span>
             </li>
 
             <!-- feedbacks -->
             <li class="<?= $page == 'feedbacks' ? 'active' : 'inactive'; ?>"
-                onclick="window.location.href='/rentrover/pages/admin/feedbacks.php'">
+                onclick="window.location.href='/rentrover/admin/feedbacks'">
                 <i class="fa-regular fa-comment"></i>
                 <span> Feedbacks </span>
             </li>
 
             <!-- custom application -->
             <li class="<?= $page == 'custom-applications' ? 'active' : 'inactive'; ?>"
-                onclick="window.location.href='/rentrover/pages/admin/custom-applications.php'">
+                onclick="window.location.href='/rentrover/admin/custom-applications'">
                 <i class="fa-solid fa-gears"></i>
                 <span> Custom Search </span>
             </li>
 
             <!-- system notice application -->
             <li class="<?= $page == 'notices' ? 'active' : 'inactive'; ?>"
-                onclick="window.location.href='/rentrover/pages/admin/notices.php'">
+                onclick="window.location.href='/rentrover/admin/notices'">
                 <i class="fa fa-bullhorn"></i>
                 <span> Notices </span>
             </li>

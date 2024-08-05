@@ -4,7 +4,7 @@
         <!-- title -->
         <p class="m-0 fs-4 fw-semibold"> Change Password </p>
 
-        <a href="/rentrover/pages/landlord/profile.php?tab='view'" class="btn btn-danger"> Cancel </a>
+        <a href="/rentrover/landlord/profile/view" class="btn btn-danger"> Cancel </a>
     </div>
 
     <form method="POST" class="form d-flex flex-column gap-2 mt-4" id="password-form">

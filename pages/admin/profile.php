@@ -52,7 +52,7 @@ if(!isset($tab))
                 <div class="username-email">
                     <p class="m-0 fw-semibold"> Mr. Beast | Admin </p>
                     <p class="m-0 text-secondary small"> someone@gmail.com </p>
-                    <a href="/rentrover/pages/admin/profile.php?tab=edit" class="mt-3 text-primary small" id="edit-profile-trigger"> Edit Information </a>
+                    <a href="/rentrover/admin/profile/edit" class="mt-3 text-primary small" id="edit-profile-trigger"> Edit Information </a>
                 </div>
             </div>
 

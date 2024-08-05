@@ -37,7 +37,7 @@ if (!isset($page))
     <!-- header -->
     <header class="position-fixed w-100 d-flex flex-row gap-3 p-3 justify-content-end align-items-center header">
         <!-- search form -->
-        <form action="" class="d-flex flex-row accordion">
+        <form action="" method="POST" class="d-flex flex-row accordion" id="search-form">
             <input type="search" name="content" placeholder="search here" class="form-control" id="">
         </form>
 
@@ -54,7 +54,7 @@ if (!isset($page))
                     class="d-flex flex-row justify-content-between p-3 border-bottom notification-heading">
                     <div class="d-flex flex-column gap-1 heading">
                         <h5 class="m-0"> Notifications </h5>
-                        <a href="/rentrover/pages/landlord/notifications.php" class="small"> See all </a>
+                        <a href="/rentrover/landlord/notifications" class="small"> See all </a>
                     </div>
                     <i class="fa fa-multiply fs-5 pointer pt-1" id="notification-close"></i>
                 </div>
@@ -87,8 +87,8 @@ if (!isset($page))
             <!-- user menu -->
             <div class="position-absolute shadow-sm profile-menu" id="profile-menu">
                 <ul>
-                    <li onclick="window.location.href='/rentrover/pages/landlord/profile.php'"> <i class="fa fa-user"></i> <span> My Profile </span> </li>
-                    <li onclick="window.location.href='/rentrover/pages/landlord/app/logout.php'"> <i class="fa-solid fa-arrow-right-from-bracket"></i> <span> Logout </span> </li>
+                    <li onclick="window.location.href='/rentrover/landlord/profile'"> <i class="fa fa-user"></i> <span> My Profile </span> </li>
+                    <li onclick="window.location.href='/rentrover/landlord/app/logout.php'"> <i class="fa-solid fa-arrow-right-from-bracket"></i> <span> Logout </span> </li>
                 </ul>
             </div>
         </div>
@@ -103,49 +103,49 @@ if (!isset($page))
 
         <ul>
             <!-- home -->
-            <li class="<?=($page == 'dashboard') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/pages/landlord/dashboard.php'">
+            <li class="<?=($page == 'dashboard') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/landlord/dashboard'">
                 <i class="fa fa-home"></i>
                 <span id="ul-span"> Dashboard </span>
             </li>
 
             <!-- houses -->
-            <li class="<?=($page == 'houses') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/pages/landlord/houses.php'">
+            <li class="<?=($page == 'houses') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/landlord/houses'">
                 <i class="fa fa-building"></i>
                 <span> Houses </span>
             </li>
 
             <!-- rooms -->
-            <li class="<?=($page == 'rooms') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/pages/landlord/rooms.php'">
+            <li class="<?=($page == 'rooms') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/landlord/rooms'">
                 <i class="fa-solid fa-person-shelter"></i>
                 <span> Rooms </span>
             </li>
 
             <!-- tenants -->
-            <li class="<?=($page == 'tenants') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/pages/landlord/tenants.php'">
+            <li class="<?=($page == 'tenants') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/landlord/tenants'">
                 <i class="fa-solid fa-users"></i>
                 <span> Tenants </span>
             </li>
 
             <!-- issues -->
-            <li class="<?=($page == 'issues') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/pages/landlord/issues.php'">
+            <li class="<?=($page == 'issues') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/landlord/issues'">
                 <i class="fa-regular fa-comment"></i>
                 <span> Issues </span>
             </li>
 
             <!-- application -->
-            <li class="<?=($page == 'room-applications') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/pages/landlord/room-applications.php'">
+            <li class="<?=($page == 'room-applications') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/landlord/room-applications'">
                 <i class="fa-regular fa-note-sticky"></i>
                 <span> Applications </span>
             </li>
 
             <!-- leave application -->
-            <li class="<?=($page == 'leave-applications') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/pages/landlord/leave-applications.php'">
+            <li class="<?=($page == 'leave-applications') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/landlord/leave-applications'">
                 <i class="fa-solid fa-person-walking-arrow-right"></i>
                 <span> Leave </span>
             </li>
 
             <!-- notices -->
-            <li class="<?=($page == 'system-notices') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/pages/landlord/notices.php'">
+            <li class="<?=($page == 'system-notices') ? 'active' : 'inactive'; ?>" onclick="window.location.href='/rentrover/landlord/notices'">
                 <i class="fa fa-bullhorn"></i>
                 <span> Notices </span>
             </li>

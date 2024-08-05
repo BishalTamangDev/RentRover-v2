@@ -32,7 +32,7 @@
     <section class="container position-absolute rounded login-container">
         <div class="heading d-flex flex-row w-100 justify-content-between mb-4 align-items-centers">
             <h1 class="m-0 fw-semibold"> Password Recovery </h1>
-            <a href="/rentrover/login.php" class="fa fa-multiply fs-4 pointer mt-2 text-secondary"> </a>
+            <a href="/rentrover/login" class="fa fa-multiply fs-4 pointer mt-2 text-secondary"> </a>
         </div>
 
         <hr class="mb-3" />
