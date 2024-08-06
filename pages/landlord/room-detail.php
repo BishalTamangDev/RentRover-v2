@@ -1,5 +1,16 @@
-<?php 
-    $page = "rooms";
+<?php
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/../../classes/user.php';
+$profileUser = new User();
+
+$profileUser->fetch($r_id, "all");
+
+if (!isset($tab))
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
+
+$page = "rooms";
 ?>
 
 <!DOCTYPE html>
@@ -35,9 +46,9 @@
 </head>
 
 <body>
-        <!-- aside -->
-        <?php require_once __DIR__ . '/sections/aside.php';?>
-        
+    <!-- aside -->
+    <?php include __DIR__ . '/sections/aside.php'; ?>
+
     <main>
         <!-- room detail -->
         <section class="room-detail-container">
@@ -247,7 +258,8 @@
 
                     <!-- actions :: edit || delete -->
                     <div class="room-operations">
-                        <a href="/rentrover/landlord/add-room/edit" type="button" class="btn btn-brand"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Edit </a>
+                        <a href="/rentrover/landlord/add-room/edit" type="button" class="btn btn-brand"> <i
+                                class="fa-solid fa-arrow-up-right-from-square"></i> Edit </a>
                         <button class="btn btn-danger" data-leave-application-id="" data-bs-toggle="modal"
                             data-bs-target="#deleteRoomModal"> <i class="fa fa-trash"></i> Delete Room </button>
                     </div>
@@ -255,29 +267,30 @@
             </div>
 
             <!-- room delete modal -->
-        <div class="modal fade" id="deleteRoomModal" tabindex="-1" aria-labelledby="deleteRoomModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content ">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="deleteRoomModalLabel"> Delete Room </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="d-flex flex-column modal-body">
-                        <h3> Are your you want to delete this room permanently? </h3>
+            <div class="modal fade" id="deleteRoomModal" tabindex="-1" aria-labelledby="deleteRoomModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content ">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteRoomModalLabel"> Delete Room </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="d-flex flex-column modal-body">
+                            <h3> Are your you want to delete this room permanently? </h3>
 
-                        <p class="text-secondary mb-2"> Note: After you delete this house, the tenant of this room will also be deleted. </p>
+                            <p class="text-secondary mb-2"> Note: After you delete this house, the tenant of this room
+                                will also be deleted. </p>
 
-                        <!-- action -->
-                        <div class="d-flex flex-row action mt-2 gap-2">
-                            <button class="btn btn-outline-danger"> <i class="fa fa-trash"></i> Delete Now </button>
-                            <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close"> <i
-                                    class="fa fa-multiply"></i> Cancel </button>
+                            <!-- action -->
+                            <div class="d-flex flex-row action mt-2 gap-2">
+                                <button class="btn btn-outline-danger"> <i class="fa fa-trash"></i> Delete Now </button>
+                                <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close"> <i
+                                        class="fa fa-multiply"></i> Cancel </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </section>
     </main>
 

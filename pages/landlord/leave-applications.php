@@ -1,4 +1,15 @@
 <?php
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/../../classes/user.php';
+$profileUser = new User();
+
+$profileUser->fetch($r_id, "all");
+
+if (!isset($tab))
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
+
 $page = "leave-applications";
 ?>
 

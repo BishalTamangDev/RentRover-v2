@@ -1,5 +1,14 @@
 <?php
-if(!isset($page)) 
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/../../classes/admin.php';
+$profileUser = new Admin();
+
+$profileUser->fetch($r_id, "all");
+
+
+if (!isset($page))
     $page = "users";
 ?>
 

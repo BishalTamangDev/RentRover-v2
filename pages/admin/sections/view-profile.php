@@ -2,36 +2,41 @@
     <div class="d-flex">
         <div class="w-50">
             <p class="m-0 text-secondary"> First Name </p>
-            <p class="m-0 fw-semibold"> Bishal </p>
+            <p class="m-0 fw-semibold">
+                <?= ($profileUser->name['first'] != '') ? ucfirst($profileUser->name['first']) : "-" ?>
+            </p>
         </div>
 
         <div class="w-50">
             <p class="m-0 text-secondary"> Last Name </p>
-            <p class="m-0 fw-semibold"> Tamang </p>
+            <p class="m-0 fw-semibold">
+                <?= ($profileUser->name['last'] != '') ? ucfirst($profileUser->name['last']) : "-" ?> </p>
         </div>
     </div>
 
     <div class="mt-3 d-flex">
         <div class="w-50">
             <p class="m-0 text-secondary"> Gender </p>
-            <p class="m-0 fw-semibold"> Male </p>
+            <p class="m-0 fw-semibold"> <?= ($profileUser->gender != '') ? ucfirst($profileUser->gender) : "-" ?> </p>
         </div>
 
         <div class="w-50">
             <p class="m-0 text-secondary"> DoB </p>
-            <p class="m-0 fw-semibold"> 2000-06-06 </p>
+            <p class="m-0 fw-semibold"> <?= ($profileUser->dob != '0000-00-00') ? $profileUser->dob : "-" ?> </p>
         </div>
     </div>
 
     <div class="mt-3 d-flex">
         <div class="w-50">
             <p class="m-0 text-secondary"> Email </p>
-            <p class="m-0 fw-semibold"> bishaltamang117@gmail.com </p>
+            <p class="m-0 fw-semibold"> <?= ($profileUser->email != '') ? $profileUser->email : "-" ?> </p>
         </div>
 
         <div class="w-50">
             <p class="m-0 text-secondary"> Phone Number </p>
-            <p class="m-0 fw-semibold"> 9823645014 </p>
+            <p class="m-0 fw-semibold">
+                <?= ($profileUser->getPhoneNumber() != '') ? $profileUser->getPhoneNumber() : "-" ?>
+            </p>
         </div>
     </div>
 
@@ -40,29 +45,39 @@
         <div class="d-flex">
             <div class="w-50">
                 <p class="m-0 mt-2 text-secondary"> Province </p>
-                <p class="m-0 fw-semibold"> Bagmati </p>
+                <p class="m-0 fw-semibold">
+                    <?= ($profileUser->address['province'] != '') ? ucfirst($profileUser->address['province']) : "-" ?>
+                </p>
             </div>
             <div class="w-50">
                 <p class="m-0 mt-2 text-secondary"> District </p>
-                <p class="m-0 fw-semibold"> Sindhupalchowk </p>
+                <p class="m-0 fw-semibold">
+                    <?= ($profileUser->address['district'] != '') ? ucfirst($profileUser->address['district']) : "-" ?>
+                </p>
             </div>
         </div>
 
         <div class="d-flex">
             <div class="w-50">
                 <p class="m-0 mt-3 text-secondary"> Municipality/ Rupal Municipality </p>
-                <p class="m-0 fw-semibold"> Melamchi </p>
+                <p class="m-0 fw-semibold">
+                    <?= ($profileUser->address['municipalityRural'] != '') ? ucfirst($profileUser->address['municipalityRural']) : "-" ?>
+                </p>
             </div>
 
             <div class="w-50">
                 <p class="m-0 mt-3 text-secondary"> Ward </p>
-                <p class="m-0 fw-semibold"> 3 </p>
+                <p class="m-0 fw-semibold">
+                    <?= ($profileUser->address['ward'] != 0) ? $profileUser->address['ward'] : "-" ?>
+                </p>
             </div>
         </div>
 
         <div class="mt-3">
             <p class="m-0 mt-3 text-secondary"> Tole/ Village </p>
-            <p class="m-0 fw-semibold"> Bobrang </p>
+            <p class="m-0 fw-semibold">
+                <?= ($profileUser->address['toleVillage'] != '') ? ucfirst($profileUser->address['toleVillage']) : "-" ?>
+            </p>
         </div>
     </div>
 

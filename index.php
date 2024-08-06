@@ -3,17 +3,36 @@ $redirected = false;
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
+$r_id = '';
+$r_role = '';
+
+if (isset($_SESSION['rentrover-id']) && isset($_SESSION['rentrover-role'])) {
+    $r_id = $_SESSION['rentrover-id'];
+    $r_role = $_SESSION['rentrover-role'];
+}
+
 $request = $_SERVER['REQUEST_URI'];
 $router = str_replace('/rentrover', '', $request);
 
 $arr = explode('/', $router);
-?>
 
-<?php
 $unsignedUserPages = ['', 'landing', 'index', 'home', 'login', 'registration', 'password-recovery', 'room-detail'];
 
 // // unsigned user
 if (in_array($arr[1], $unsignedUserPages)) {
+    if($r_role != ''){
+        if ($r_role == "admin"){
+            header("Location: /rentrover/admin/dashboard");
+            exit;
+        } elseif ($r_role == "landlord") {
+            header("Location: /rentrover/landlord/dashboard");        
+            exit;
+        } elseif ($r_role == "tenant") {
+            header("Location: /rentrover/tenant/home");        
+            exit;
+        }
+    }
+
     if ($arr[1] == '' || $arr[1] == 'home' || $arr[1] == 'landing' || $arr[1] == 'index' || $arr[1] == 'registration' || $arr[1] == 'login' || $arr[1] == 'password-recovery') {
         switch ($arr[1]) {
             case '':
@@ -55,6 +74,19 @@ if (in_array($arr[1], $unsignedUserPages)) {
         }
     }
 } elseif ($arr[1] == "tenant") {
+    if($r_role != 'tenant'){
+        if ($r_role == "admin") {
+            header("Location: /rentrover/admin/dashboard");
+            exit;
+        } elseif ($r_role == "landlord") {
+            header("Location: /rentrover/landlord/dashbord");        
+            exit;
+        } else {
+            header("Location: /rentrover/");        
+            exit;
+        }
+    }
+
     $tenantPages = ['', 'home', 'notifications', 'profile', 'room-detail', 'system-notice'];
     if (isset($arr[2])) {
         $page = ($arr[2] != '') ? $arr[2] : "home";
@@ -100,6 +132,15 @@ if (in_array($arr[1], $unsignedUserPages)) {
             $redirected = false;
     }
 } elseif ($arr[1] == "landlord") {
+    if($r_role != 'landlord'){
+        if ($r_role == "admin")
+            header("Location: /rentrover/admin/dashboard");
+        elseif ($r_role == "tenant")
+            header("Location: /rentrover/tenant/home");        
+        else
+            header("Location: /rentrover/");        
+    }
+
     if (isset($arr[2])) {
         $page = ($arr[2] != '') ? $arr[2] : "dashboard";
     } else {
@@ -170,10 +211,6 @@ if (in_array($arr[1], $unsignedUserPages)) {
             }
             break;
         case 'room-detail':
-            // temp
-            ?>
-            <p class="container w-50 m-auto"> <?= $arr[3] ?> </p>
-            <?php
             if (isset($arr[3])) {
                 if ($arr[3] != '') {
                     $roomId = $arr[3];
@@ -235,16 +272,40 @@ if (in_array($arr[1], $unsignedUserPages)) {
             $redirected = false;
     }
 } elseif ($arr[1] == "admin") {
+    if (isset($_SESSION['rentrover-role'])) {
+        if ($r_role == "landlord")
+            header("Location: /rentrover/landlord/dashboard");
+        elseif ($r_role == "tenant")
+            header("Location: /rentrover/tenant/home");
+    }
+
     if (isset($arr[2])) {
         $page = ($arr[2] != '') ? $arr[2] : "dashboard";
     } else {
         $page = "dashboard";
     }
 
+
+    $adminPages = ['dashboard', 'notifications', 'houses', 'house-detail', 'rooms', 'room-detail', 'users', 'user-details', 'feedbacks', 'notices', 'custom-applications', 'profile'];
+
+    if (in_array($page, $adminPages)) {
+        if (!isset($_SESSION['rentrover-role'])) {
+            header("Location: /rentrover/admin/login");
+        }
+    }
+
     switch ($page) {
         case 'dashboard':
         case '':
             require_once __DIR__ . '/pages/admin/dashboard.php';
+            $redirected = true;
+            break;
+        case 'registration':
+            require_once __DIR__ . '/pages/admin/registration.php';
+            $redirected = true;
+            break;
+        case 'login':
+            require_once __DIR__ . '/pages/admin/login.php';
             $redirected = true;
             break;
         case 'notifications':

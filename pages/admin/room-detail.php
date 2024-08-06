@@ -1,5 +1,13 @@
 <?php
-if(!isset($page)) 
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/../../classes/admin.php';
+$profileUser = new Admin();
+
+$profileUser->fetch($r_id, "all");
+
+if (!isset($page))
     $page = "rooms";
 ?>
 
@@ -252,8 +260,10 @@ if(!isset($page))
                     </table>
 
                     <div class="action">
-                        <button type="button" class="btn btn-outline-danger"> <i class="fa-regular fa-flag"></i> Unverify Room </button>
-                        <button type="button" class="btn btn-success"> <i class="fa-solid fa-check"></i> Verify Room </button>
+                        <button type="button" class="btn btn-outline-danger"> <i class="fa-regular fa-flag"></i>
+                            Unverify Room </button>
+                        <button type="button" class="btn btn-success"> <i class="fa-solid fa-check"></i> Verify Room
+                        </button>
                     </div>
                 </div>
             </div>

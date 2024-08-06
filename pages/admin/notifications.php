@@ -1,3 +1,14 @@
+<?php
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/../../classes/admin.php';
+$profileUser = new Admin();
+
+$profileUser->fetch($r_id, "all");
+
+$page = "notifications";
+?>
 <!DOCTYPE html>
 <html lang="en">
 

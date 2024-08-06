@@ -1,4 +1,15 @@
 <?php
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/../../classes/user.php';
+$profileUser = new User();
+
+$profileUser->fetch($r_id, "all");
+
+if (!isset($tab))
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
+
 $page = "houses";
 ?>
 
@@ -46,7 +57,7 @@ $page = "houses";
                 <!-- top section -->
                 <div class="d-flex flex-row justify-content-between top-section">
                     <!-- heading -->
-                    <p class="m-0 fs-3 fw-semibold"> <?=$task == "add" ? "Add New House" : "Edit House"?> </p>
+                    <p class="m-0 fs-3 fw-semibold"> <?= $task == "add" ? "Add New House" : "Edit House" ?> </p>
                     <!-- rest or cancel -->
                     <div class="d-flex flex-row gap-2 justify-content-end mb-3">
                         <a class="btn btn-outline-secondary" id="form-reset"> Reset </a>

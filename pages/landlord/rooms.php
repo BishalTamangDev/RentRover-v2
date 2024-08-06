@@ -1,4 +1,15 @@
 <?php
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/../../classes/user.php';
+$profileUser = new User();
+
+$profileUser->fetch($r_id, "all");
+
+if (!isset($tab))
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
+
 $page = "rooms";
 ?>
 
@@ -61,7 +72,8 @@ $page = "rooms";
 
         <!-- add room button -->
         <a href="/rentrover/landlord/add-room"
-            class="d-flex flex-row gap-2 align-items-center btn btn-brand mb-3 mt-4 fit-content"> <i class="fa fa-add"></i>
+            class="d-flex flex-row gap-2 align-items-center btn btn-brand mb-3 mt-4 fit-content"> <i
+                class="fa fa-add"></i>
             Add New Room </a>
 
         <!-- filter -->

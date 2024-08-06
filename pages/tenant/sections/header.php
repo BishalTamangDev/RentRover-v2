@@ -57,7 +57,18 @@
             <!-- profile -->
             <div class="position-relative profile-container">
                 <div class="profile" id="profile-image-container">
-                    <img src="/rentrover/assets/images/bishal.jpg" alt="user profile photo" class="pointer">
+                <?php
+                if ($profileUser->profilePhoto != "") {
+                    ?>
+                    <img src="/rentrover/uploads/users/<?= $profileUser->profilePhoto ?>" alt="user profile photo"
+                        class="pointer">
+                    <?php
+                } else {
+                    ?>
+                    <img src="/rentrover/uploads/blank-profile.jpg" alt="user profile photo" class="pointer">
+                    <?php
+                }
+                ?>
                 </div>
 
                 <!-- user menu -->
@@ -68,7 +79,7 @@
                         </li>
                         <li onclick="window.location.href='/rentrover/tenant/profile/my-room'"> <i
                                 class="fa-solid fa-person-shelter"></i> <span> My Room </span> </li>
-                        <li onclick="window.location.href='/rentrover/pages/tenant/app/logout.php'"> <i
+                        <li onclick="window.location.href='/rentrover/app/logout.php'"> <i
                                 class="fa-solid fa-arrow-right-from-bracket"></i> <span> Logout </span> </li>
                     </ul>
                 </div>

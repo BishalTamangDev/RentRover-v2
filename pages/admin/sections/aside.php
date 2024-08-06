@@ -81,7 +81,17 @@ if (!isset($page))
         <!-- profile -->
         <div class="position-relative profile-container">
             <div class="profile" id="profile-image-container">
-                <img src="/rentrover/assets/images/bishal.jpg" alt="user profile photo" class="pointer">
+                <?php 
+                if($profileUser->profilePhoto != ""){
+                    ?>
+                    <img src="/rentrover/uploads/admins/<?=$profileUser->profilePhoto?>" alt="user profile photo" class="pointer">
+                    <?php
+                } else {
+                    ?>
+                    <img src="/rentrover/uploads/blank-profile.jpg" alt="user profile photo" class="pointer">
+                    <?php
+                }
+                ?>
             </div>
 
             <!-- user menu -->

@@ -11,7 +11,7 @@
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/rentrover/assets/brands/rentrover-circular-logo.png">
 
-    <!-- css files -->
+    <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -23,41 +23,48 @@
     <!-- bootstrap :: local -->
     <link rel="stylesheet" href="/rentrover/bootstrap/bootstrap-css-5.3.3/bootstrap.min.css">
 
+    <!-- css files -->
     <link rel="stylesheet" href="/rentrover/css/style.css">
     <link rel="stylesheet" href="/rentrover/css/login.css">
+
+    <!-- prevent resubmission of the form -->
+    <script>
+        if (window.history.replaceState)
+            window.history.replaceState(null, null, window.location.href);
+    </script>
 </head>
 
 <body>
     <section class="container position-absolute rounded login-container">
         <h1 class="m-0 mb-4 fw-semibold"> Registration </h1>
 
-        <hr/>
-
-        <!-- error message -->
-        <p class="m-0 text-danger small error-message" id="error-message"> Error message appears here... </p>
-
-        <form action="" method="POST" class="container form p-0 mt-4 d-flex flex-column" id="registration-form">
-            <!-- csrf token -->
-            <input type="hidden" name="csrf-token" id="csrf-token" class="form-control" placeholder="csrf-token"
-                required>
+        <form action="/rentrover/app/app-registration.php" method="POST"
+            class="container form p-0 mt-4 d-flex flex-column" id="registration-form">
             
+            <!-- error message -->
+            <p class="m-0 text-danger small error-message mb-3" id="error-message"> Error message appears here... </p>
+
+            <!-- csrf token -->
+            <input type="hidden" name="registration-csrf-token" id="registration-csrf-token" class="form-control"
+                placeholder="csrf-token" required>
+
             <!-- role -->
             <div class="d-flex flex-row col-gap-4 row-gap-2 gap-3 mb-3 align-items-center justify-content-between">
                 <p class="m-0"> Register&nbsp;as</label>
-                
-                    <div class="d-flex flex-row gap-4">
-                        <!-- role :: landlord -->
-                        <div class="d-flex flex-row gap-2 role">
-                            <input type="radio" name="role" id="role-landlord" required>
-                            <label for="role-landlord" class="pointer"> Landlord </label>
-                        </div>
-                        
-                        <!-- role :: tenant -->
-                         <div class="d-flex flex-row gap-2 role">
-                             <input type="radio" name="role" id="role-tenant">
-                             <label for="role-tenant" class="pointer"> Tenant </label>
-                            </div>
+
+                <div class="d-flex flex-row gap-4">
+                    <!-- role :: landlord -->
+                    <div class="d-flex flex-row gap-2 role">
+                        <input type="radio" name="role" value="landlord" id="role-landlord" required>
+                        <label for="role-landlord" class="pointer"> Landlord </label>
                     </div>
+
+                    <!-- role :: tenant -->
+                    <div class="d-flex flex-row gap-2 role">
+                        <input type="radio" name="role" value="tenant" id="role-tenant">
+                        <label for="role-tenant" class="pointer"> Tenant </label>
+                    </div>
+                </div>
             </div>
 
             <!-- email address -->
@@ -65,8 +72,8 @@
                 <span class="input-group-text" id="basic-addon1">
                     <i class="fa-regular fa-envelope small"></i>
                 </span>
-                <input type="email" class="form-control" id="email-field" placeholder="Email address" aria-label="email"
-                    aria-describedby="basic-addon1" required>
+                <input type="email" name="email" class="form-control" id="email-field" placeholder="Email address"
+                    aria-label="email" aria-describedby="basic-addon1" required>
             </div>
 
             <!-- password -->
@@ -74,7 +81,7 @@
                 <span class="input-group-text" id="basic-addon1">
                     <i class="fa-solid fa-lock small"></i>
                 </span>
-                <input type="password" class="form-control" id="password-field" placeholder="Password"
+                <input type="password" name="password" class="form-control" id="password-field" placeholder="Password"
                     aria-label="password" aria-describedby="basic-addon1" minlength="8" required>
             </div>
 
@@ -85,7 +92,7 @@
             </div>
 
             <!-- registration button -->
-            <button type="submit" class="btn btn-brand"> Register Now </button>
+            <button type="submit" class="btn btn-brand" id="register-btn"> Register Now </button>
 
             <div class="d-flex flex-column gap-3 flex-md-row justify-content-between mt-2 bottom">
                 <p class="m-0 small">
@@ -108,19 +115,62 @@
 
     <script>
         $(document).ready(function () {
+            // csrf token generation
+            function generateCsrfToken() {
+                $.ajax({
+                    url: '/rentrover/app/csrf-token-generation.php',
+                    success: function (data) {
+                        $('#registration-csrf-token').val(data);
+                    }
+                });
+            }
+
+            generateCsrfToken();
+
+            // prevent space in email
+            $('#email-field').keydown(function (event) {
+                // Get the ASCII value
+                var asciiValue = event.which || event.keyCode;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
             // toggle password
             $('#password-toggle').click(function () {
                 var type = $('#password-field').attr('type') === 'password' ? 'text' : 'password';
                 $('#password-field').attr('type', type);
-                if(type === 'password'){
+                if (type === 'password') {
                     $('#password-toggle-label').html("Show password");
                 } else {
                     $('#password-toggle-label').html("Hide password");
                 }
             });
-            function togglePassword() {
 
-            }
+            // form submission
+            $('#registration-form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/rentrover/app/app-registration.php',
+                    data: $(this).serialize(),
+                    type: "POST",
+                    beforeSend: function () {
+                        $('#register-btn').html('Registering...').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response == "true") {
+                            $('#error-message').html("Registration successful.").fadeIn();
+                        } else {
+                            $('#error-message').html(response).fadeIn();
+                        }
+                        $('#register-btn').html("Register Now").prop('disabled', false);
+                    },
+                    error: function () {
+                        $('#error-message').html("An error occured.").fadeIn();
+                        $('#register-btn').html("Register Now").prop('disabled', false);
+                    }
+                });
+            });
         });
     </script>
 </body>

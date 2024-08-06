@@ -1,3 +1,8 @@
+<?php
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,13 +31,19 @@
     <!-- css files -->
     <link rel="stylesheet" href="/rentrover/css/style.css">
     <link rel="stylesheet" href="/rentrover/css/login.css">
+
+    <!-- prevent resubmission of the form -->
+    <script>
+        if (window.history.replaceState)
+            window.history.replaceState(null, null, window.location.href);
+    </script>
 </head>
 
-<body>    
+<body>
     <section class="container position-absolute rounded login-container">
         <div class="d-flex flex-row align-items-center justify-content-between mb-4 heading">
             <h3 class="m-0"> Registration </h3>
-            <a href="/rentrover/pages/admin/login.php">
+            <a href="/rentrover/admin/login">
                 <i class="fa fa-multiply fs-4 text-dark"></i>
             </a>
         </div>
@@ -40,8 +51,8 @@
         <!-- error message -->
         <p class="m-0 text-danger small error-message" id="error-message"> Error message appears here... </p>
 
-        <form action="" method="POST" class="container form p-0 mt-3 d-flex flex-column" id="registration-form">
-            <input type="hidden" name="csrf-token" id="csrf-token" class="form-control" placeholder="csrf-token"
+        <form method="POST" class="container form p-0 mt-3 d-flex flex-column" id="registration-form">
+            <input type="hidden" name="csrf-token" id="csrf-token" class="form-control mb-3" placeholder="csrf token"
                 required>
 
             <!-- email address -->
@@ -49,8 +60,8 @@
                 <span class="input-group-text" id="basic-addon1">
                     <i class="fa-regular fa-envelope small"></i>
                 </span>
-                <input type="email" class="form-control" id="email-field" placeholder="Email address" aria-label="email"
-                    aria-describedby="basic-addon1" required>
+                <input type="email" name="email" class="form-control" id="email-field" placeholder="Email address"
+                    aria-label="email" aria-describedby="basic-addon1" required>
             </div>
 
             <!-- password -->
@@ -58,7 +69,7 @@
                 <span class="input-group-text" id="basic-addon1">
                     <i class="fa-solid fa-lock small"></i>
                 </span>
-                <input type="password" class="form-control" id="password-field" placeholder="Password"
+                <input type="password" name="password" class="form-control" id="password-field" placeholder="Password"
                     aria-label="password" aria-describedby="basic-addon1" minlength="8" required>
             </div>
 
@@ -67,11 +78,14 @@
                 <i class="fa-solid fa-eye pointer"></i>
                 <p class="m-0 small pointer" id="password-toggle-label"> Show password </p>
             </div>
-            <button type="submit" class="btn btn-brand"> Register Now </button>
+
+            <!-- regietr btn -->
+            <button type="submit" name="register-btn" id="register-btn" class="btn btn-brand"> Register Now </button>
 
             <div class="d-flex flex-column gap-3 flex-md-row justify-content-between mt-2 bottom">
                 <p class="m-0 small">
-                    Already have an account? <a href="/rentrover/pages/admin/login.php" class="text-primary"> Log in </a>
+                    Already have an account? <a href="/rentrover/admin/login" class="text-primary"> Log in
+                    </a>
                 </p>
             </div>
         </form>
@@ -100,6 +114,61 @@
                 } else {
                     $('#password-toggle-label').html("Hide password");
                 }
+            });
+
+            // csrf token generation
+            function generateCsrfToken() {
+                $.ajax({
+                    url: '/rentrover/app/csrf-token-generation.php',
+                    success: function (data) {
+                        $('#csrf-token').val(data);
+                    }
+                });
+            }
+
+            generateCsrfToken();
+
+            // email
+            $('#email-field').keydown(function (event) {
+                // Get the ASCII value
+                var asciiValue = event.which || event.keyCode;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // password
+            $('#password-field').keydown(function (event) {
+                // Get the ASCII value
+                // var asciiValue = event.which || event.keyCode;
+                // if (asciiValue == 32) {
+                //     event.preventDefault();
+                // }
+            });
+
+            // form submission
+            $('#registration-form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/rentrover/pages/admin/app/app-registration.php',
+                    data: $(this).serialize(),
+                    type: "POST",
+                    beforeSend: function () {
+                        $('#register-btn').html('Registering...').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response == "true") {
+                            $('#error-message').html("Registration successful.").fadeIn();
+                        } else {
+                            $('#error-message').html(response).fadeIn();
+                        }
+                        $('#register-btn').html("Register Now").prop('disabled', false);
+                    },
+                    error: function () {
+                        $('#error-message').html("An error occured.").fadeIn();
+                        $('#register-btn').html("Register Now").prop('disabled', false);
+                    }
+                });
             });
         });
     </script>

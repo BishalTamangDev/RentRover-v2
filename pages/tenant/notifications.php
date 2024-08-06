@@ -1,3 +1,17 @@
+<?php
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/../../classes/user.php';
+$profileUser = new User();
+
+$profileUser->fetch($r_id, "all");
+
+$page = "notifications";
+
+if (!isset($tab))
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
+?>
 <!DOCTYPE html>
 <html lang="en">
 

@@ -1,5 +1,14 @@
 <?php
-if(!isset($page)) 
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/../../classes/admin.php';
+$profileUser = new Admin();
+
+$profileUser->fetch($r_id, "all");
+
+
+if (!isset($page))
     $page = "rooms";
 ?>
 
@@ -124,7 +133,8 @@ if(!isset($page))
                         <td> Unacquired </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/admin/room-detail.php" class="text-primary small"> Show details </a>
+                            <a href="/rentrover/pages/admin/room-detail.php" class="text-primary small"> Show details
+                            </a>
                         </td>
                     </tr>
 
@@ -138,7 +148,8 @@ if(!isset($page))
                         <td> Acquired </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/admin/room-detail.php" class="text-primary small"> Show details </a>
+                            <a href="/rentrover/pages/admin/room-detail.php" class="text-primary small"> Show details
+                            </a>
                         </td>
                     </tr>
 
@@ -152,7 +163,8 @@ if(!isset($page))
                         <td> Acquired </td>
                         <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
-                            <a href="/rentrover/pages/admin/room-detail.php" class="text-primary small"> Show details </a>
+                            <a href="/rentrover/pages/admin/room-detail.php" class="text-primary small"> Show details
+                            </a>
                         </td>
                     </tr>
                 </tbody>

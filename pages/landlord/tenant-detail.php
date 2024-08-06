@@ -1,5 +1,16 @@
-<?php 
-    $page = "tenants";
+<?php
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/../../classes/user.php';
+$profileUser = new User();
+
+$profileUser->fetch($r_id, "all");
+
+if (!isset($tab))
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
+
+$page = "tenants";
 ?>
 
 <!DOCTYPE html>
@@ -35,9 +46,9 @@
 </head>
 
 <body>
-        <!-- aside -->
-        <?php require_once __DIR__ . '/sections/aside.php';?>
-        
+    <!-- aside -->
+    <?php require_once __DIR__ . '/sections/aside.php'; ?>
+
     <main>
         <!-- my profile -->
         <section class="d-flex flex-column user-profile-container profile-content">
