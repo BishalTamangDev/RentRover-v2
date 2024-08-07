@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE)
 
 require_once __DIR__ . '/../../classes/admin.php';
 $profileUser = new Admin();
-    
+
 $profileUser->fetch($r_id, "all");
 
 $page = "dashboard";
@@ -40,6 +40,11 @@ $page = "dashboard";
     <link rel="stylesheet" href="/rentrover/css/system-notice.css">
     <link rel="stylesheet" href="/rentrover/css/feedback.css">
     <link rel="stylesheet" href="/rentrover/css/aside.css">
+    <link rel="stylesheet" href="/rentrover/css/dashboard.css">
+
+    <!-- script -->
+    <!-- chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"> </script>
 </head>
 
 <body>
@@ -56,7 +61,7 @@ $page = "dashboard";
 
                 <div class="details">
                     <p class="title"> Users </p>
-                    <p class="data"> 40K </p>
+                    <p class="data" id="user-count"> 0 </p>
                 </div>
             </div>
 
@@ -68,7 +73,7 @@ $page = "dashboard";
 
                 <div class="details">
                     <p class="title"> Houses </p>
-                    <p class="data"> 7,456 </p>
+                    <p class="data" id="house-count"> 0 </p>
                 </div>
             </div>
 
@@ -98,6 +103,11 @@ $page = "dashboard";
         </div>
 
         <!-- pie chart -->
+        <!-- chart container -->
+        <div class="chart-container mt-5">
+            <!-- user pie chart -->
+            <canvas id="room-pie-chart"> </canvas>
+        </div>
 
         <!-- latest system notices -->
         <p class="mt-5 fw-semibold fs-3 heading"> Latest System Notice </p>
@@ -215,6 +225,86 @@ $page = "dashboard";
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+    <script>
+        // user pie chart
+        var roomChart = new Chart($('#room-pie-chart'), {
+            type: 'pie',
+            data: {
+                labels: ['Acquired Rooms', 'Unacquired Rooms'],
+                datasets: [{
+                    backgroundColor: ['#5CBEDB', 'lightgray'],
+                    data: [0, 0],
+                }]
+            },
+            options: {
+                borderColor: 'white',
+                responsize: true,
+            }
+        });
+
+        $(document).ready(function () {
+            var userCount = 0;
+            var houseCount = 0;
+
+            // counting users
+            function animatedUserCounting() {
+                var count = 0;
+
+                var interval = setInterval(function () {
+                    if (count <= userCount) {
+                        $('#user-count').html(count++);
+                        roomChart.data.datasets[0].data[0] = count;
+                        roomChart.update();
+                    } else {
+                        clearInterval(interval);
+                    }
+
+                }, 150);
+            }
+
+            // counting houses
+            function animatedHouseCounting() {
+                var count = 0;
+
+                var interval = setInterval(function () {
+                    if (count <= houseCount) {
+                        $('#house-count').html(count++);
+                    } else {
+                        clearInterval(interval);
+                    }
+
+                }, 150);
+            }
+
+            // all users
+            $.ajax({
+                url: '/rentrover/pages/admin/app/count-user.php',
+                type: "POST",
+                success: function (data) {
+                    // animate user count
+                    userCount = data;
+                    animatedUserCounting();
+                },
+                error: function (data) {
+                    $('#user-count').html('0');
+                },
+            });
+
+            // count house
+            $.ajax({
+                url: '/rentrover/pages/admin/app/count-house.php',
+                type: "POST",
+                success: function (data) {
+                    houseCount = data;
+                    animatedHouseCounting();
+                },
+                error: function (data) {
+                    $('#house-count').html('0');
+                },
+            });
+        });
+    </script>
 </body>
 
 </html>

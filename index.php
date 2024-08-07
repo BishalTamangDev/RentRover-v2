@@ -164,6 +164,7 @@ if (in_array($arr[1], $unsignedUserPages)) {
         case 'house-detail':
             if (isset($arr[3])) {
                 if ($arr[3] != '') {
+                    $houseId = $arr[3];
                     require_once __DIR__ . '/pages/landlord/house-detail.php';
                 } else {
                     require_once __DIR__ . '/pages/landlord/houses.php';
@@ -319,6 +320,7 @@ if (in_array($arr[1], $unsignedUserPages)) {
         case 'house-detail':
             if (isset($arr[3])) {
                 if ($arr[3] != '') {
+                    $houseId = $arr[3];
                     require_once __DIR__ . '/pages/admin/house-detail.php';
                 } else {
                     require_once __DIR__ . '/pages/admin/houses.php';

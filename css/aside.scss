@@ -82,6 +82,7 @@ header {
 
         .notification-container {
             display: flex;
+            display: none;
             margin-top: 6px;
             right: 0;
             background-color: white;
@@ -117,6 +118,7 @@ header {
         }
 
         .profile-menu {
+            display: none;
             right: 0;
             margin-top: 6px;
             width: 200px;

@@ -44,7 +44,10 @@ if (!isset($page))
 </head>
 
 <body>
-    <?php require_once __DIR__ . '/sections/aside.php'; ?>
+    <?php
+    require_once __DIR__ . '/sections/aside.php';
+    require_once __DIR__ . '/../../functions/district-array.php';
+    ?>
 
     <main>
         <!-- card container -->
@@ -52,7 +55,28 @@ if (!isset($page))
             <!-- total house -->
             <div class="card-v2">
                 <p class="title"> Number of houses </p>
-                <p class="data"> 120 </p>
+                <p class="data" id="house-count"> 0 </p>
+            </div>
+        </section>
+
+        <!-- filter -->
+        <section class="filter-container">
+            <div class="parameter">
+                <label for="filter-district"> District </label>
+                <select name="filter-district" class="form-select-sm" id="filter-district">
+                    <option value="all"> All </option>
+                    <?php
+                    foreach ($districtArray as $district) {
+                        ?>
+                        <option value="<?= $district ?>-row"> <?= $district ?> </option>
+                        <?php
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <div class="clear" id="clear">
+                <p> Clear <span> <i class="fa fa-multiply"></i></span> </p>
             </div>
         </section>
 
@@ -69,33 +93,21 @@ if (!isset($page))
                         <th scope="col" class="action"> </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="house-table-body">
                     <tr class="house-row">
-                        <th scope="row" class="serial"> 1 </th>
-                        <td> Phungling, Pathivara, 3 </td>
-                        <td> Rupak dangi </td>
-                        <td> 2 </td>
-                        <td> 0000-00-00 00:00:00 </td>
+                        <th scope="row" class="serial"> serial </th>
+                        <td> address </td>
+                        <td> landlord anme </td>
+                        <td> no. of room </td>
+                        <td class="small"> registration date </td>
                         <td class="action">
                             <a href="/rentrover/admin/house-detail/1" class="text-primary small"> Show details
                             </a>
                         </td>
                     </tr>
-
-                    <tr class="house-row">
-                        <th scope="row" class="serial"> 2 </th>
-                        <td> Bhojpur </td>
-                        <td> Shristi Pradhan </td>
-                        <td> 5 </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td class="action">
-                            <a href="/rentrover/admin/house-detail/2" class="text-primary small"> Show details
-                            </a>
-                        </td>
-                    </tr>
                 </tbody>
 
-                <tfoot>
+                <tfoot id="empty-data-foot">
                     <tr>
                         <td colspan="7"> No data found! </td>
                     </tr>
@@ -114,6 +126,93 @@ if (!isset($page))
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // count house
+            $.ajax({
+                url: '/rentrover/pages/landlord/app/count-house.php',
+                type: "POST",
+                data: { landlordId: <?= $r_id ?> },
+                success: function (data) {
+                    $('#house-count').html(data);
+                }
+            });
+
+            // load houses
+            function loadHouse() {
+                $.ajax({
+                    url: '/rentrover/pages/admin/sections/house-table.php',
+                    // house-table-body
+                    type: "POST",
+                    data: { landlordId: <?= $r_id ?> },
+                    success: function (data) {
+                        $('#house-table-body').html(data);
+                        // toggle empty
+                        toggleEmptyContent();
+                    }
+                });
+            }
+
+            loadHouse();
+
+            // toggle empty data
+            function toggleEmptyContent() {
+                $('.house-row:visible').length == 0 ? $('#empty-data-foot').show() : $('#empty-data-foot').hide();
+            }
+
+            // search
+            $(document).on('submit', '#search-form', function (e) {
+                e.preventDefault();
+                var searchData = $('#content').val().trim();
+                searchHouse(searchData);
+            });
+
+            // search content :: input
+            $(document).on('keydown', '#content', function () {
+                var searchData = $('#content').val().trim();
+                searchHouse(searchData);
+            });
+
+            // function to search user
+            function searchHouse(searchData) {
+                $.ajax({
+                    url: '/rentrover/pages/admin/sections/search-house-old.php',
+                    type: "POST",
+                    data: { content: searchData },
+                    success: function (data) {
+                        $('#house-table-body').html(data);
+                        toggleEmptyContent();
+                    }
+                });
+            }
+
+            // filter
+            // role
+            $('#filter-district').change(function () {
+                toggleData($('#filter-district').val());
+            });
+
+            // clear
+            $('#clear').click(function () {
+                $('#filter-district').val("all");
+                toggleData("all");
+            });
+
+            // toggle data
+            function toggleData(district) {
+                if (district == "all") {
+                    $('.house-row').show();
+                    $('#clear').hide();
+                } else {
+                    $('.house-row').hide();
+                    $("." + district).show();
+                    $('#clear').show();
+                }
+                toggleEmptyContent();
+            }
+        });
+    </script>
 </body>
 
 </html>

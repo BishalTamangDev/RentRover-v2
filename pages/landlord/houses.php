@@ -54,7 +54,7 @@ $page = "houses";
             <!-- total house -->
             <div class="card-v2">
                 <p class="title"> Number of houses </p>
-                <p class="data"> 120 </p>
+                <p class="data" id="house-count"> 0 </p>
             </div>
         </section>
 
@@ -71,37 +71,25 @@ $page = "houses";
                         <th scope="col" class="serial"> S.N. </th>
                         <th scope="col"> Location </th>
                         <th scope="col"> Number of rooms </th>
-                        <th scope="col"> Added Date </th>
+                        <th scope="col"> Added on </th>
                         <th scope="col" class="action"> </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="house-row">
+                <tbody id="house-table-body">
+                    <!-- <tr class="house-row">
                         <th scope="row" class="serial"> 1 </th>
-                        <td> Phungling, Pathivara, 3 </td>
-                        <td> 2 </td>
-                        <td> 0000-00-00 00:00:00 </td>
+                        <td> address </td>
+                        <td> no. of rooms </td>
+                        <td class="small text-secondary"> registration date </td>
                         <td class="action">
                             <a href="/rentrover/landlord/house-detail/1" class="text-primary small">
                                 Show details
                             </a>
                         </td>
-                    </tr>
-
-                    <tr class="house-row">
-                        <th scope="row" class="serial"> 2 </th>
-                        <td> Bhojpur </td>
-                        <td> 5 </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td class="action">
-                            <a href="/rentrover/landlord/house-detail/2" class="text-primary small">
-                                Show details
-                            </a>
-                        </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
 
-                <tfoot>
+                <tfoot id="empty-data-foot">
                     <tr>
                         <td colspan="7"> No data found! </td>
                     </tr>
@@ -120,6 +108,41 @@ $page = "houses";
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // count house
+            $.ajax({
+                url: '/rentrover/pages/landlord/app/count-house.php',
+                type: "POST",
+                data: { landlordId: <?= $r_id ?> },
+                success: function (data) {
+                    $('#house-count').html(data);
+                }
+            });
+
+            function loadHouse() {
+                $.ajax({
+                    url: '/rentrover/pages/landlord/sections/house-table.php',
+                    // house-table-body
+                    type: "POST",
+                    data: { landlordId: <?= $r_id ?> },
+                    success: function (data) {
+                        $('#house-table-body').html(data);
+                        // toggle empty
+                        toggleEmptyContent();
+                    }
+                });
+            }
+
+            loadHouse();
+
+            // toggle empty data
+            function toggleEmptyContent() {
+                $('.house-row:visible').length == 0 ? $('#empty-data-foot').show() : $('#empty-data-foot').hide();
+            }
+        });
+    </script>
 </body>
 
 </html>

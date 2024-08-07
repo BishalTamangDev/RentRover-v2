@@ -31,14 +31,20 @@ if (!isset($page))
     <!-- css files -->
     <link rel="stylesheet" href="/rentrover/css/style.css">
     <link rel="stylesheet" href="/rentrover/css/aside.css">
+
+    <!-- prevent resubmission of the form -->
+    <script>
+        if (window.history.replaceState)
+            window.history.replaceState(null, null, window.location.href);
+    </script>
 </head>
 
 <body>
     <!-- header -->
     <header class="position-fixed w-100 d-flex flex-row gap-3 p-3 justify-content-end align-items-center header">
         <!-- search form -->
-        <form action="" method="POST" class="d-flex flex-row accordion">
-            <input type="search" name="content" placeholder="search here" class="form-control" id="">
+        <form class="d-flex flex-row" id="search-form">
+            <input type="search" id="content" name="content" placeholder="search here" class="form-control" required>
         </form>
 
         <!-- notification -->

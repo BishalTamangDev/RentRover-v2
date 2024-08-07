@@ -53,18 +53,6 @@ $page = "dashboard";
     <main>
         <!-- cards -->
         <div class="card-v1-container">
-            <!-- users -->
-            <div class="card-v1">
-                <div class="icon">
-                    <i class="fa fa-users"></i>
-                </div>
-
-                <div class="details">
-                    <p class="title"> Users </p>
-                    <p class="data"> 40K </p>
-                </div>
-            </div>
-
             <!-- house -->
             <div class="card-v1">
                 <div class="icon">
@@ -72,32 +60,8 @@ $page = "dashboard";
                 </div>
 
                 <div class="details">
-                    <p class="title"> Houses </p>
+                    <p class="title"> Impression  </p>
                     <p class="data"> 7,456 </p>
-                </div>
-            </div>
-
-            <!-- Rooms -->
-            <div class="card-v1">
-                <div class="icon">
-                    <i class="fa-solid fa-person-shelter"></i>
-                </div>
-
-                <div class="details">
-                    <p class="title"> Rooms </p>
-                    <p class="data"> 18,566 </p>
-                </div>
-            </div>
-
-            <!-- feedbacks -->
-            <div class="card-v1">
-                <div class="icon">
-                    <i class="fa fa-comments"></i>
-                </div>
-
-                <div class="details">
-                    <p class="title"> Feedbacks </p>
-                    <p class="data"> 40K </p>
                 </div>
             </div>
         </div>

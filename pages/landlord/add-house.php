@@ -3,6 +3,8 @@ if (session_status() == PHP_SESSION_NONE)
     session_start();
 
 require_once __DIR__ . '/../../classes/user.php';
+require_once __DIR__ . '/../../functions/district-array.php';
+require_once __DIR__ . '/../../functions/amenity-array.php';
 $profileUser = new User();
 
 $profileUser->fetch($r_id, "all");
@@ -44,6 +46,12 @@ $page = "houses";
     <link rel="stylesheet" href="/rentrover/css/add-house.css">
     <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
     <link rel="stylesheet" href="/rentrover/css/file-input.css">
+
+    <!-- prevent resubmission of the form -->
+    <script>
+        if (window.history.replaceState)
+            window.history.replaceState(null, null, window.location.href);
+    </script>
 </head>
 
 <body>
@@ -52,16 +60,15 @@ $page = "houses";
 
     <main>
         <section class="add-house">
-            <form action="" class="form d-flex flex-column add-house-form" id="add-house-form"
-                enctype="multipart/form-data">
+            <form class="form d-flex flex-column add-house-form" method="POST" id="add-house-form" enctype="multipart/form-data">
                 <!-- top section -->
-                <div class="d-flex flex-row justify-content-between top-section">
+                <div class="d-flex flex-column flex-md-row row-gap-2 justify-content-between top-section">
                     <!-- heading -->
                     <p class="m-0 fs-3 fw-semibold"> <?= $task == "add" ? "Add New House" : "Edit House" ?> </p>
                     <!-- rest or cancel -->
                     <div class="d-flex flex-row gap-2 justify-content-end mb-3">
-                        <a class="btn btn-outline-secondary" id="form-reset"> Reset </a>
-                        <a href="/rentrover/landlord/houses" class="btn btn-danger"> Cancel </a>
+                        <a class="btn btn-outline-secondary fit-content" id="form-reset"> Reset </a>
+                        <a href="/rentrover/landlord/houses" class="btn btn-danger fit-content"> Cancel </a>
                     </div>
                 </div>
 
@@ -69,11 +76,11 @@ $page = "houses";
                 <p class="m-0 text-danger small error-message" id="error-message"> Error message appears here... </p>
 
                 <!-- token -->
-                <input type="text" name="add_house_token" class="form-control mt-3" placeholder="token id"
-                    id="add_house_token">
+                <input type="hidden" name="add-house-csrf-token" class="form-control mt-3" placeholder="token id"
+                    id="add-house-csrf-token">
 
                 <!-- longitude & latitude -->
-                <div class="d-flex flex-column gap-3">
+                <div class="d-flex flex-column flex-md-row gap-3 mt-3">
                     <input type="hidden" name="longitude" id="longitude" class="form-control" value="0"
                         placeholder="longitude">
                     <input type="hidden" name="latitude" id="latitude" class="form-control" value="0"
@@ -81,39 +88,43 @@ $page = "houses";
                 </div>
 
                 <!-- district && municipality -->
-                <div class="d-flex flex-row w-100 gap-3 mt-3">
+                <div class="d-flex flex-column flex-md-row w-100 gap-3 mt-3">
                     <!-- district -->
-                    <div class="d-flex flex-column w-50 district">
+                    <div class="d-flex flex-column w-100 w-md-50 district">
                         <label for="district" class="mb-2 fw-semibold"> District </label>
                         <select name="district" class="form-select" id="district" required>
                             <option value="" selected hidden> Select District </option>
-                            <option value="kathmandu"> Kathmandu </option>
-                            <option value="bhaktapur"> Bhaktapur </option>
-                            <option value="lalitpur"> Lalitpur </option>
+                            <?php
+                            foreach ($districtArray as $districtList) {
+                                ?>
+                                <option value="<?= $districtList ?>"><?= $districtList ?> </option>
+                                <?php
+                            }
+                            ?>
                         </select>
                     </div>
 
                     <!-- municipality-rural-municipality -->
-                    <div class="d-flex flex-column w-50 municipality">
-                        <label for="municipality-rural-municipality" class="mb-2 fw-semibold"> Municipality/ Rural
+                    <div class="d-flex flex-column w-100 w-md-50 municipality">
+                        <label for="municipality-rural" class="mb-2 fw-semibold"> Municipality/ Rural
                             Municipality </label>
-                        <input type="text" name="municipality-rural-municipality" id="municipality-rural-municipality"
-                            class="form-control">
+                        <input type="text" name="municipality-rural" id="municipality-rural" class="form-control"
+                            required>
                     </div>
                 </div>
 
                 <!-- tole/ village && ward-->
-                <div class="d-flex flex-row w-100 gap-3 mt-3">
+                <div class="d-flex flex-column flex-md-row w-100 gap-3 mt-3">
                     <!-- tole/ village -->
-                    <div class="w-50">
-                        <label for="tole-village" class="w-50 mb-2 fw-semibold"> Tole/ Village </label>
-                        <input type="text" name="tole-village" id="tole-village" class="form-control">
+                    <div class="w-100 w-md-50">
+                        <label for="tole-village" class="mb-2 fw-semibold"> Tole/ Village </label>
+                        <input type="text" name="tole-village" id="tole-village" class="form-control" required>
                     </div>
 
                     <!-- ward -->
-                    <div class="w-50">
-                        <label for="ward" class="w-50 mb-2 fw-semibold"> Ward </label>
-                        <select name="ward" id="ward" class="form-select">
+                    <div class="w-100 w-md-50">
+                        <label for="ward" class="mb-2 fw-semibold"> Ward </label>
+                        <select name="ward" id="ward" class="form-select" required>
                             <option value="" selected hidden> Select ward </option>
                             <option value="1"> 1 </option>
                             <option value="2"> 2 </option>
@@ -129,10 +140,10 @@ $page = "houses";
                 </div>
 
                 <!-- landmark && photo -->
-                <div class="d-flex flex-row gap-3 mt-3">
-                    <div class="w-50">
+                <div class="d-flex flex-column flex-md-row w-100 w-md-50 flex-row gap-3 mt-3">
+                    <div class="w-100">
                         <label for="nearest-landmark" class="fw-semibold mb-2"> Nearest Landmark </label>
-                        <input type="text" name="nearest-landmark" id="nearest-landmark" class="form-control">
+                        <input type="text" name="nearest-landmark" id="nearest-landmark" class="form-control" required>
                     </div>
                 </div>
 
@@ -152,7 +163,8 @@ $page = "houses";
                             </div>
 
                             <!-- file input -->
-                            <input type="file" name="house-photo-1" id="house-photo-1" required>
+                            <input type="file" name="house-photo-1" id="house-photo-1" accept=".jpg, .jpeg, .png, .webp"
+                                required>
                         </div>
 
                         <label for="house-photo-1" class="upload-label small"> <i class="fa-solid fa-upload"></i> Upload
@@ -164,35 +176,22 @@ $page = "houses";
                 <!-- amenities -->
                 <p class="mb-2 mt-4 fw-semibold"> Amenities </p>
                 <div class="d-flex gap-2 flex-wrap input-amenity-container">
-                    <!-- amenity 1 -->
-                    <div class="d-flex flex-row gap-2 input-amenity">
-                        <input type="checkbox" name="amenity-1" id="amenity-1">
+                    <?php
+                    $count = 0;
+                    foreach ($amenityList as $amenity) {
+                        $count++;
+                        ?>
+                        <div class="d-flex flex-row gap-2 input-amenity">
+                            <input type="checkbox" name="amenity[]" value="<?= $amenity ?>" id="amenity-<?= $count ?>">
 
-                        <label class="amenity-detail" for="amenity-1">
-                            <img src="/rentrover/assets/icons/amenities/air-conditioner.png" alt="">
-                            <p> Amenity 1 </p>
-                        </label>
-                    </div>
-
-                    <!-- amenity 2 -->
-                    <div class="d-flex flex-row gap-2 input-amenity">
-                        <input type="checkbox" name="amenity-2" id="amenity-2">
-
-                        <label class="amenity-detail" for="amenity-2">
-                            <img src="/rentrover/assets/icons/amenities/air-conditioner.png" alt="">
-                            <p> Amenity 2 </p>
-                        </label>
-                    </div>
-
-                    <!-- amenity 3 -->
-                    <div class="d-flex flex-row gap-2 input-amenity">
-                        <input type="checkbox" name="amenity-3" id="amenity-3">
-
-                        <label class="amenity-detail" for="amenity-3">
-                            <img src="/rentrover/assets/icons/amenities/air-conditioner.png" alt="">
-                            <p> Amenity 3 </p>
-                        </label>
-                    </div>
+                            <label class="amenity-detail" for="amenity-<?= $count ?>">
+                                <img src="/rentrover/assets/icons/amenities/<?= amenityIcon($amenity) ?>" alt="">
+                                <p> <?= $amenity ?> </p>
+                            </label>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
 
                 <!-- additional informations -->
@@ -225,8 +224,56 @@ $page = "houses";
     <!-- script -->
     <script src="/rentrover/js/popup-alert.js"></script>
 
+    <!-- popup js -->
+    <script src="/rentrover/js/popup-alert.js"></script>
+
     <script>
         $(document).ready(function () {
+            // csrf token generation
+            function generateCsrfToken() {
+                $.ajax({
+                    url: '/rentrover/app/csrf-token-generation.php',
+                    success: function (data) {
+                        $('#add-house-csrf-token').val(data);
+                    }
+                });
+            }
+
+            generateCsrfToken();
+
+            // add house
+            $('#add-house-form').submit(function (e) {
+                e.preventDefault;
+                var formData = new FormData($('#add-house-form')[0]);
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/add-house.php',
+                    type: "POST",
+                    data : formData,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function () {
+                        $('#add-house-btn').html("Adding...").prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response == "true") {
+                            $('#error-message').fadeOut();
+
+                            // show popup message
+                            showPopupAlert("House added successfully.");
+
+                            // reset form
+                            $('#add-house-form').trigger("reset");
+                        } else {
+                            $('#error-message').html("House counldn't be added.").fadeIn();
+                        }
+                        $('#add-house-btn').html("Add Now").prop('disabled', false);
+                    },
+                    error: function () {
+                        $('#add-house-btn').html("Add Now").prop('disabled', false);
+                    },
+                });
+            });
+
             // loading input images instantly
             // input 1
             $('#house-photo-1').on('change', function (event) {
@@ -252,6 +299,7 @@ $page = "houses";
             $('#form-reset').click(function () {
                 $('#add-house-form').trigger("reset");
                 $('#delete-image-1').click();
+                generateCsrfToken();
             });
         });
     </script>

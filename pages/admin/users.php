@@ -50,19 +50,19 @@ $page = "users";
             <!-- total users -->
             <div class="card-v2">
                 <p class="title"> Number of users </p>
-                <p class="data"> 120 </p>
+                <p class="data" id="user-count"> 0 </p>
             </div>
 
             <!-- landlords -->
             <div class="card-v2">
                 <p class="title"> Landlords </p>
-                <p class="data"> 50 </p>
+                <p class="data" id="landlord-count"> 0 </p>
             </div>
 
             <!-- tenants -->
             <div class="card-v2">
                 <p class="title"> Tenant </p>
-                <p class="data"> 70 </p>
+                <p class="data" id="tenant-count"> 0 </p>
             </div>
         </section>
 
@@ -96,27 +96,14 @@ $page = "users";
                         <th scope="col" class="action"> </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="user-row landlord-row">
-                        <th scope="row" class="serial"> 1 </th>
-                        <td> Rupak dangi </td>
-                        <td> Phungling, Pathivara, 3 </td>
-                        <td> Landlord </td>
-                        <td> 984514586 </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td class="action">
-                            <a href="/rentrover/admin/user-detail/1" class="text-primary small"> Show details
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr class="user-row tenant-row">
-                        <th scope="row" class="serial"> 2 </th>
-                        <td> Shristi Pradhan </td>
-                        <td> Bhojpur </td>
-                        <td> Tenant </td>
-                        <td> 984514586 </td>
-                        <td> 0000-00-00 00:00:00 </td>
+                <tbody id="user-table-body">
+                    <tr class="d-none user-row landlord-row">
+                        <th scope="row" class="serial"> serial </th>
+                        <td> user name </td>
+                        <td> address </td>
+                        <td> role </td>
+                        <td> phone number </td>
+                        <td> joined date </td>
                         <td class="action">
                             <a href="/rentrover/admin/user-detail/1" class="text-primary small"> Show details
                             </a>
@@ -147,8 +134,64 @@ $page = "users";
     <!-- script -->
     <script>
         $(document).ready(function () {
+            // loading users
+            $.ajax({
+                url: '/rentrover/pages/admin/sections/user-table.php',
+                type: 'POST',
+                success: function (data) {
+                    $('#user-table-body').html(data);
+                    toggleEmptyContent();
+                },
+                error: function () {
+                    console.log("Error occured in fetching users.");
+                }
+            });
+
+            // count number of users
+            function countUsers() {
+                // all users
+                $.ajax({
+                    url: '/rentrover/pages/admin/app/count-user.php',
+                    type: "POST",
+                    success: function (data) {
+                        $('#user-count').html(data);
+                    },
+                    error: function (data) {
+                        $('#user-count').html('0');
+                    },
+                });
+
+                // landlord
+                $.ajax({
+                    url: '/rentrover/pages/admin/app/count-landlord.php',
+                    type: "POST",
+                    success: function (data) {
+                        $('#landlord-count').html(data);
+                    },
+                    error: function (data) {
+                        $('#landlord-count').html('0');
+                    },
+                });
+
+                // tenant
+                $.ajax({
+                    url: '/rentrover/pages/admin/app/count-tenant.php',
+                    type: "POST",
+                    success: function (data) {
+                        $('#tenant-count').html(data);
+                    },
+                    error: function (data) {
+                        $('#tenant-count').html('0');
+                    },
+                });
+            }
+
+            countUsers();
+
+            // filter
             // role
             $('#filter-role').change(function () {
+                console.log($('#filter-role').val());
                 toggleData($('#filter-role').val());
             });
 
@@ -163,21 +206,44 @@ $page = "users";
                 $('.user-row:visible').length == 0 ? $('#empty-data-foot').show() : $('#empty-data-foot').hide();
             }
 
+            // toggle data
             function toggleData(role) {
                 if (role == "all") {
                     $('.user-row').show();
                     $('#clear').hide();
-                } else if (role == 'landlord') {
-                    $('.tenant-row').hide();
+                } else {
+                    $('.user-row').show();
                     $('#clear').show();
-                } else if (role == 'tenant') {
-                    $('.landlord-row').hide();
-                    $('#clear').show();
+                    (role == 'landlord') ? $('.tenant-row').hide() : $('.landlord-row').hide();
                 }
                 toggleEmptyContent();
             }
 
-            toggleEmptyContent();
+            // search
+            $(document).on('submit', '#search-form', function (e) {
+                e.preventDefault();
+                var searchData = $('#content').val().trim();
+                searchUser(searchData);
+            });
+
+            // search content :: input
+            $(document).on('keydown', '#content', function () {
+                var searchData = $('#content').val().trim();
+                searchUser(searchData);
+            });
+
+            // function to search user
+            function searchUser(searchData) {
+                $.ajax({
+                    url: '/rentrover/pages/admin/sections/search-user.php',
+                    type: "POST",
+                    data: { content: searchData },
+                    success: function (data) {
+                        $('#user-table-body').html(data);
+                        toggleEmptyContent();
+                    }
+                });
+            }
         });
     </script>
 </body>

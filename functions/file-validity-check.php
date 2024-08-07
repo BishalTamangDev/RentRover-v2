@@ -19,7 +19,7 @@ function fileValidityCheck($formFile)
             // extension extraction
             $fileTempExtension = explode('.', $fileName);
             $fileExtension = strtolower(end($fileTempExtension));
-            $allowedExtension = array('jpg', 'jpeg', 'png');
+            $allowedExtension = array('jpg', 'jpeg', 'png', 'webp');
 
             if (in_array($fileExtension, $allowedExtension)) {
                 $newFileName = uniqid('', true) . "." . $fileExtension;

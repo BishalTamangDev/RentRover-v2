@@ -10,13 +10,15 @@
   position: relative;
   border-radius: 0.5rem;
   cursor: pointer;
-  width: -moz-fit-content;
-  width: fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  width: 20%;
+  max-width: 130px;
+  min-width: 130px;
   border-radius: 0.5rem;
   overflow: hidden;
   border: 1px solid rgb(228, 228, 228);
+}
+.add-house-form .input-amenity-container .input-amenity:hover {
+  background-color: rgb(206, 206, 206);
 }
 .add-house-form .input-amenity-container .input-amenity input {
   margin: 0.5rem;

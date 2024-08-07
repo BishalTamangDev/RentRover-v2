@@ -80,13 +80,24 @@ class User
         return $this->password;
     }
 
+    // full name
+    public function getFullName()
+    {
+        return ucfirst($this->name['first']) . ' ' . ucfirst($this->name['last']);
+    }
+
+    public function getDistrictProvince()
+    {
+        return ucfirst($this->address['district']) . ', ' . ucfirst($this->address['province']) . ' Province';
+    }
+
     // register
     public function register()
     {
         global $conn;
 
         $firstName = $this->name['first'];
-        $lastName = $this->name['first'];
+        $lastName = $this->name['last'];
 
         $province = $this->address['province'];
         $district = $this->address['district'];
@@ -181,9 +192,10 @@ class User
         $this->registrationDate = $registrationDate;
     }
 
-    public function setMandatory($firstName, $email, $role, $profilePhoto, $flag)
+    public function setMandatory($firstName, $lastName, $email, $role, $profilePhoto, $flag)
     {
         $this->name['first'] = $firstName;
+        $this->name['last'] = $lastName;
         $this->email = $email;
         $this->role = $role;
         $this->profilePhoto = $profilePhoto;
@@ -195,18 +207,20 @@ class User
     public function fetch($userId, $howMuch)
     {
         global $conn;
-
-        $query = $howMuch == "all" ? "SELECT * FROM user_tb WHERE user_id = '$userId' LIMIT 1" : "SELECT first_name, role, email, flag, profile_photo FROM user_tb WHERE user_id = '$userId'";
+        $userExists = false;
+        $query = $howMuch == "all" ? "SELECT * FROM user_tb WHERE user_id = '$userId' LIMIT 1" : "SELECT first_name, last_name, role, email, flag, profile_photo FROM user_tb WHERE user_id = '$userId'";
         $result = mysqli_query($conn, $query);
 
         if ($result->num_rows > 0) {
+            $userExists = true;
             $dbData = $result->fetch_assoc();
             if ($howMuch == "all") {
                 $this->set($dbData['first_name'], $dbData['last_name'], $dbData['gender'], $dbData['dob'], $dbData['email'], $dbData['phone_number'], $dbData['province'], $dbData['district'], $dbData['municipality_rural'], $dbData['ward'], $dbData['tole_village'], $dbData['role'], $dbData['flag'], $dbData['profile_photo'], $dbData['kyc_front'], $dbData['kyc_back'], $dbData['registration_date']);
             } else {
-                $this->setMandatory($dbData['first_name'], $dbData['email'], $dbData['role'], $dbData['profile_photo'], $dbData['flag']);
+                $this->setMandatory($dbData['first_name'], $dbData['last_name'], $dbData['email'], $dbData['role'], $dbData['profile_photo'], $dbData['flag']);
             }
         }
+        return $userExists;
     }
 
     // update profile details
@@ -271,5 +285,96 @@ class User
         }
 
         return $eligible;
+    }
+
+    // fetch all users
+    public function fetchAllUserId()
+    {
+        global $conn;
+        $userIdList = [];
+        $query = "SELECT user_id FROM user_tb";
+        $result = mysqli_query($conn, $query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $userIdList[] = $row['user_id'];
+            }
+        }
+        return $userIdList;
+    }
+
+    // verify user
+    public function verifyUser($userId)
+    {
+        global $conn;
+        $query = "UPDATE user_tb SET flag = 'verified' WHERE user_id = '$userId'";
+        $response = mysqli_query($conn, $query);
+        return $response;
+    }
+
+    // inverify user
+    public function unVerifyUser($userId)
+    {
+        global $conn;
+        $query = "UPDATE user_tb SET flag = 'pending' WHERE user_id = '$userId'";
+        $response = mysqli_query($conn, $query);
+        return $response;
+    }
+
+    // count users
+    public function countUser()
+    {
+        global $conn;
+        $count = 0;
+        $query = "SELECT COUNT(user_id) As total FROM user_tb";
+        $result = mysqli_query($conn, $query);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $count = $row['total'];
+        }
+        return $count;
+    }
+
+    // count landlord
+    public function countLandlord()
+    {
+        global $conn;
+        $count = 0;
+        $query = "SELECT COUNT(user_id) As total FROM user_tb WHERE role = 'landlord'";
+        $result = mysqli_query($conn, $query);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $count = $row['total'];
+        }
+        return $count;
+    }
+
+    // count tenant
+    public function countTenant()
+    {
+        global $conn;
+        $count = 0;
+        $query = "SELECT COUNT(user_id) As total FROM user_tb WHERE role = 'tenant'";
+        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($conn, $query);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $count = $row['total'];
+        }
+        return $count;
+    }
+
+    // search user
+    public function search($content)
+    {
+        global $conn;
+        $searchedUsers = [];
+        $query = "SELECT * FROM user_tb WHERE user_id = '$content' OR first_name LIKE '%$content%' OR last_name LIKE '%$content%' OR email LIKE '%$content%' OR phone_number LIKE '%$content%'";
+        $result = mysqli_query($conn, $query);
+        if ($result->num_rows > 0) {
+            while ($dbData = $result->fetch_assoc()) {
+                $searchedUsers[] = $dbData;
+            }
+        }
+        return $searchedUsers;
     }
 }
