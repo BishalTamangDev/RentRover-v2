@@ -319,4 +319,13 @@ class House
 
         return $result ? true : false;
     }
+
+    // landlord eligibility test to add rom
+    public function checkIfEligibleToAddRoom($landlordId)
+    {
+        global $conn;
+        $query = "SELECT house_id FROM house_tb WHERE landlord_id = '$landlordId' AND flag = 'verified'";
+        $result = $conn->query($query);
+        return ($result->num_rows > 0) ? true : false;
+    }
 }

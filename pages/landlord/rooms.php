@@ -3,7 +3,10 @@ if (session_status() == PHP_SESSION_NONE)
     session_start();
 
 require_once __DIR__ . '/../../classes/user.php';
+require_once __DIR__ . '/../../classes/house.php';
+
 $profileUser = new User();
+$house = new House();
 
 $profileUser->fetch($r_id, "all");
 
@@ -49,6 +52,18 @@ $page = "rooms";
     <?php require_once __DIR__ . '/sections/aside.php'; ?>
 
     <main>
+    <?php
+        $eligible = $house->checkIfEligibleToAddRoom($r_id);
+        
+        if(!$eligible) {
+            ?>
+            <div class="alert alert-danger" role="alert">
+                Please add house first to add room. <a href="/rentrover/landlord/add-house" class="text-primary"> Click here </a> to add house.
+            </div>
+            <?php
+        }
+        ?>
+
         <!-- card container -->
         <section class="card-v2-container">
             <!-- total rooms -->
@@ -70,11 +85,11 @@ $page = "rooms";
             </div>
         </section>
 
-        <!-- add room button -->
-        <a href="/rentrover/landlord/add-room"
-            class="d-flex flex-row gap-2 align-items-center btn btn-brand mb-3 mt-4 fit-content"> <i
-                class="fa fa-add"></i>
-            Add New Room </a>
+        <!-- check if the landlord is eligible for adding room -->
+        
+            <!-- add room button -->
+            <button onclick="window.location.href='/rentrover/landlord/add-room'"
+                class="d-flex flex-row gap-2 align-items-center btn btn-brand mb-3 mt-4 fit-content" <?php if(!$eligible) echo "disabled"; ?>> <i class="fa fa-add"></i> Add New Room </button>
 
         <!-- filter -->
         <section class="filter-container">
@@ -184,6 +199,25 @@ $page = "rooms";
             </table>
         </section>
     </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

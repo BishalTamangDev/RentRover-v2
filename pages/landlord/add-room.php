@@ -50,16 +50,40 @@ $page = "rooms";
     <!-- aside -->
     <?php require_once __DIR__ . '/sections/aside.php'; ?>
 
+    <?php
+    // fetch landlord's houses
+    require_once __DIR__ . '/../../classes/house.php';
+    require_once __DIR__ . '/../../functions/amenity-array.php';
+
+    $houseObj = new House();
+    $eligible = $houseObj->checkIfEligibleToAddRoom($r_id);
+    // $eligible = false;
+    ?>
+
     <main>
+        <?php
+        if (!$eligible) {
+            ?>
+            <div class="alert alert-danger" role="alert">
+                You are ineligible to add room.
+            </div>
+            <?php
+        }
+        ?>
+
         <section class="add-house">
-            <form class="form d-flex flex-column add-house-form" id="add-room-form" enctype="multipart/form-data">
+            <form action="/rentrover/pages/landlord/app/add-room.php" method="POST"
+                class="form d-flex flex-column add-house-form" id="add-room-form" enctype="multipart/form-data" <?php if (!$eligible)
+                    echo "disabled"; ?>>
                 <!-- top section -->
-                <div class="d-flex flex-row justify-content-between top-section">
+                <div class="d-flex flex-column flex-md-row row-gap-3 justify-content-md-between top-section">
                     <!-- heading -->
-                    <p class="m-0 fs-3 fw-semibold"> Add Room </p>
+                    <p class="m-0 fs-3 fw-semibold"> Add New Room </p>
                     <!-- rest or cancel -->
-                    <div class="d-flex flex-row gap-2 justify-content-end mb-3">
-                        <a class="btn btn-outline-secondary" id="form-reset"> Reset </a>
+                    <div class="d-flex flex-row gap-2 mb-3">
+                        <a class="btn btn-outline-secondary <?php if (!$eligible)
+                            echo "invisible"; ?>" id="form-reset">
+                            Reset </a>
                         <a class="btn btn-danger" href="/rentrover/landlord/rooms"> Cancel </a>
                     </div>
                 </div>
@@ -68,24 +92,24 @@ $page = "rooms";
                 <p class="m-0 text-danger small error-message" id="error-message"> Error message appears here... </p>
 
                 <!-- token -->
-                <input type="text" name="add_room_token" class="form-control mt-3" placeholder="token id"
-                    id="add_room_token" required>
+                <input type="hidden" name="add-room-csrf-token" class="form-control mt-3" placeholder="token id"
+                    id="add-room-csrf-token" required>
 
-                <div class="d-flex flex-row gap-3">
+                <div class="d-flex flex-column flex-md-row gap-3">
                     <!-- house -->
-                    <div class="w-50">
+                    <div class="w-100 w-md-50">
                         <label for="bhk" class="mb-2 fw-semibold mt-3"> Select House </label>
-                        <select name="house-id" id="house-id" class="form-select" required>
+                        <select name="house-id" id="house-id" class="form-select" required <?php if (!$eligible)
+                            echo "disabled"; ?>>
                             <option value="" selected hidden> Select house </option>
-                            <option value="id-1"> Address 1 </option>
-                            <option value="id-2"> Address 2 </option>
                         </select>
                     </div>
 
                     <!-- room type -->
-                    <div class="w-50">
+                    <div class="w-100 w-md-50">
                         <label for="bhk" class="mb-2 fw-semibold mt-3"> Room Type </label>
-                        <select name="room-type" id="room-type" class="form-select" required>
+                        <select name="room-type" id="room-type" class="form-select" required <?php if (!$eligible)
+                            echo "disabled"; ?>>
                             <option value="" selected hidden> Select room type </option>
                             <option value="bhk"> BHK </option>
                             <option value="non-bhk"> Non-BHK </option>
@@ -93,51 +117,58 @@ $page = "rooms";
                     </div>
                 </div>
 
-
-                <div class="d-flex flex-row gap-3">
+                <div class="d-flex flex-column flex-md-row gap-3">
                     <!-- bhK -->
-                    <div class="w-50">
+                    <div class="w-100" id="bhk-container">
                         <label for="bhk" class="mb-2 fw-semibold mt-3"> BHK </label>
-                        <input type="number" name="bhk" class="form-control" id="bhk">
+                        <input type="number" name="bhk" min="1" class="form-control" id="bhk" <?php if (!$eligible)
+                            echo "disabled"; ?>>
                     </div>
 
                     <!-- number of room -->
-                    <div class="w-50">
+                    <div class="w-100" id="number-of-room-container">
                         <label for="number-of-room" class="mb-2 fw-semibold mt-3"> Number of room </label>
-                        <input type="number" name="number-of-room" class="form-control" id="number-of-room">
+                        <input type="number" name="number-of-room" min="1" class="form-control" id="number-of-room"
+                            <?php if (!$eligible)
+                                echo "disabled"; ?>>
                     </div>
                 </div>
 
-                <div class="d-flex flex-row gap-3">
+                <div class="d-flex flex-column flex-md-row gap-3">
                     <!-- room number -->
-                    <div class="w-50">
+                    <div class="w-100 w-md-50">
                         <label for="room-number" class="mb-2 fw-semibold mt-3"> Room Number </label>
-                        <input type="number" name="room-number" class="form-control" id="room-number" required>
+                        <input type="number" name="room-number" min="1" class="form-control" id="room-number" required
+                            <?php if (!$eligible)
+                                echo "disabled"; ?>>
                     </div>
 
                     <!-- furnishing -->
-                    <div class="w-50">
+                    <div class="w-100 w-md-50">
                         <label for="" class="mb-2 fw-semibold mt-3"> Furnishing </label>
-                        <select name="room-type" id="room-type" class="form-select" required>
+                        <select name="furnishing-type" id="furnishing-type" class="form-select" required <?php if (!$eligible)
+                            echo "disabled"; ?>>
                             <option value="" selected hidden> Select room type </option>
                             <option value="unfurnished"> Unfurnished </option>
-                            <option value="non-semi-furnished"> Semi-furnished </option>
+                            <option value="semi-furnished"> Semi-furnished </option>
                             <option value="fully-furnished"> Fully-furnished </option>
                         </select>
                     </div>
                 </div>
 
-                <div class="d-flex flex-row gap-3">
+                <div class="d-flex flex-column flex-md-row gap-3">
                     <!-- floor -->
-                    <div class="w-50">
+                    <div class="w-100 w-md-50">
                         <label for="floor" class="mb-2 fw-semibold mt-3"> Floor </label>
-                        <input type="number" name="floor" class="form-control" id="floor" min="0" required>
+                        <input type="number" name="floor" class="form-control" id="floor" min="0" required <?php if (!$eligible)
+                            echo "disabled"; ?>>
                     </div>
 
                     <!-- rent -->
-                    <div class="w-50">
+                    <div class="w-100 w-md-50">
                         <label for="rent" class="mb-2 fw-semibold mt-3"> Rent </label>
-                        <input type="number" name="rent" class="form-control" id="rent" min="0" required>
+                        <input type="number" name="rent" class="form-control" id="rent" min="0" required <?php if (!$eligible)
+                            echo "disabled"; ?>>
                     </div>
                 </div>
 
@@ -149,7 +180,8 @@ $page = "rooms";
                         <!-- image container -->
                         <div class="image-container" id="image-container-1">
                             <!-- background-image -->
-                            <img src="/rentrover/assets/images/blank.jpg" alt="image-file-1" id="image-file-1">
+                            <img src="/rentrover/assets/images/blank.jpg" alt="image-file-1" id="image-file-1"
+                                accept=".jpg, .jpeg, .png, .webp">
 
                             <!-- delete icon -->
                             <div class="delete-div" id="delete-image-1">
@@ -157,7 +189,8 @@ $page = "rooms";
                             </div>
 
                             <!-- file input -->
-                            <input type="file" name="room-photo-1" id="room-photo-1" required>
+                            <input type="file" name="room-photo-1" id="room-photo-1" <?php if (!$eligible)
+                                echo "disabled"; ?> required>
                         </div>
 
                         <label for="room-photo-1" class="upload-label small"> <i class="fa-solid fa-upload"></i> Upload
@@ -170,7 +203,8 @@ $page = "rooms";
                         <!-- image container -->
                         <div class="image-container" id="image-container-2">
                             <!-- background-image -->
-                            <img src="/rentrover/assets/images/blank.jpg" alt="image-file-2" id="image-file-2">
+                            <img src="/rentrover/assets/images/blank.jpg" alt="image-file-2" id="image-file-2"
+                                accept=".jpg, .jpeg, .png, .webp">
 
                             <!-- delete icon -->
                             <div class="delete-div" id="delete-image-2">
@@ -178,7 +212,8 @@ $page = "rooms";
                             </div>
 
                             <!-- file input -->
-                            <input type="file" name="room-photo-2" id="room-photo-2" required>
+                            <input type="file" name="room-photo-2" id="room-photo-2" <?php if (!$eligible)
+                                echo "disabled"; ?> required>
                         </div>
 
                         <label for="room-photo-2" class="upload-label small"> <i class="fa-solid fa-upload"></i> Upload
@@ -191,7 +226,8 @@ $page = "rooms";
                         <!-- image container -->
                         <div class="image-container" id="image-container-3">
                             <!-- background-image -->
-                            <img src="/rentrover/assets/images/blank.jpg" alt="image-file-3" id="image-file-3">
+                            <img src="/rentrover/assets/images/blank.jpg" alt="image-file-3" id="image-file-3"
+                                accept=".jpg, .jpeg, .png, .webp">
 
                             <!-- delete icon -->
                             <div class="delete-div" id="delete-image-3">
@@ -199,7 +235,8 @@ $page = "rooms";
                             </div>
 
                             <!-- file input -->
-                            <input type="file" name="room-photo-3" id="room-photo-3" required>
+                            <input type="file" name="room-photo-3" id="room-photo-3" <?php if (!$eligible)
+                                echo "disabled"; ?> required>
                         </div>
 
                         <label for="room-photo-3" class="upload-label small"> <i class="fa-solid fa-upload"></i> Upload
@@ -212,7 +249,8 @@ $page = "rooms";
                         <!-- image container -->
                         <div class="image-container" id="image-container-4">
                             <!-- background-image -->
-                            <img src="/rentrover/assets/images/blank.jpg" alt="image-file-4" id="image-file-4">
+                            <img src="/rentrover/assets/images/blank.jpg" alt="image-file-4" id="image-file-4"
+                                accept=".jpg, .jpeg, .png, .webp">
 
                             <!-- delete icon -->
                             <div class="delete-div" id="delete-image-4">
@@ -220,7 +258,8 @@ $page = "rooms";
                             </div>
 
                             <!-- file input -->
-                            <input type="file" name="room-photo-4" id="room-photo-4" required>
+                            <input type="file" name="room-photo-4" id="room-photo-4" <?php if (!$eligible)
+                                echo "disabled"; ?> required>
                         </div>
 
                         <label for="room-photo-4" class="upload-label small"> <i class="fa-solid fa-upload"></i> Upload
@@ -229,50 +268,18 @@ $page = "rooms";
                     </div>
                 </div>
 
-                <!-- requirements -->
-                <div class="">
-                    <label for="additional-info" class="mb-2 fw-semibold mt-3"> Additional Informationn </label>
-                    <textarea name="additional-info" class="form-control" id="additional-info"></textarea>
-                </div>
-
                 <!-- amenities -->
+                <!-- dynamically generate the amenities -->
                 <p class="mb-2 mt-4 fw-semibold"> Amenities </p>
-                <div class="d-flex gap-2 flex-wrap input-amenity-container">
-                    <!-- amenity 1 -->
-                    <div class="d-flex flex-row gap-2 input-amenity">
-                        <input type="checkbox" name="amenity-1" id="amenity-1">
-
-                        <label class="amenity-detail" for="amenity-1">
-                            <img src="/rentrover/assets/icons/amenities/air-conditioner.png" alt="">
-                            <p> Amenity 1 </p>
-                        </label>
-                    </div>
-
-                    <!-- amenity 2 -->
-                    <div class="d-flex flex-row gap-2 input-amenity">
-                        <input type="checkbox" name="amenity-2" id="amenity-2">
-
-                        <label class="amenity-detail" for="amenity-2">
-                            <img src="/rentrover/assets/icons/amenities/air-conditioner.png" alt="">
-                            <p> Amenity 2 </p>
-                        </label>
-                    </div>
-
-                    <!-- amenity 3 -->
-                    <div class="d-flex flex-row gap-2 input-amenity">
-                        <input type="checkbox" name="amenity-3" id="amenity-3">
-
-                        <label class="amenity-detail" for="amenity-3">
-                            <img src="/rentrover/assets/icons/amenities/air-conditioner.png" alt="">
-                            <p> Amenity 3 </p>
-                        </label>
-                    </div>
+                <div class="d-flex gap-2 flex-wrap input-amenity-container" id="amenity-container">
+                    <p class="mb-2 text-secondary"> Select house first to add the amenities. </p>
                 </div>
 
                 <!-- additional informations -->
-                <label for="additional-info" class="mb-2 mt-3 fw-semibold"> Some additional informations </label>
-                <textarea name="additional-info" class="form-control mb-2"
-                    placeholder="Some information about the house or the requirements." id="additional-info"></textarea>
+                <label for="info" class="mb-2 mt-3 fw-semibold"> Some additional informations </label>
+                <textarea name="info" class="form-control mb-2"
+                    placeholder="Some information about the house or the requirements." id="info" <?php if (!$eligible)
+                        echo "disabled"; ?>></textarea>
 
                 <button type="submit" class="btn btn-brand fit-content mt-3" id="add-room-btn"> Add Now </button>
             </form>
@@ -300,6 +307,118 @@ $page = "rooms";
 
     <script>
         $(document).ready(function () {
+            // csrf token generation
+            function generateCsrfToken() {
+                $.ajax({
+                    url: '/rentrover/app/csrf-token-generation.php',
+                    success: function (data) {
+                        $('#add-room-csrf-token').val(data);
+                    }
+                });
+            }
+
+            generateCsrfToken();
+
+            // load houses
+            function loadHouses() {
+                $.ajax({
+                    url: '/rentrover/pages/landlord/sections/load-house-for-adding-room.php',
+                    data: { landlordId: <?= $r_id ?> },
+                    method: "POST",
+                    success: function (data) {
+                        $('#house-id').html(data);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            }
+
+            loadHouses();
+
+            // form submission
+            $('#add-room-form').submit(function (e) {
+                e.preventDefault();
+
+                // check room type and ask user to enter eithr of bhk or number of room
+                room_type = $('#room-type').val();
+
+                form_eligible = true;
+
+                if (room_type == 'bhk') {
+                    if ($('#bhk').val() == '') {
+                        form_eligible = false;
+                        $('#error-message').html("Please enter the bhk.").fadeIn();
+                        $('#bhk').focus();
+                    }
+                } else if (room_type == 'non-bhk') {
+                    if ($('#number-of-room').val() == '') {
+                        form_eligible = false;
+                        $('#number-of-room').focus();
+                        $('#error-message').html("Please enter the number of room.").fadeIn();
+                    }
+                }
+
+                if (form_eligible) {
+                    var formData = new FormData($('#add-room-form')[0]);
+                    $.ajax({
+                        url: '/rentrover/pages/landlord/app/add-room.php',
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $('#add-room-btn').html("Adding...").prop("disabled", true);
+                        },
+                        success: function (response) {
+                            if(response == "true") {
+                                $('#error-message').html("").fadeOut();
+                                showPopupAlert("Room added successfully.");
+                                $('#form-reset').click();
+                            } else if(response == "false") {
+                                $('#error-message').html("").fadeIn();
+                            } else {
+                                $('#error-message').html(response).fadeIn();
+                            }
+                            $('#add-room-btn').html("Add Now").prop("disabled", false);
+                        },
+                        error: function () {
+                            $('#error-message').html("").fadeOut();
+                            $('#add-room-btn').html("Add Now").prop("disabled", false);
+                        },
+                    });
+                }
+            });
+
+            // load house amenities
+            $('#house-id').change(function () {
+                house_id = $('#house-id').val();
+                $.ajax({
+                    url: '/rentrover/pages/landlord/sections/house-amenity.php',
+                    method: "POST",
+                    data: { houseId: house_id },
+                    success: function (data) {
+                        $('#amenity-container').html(data);
+                    }
+                });
+            });
+
+            $('#bhk-container').hide();
+            $('#number-of-room-container').hide();
+
+            // toggle bhk && number of room
+            $('#room-type').change(function(){
+                room_type = $('#room-type').val();
+                if(room_type == "bhk") {
+                    $('#bhk-container').show();
+                    $('#number-of-room-container').hide();
+                }
+                else if(room_type == "non-bhk") {
+                    $('#number-of-room-container').show();
+                    $('#bhk-container').hide();
+                }
+            });
+
             // loading input images instantly
             // room photo 1
             $('#room-photo-1').on('change', function (event) {
@@ -395,6 +514,13 @@ $page = "rooms";
                 $('#delete-image-2').click();
                 $('#delete-image-3').click();
                 $('#delete-image-4').click();
+
+                generateCsrfToken();
+
+                $('#bhk-container').hide();
+                $('#number-of-room-container').hide();
+
+                $('#amenity-container').html('<p class="mb-2 text-secondary"> Select house first to add the amenities. </p>');
             });
         });
     </script>

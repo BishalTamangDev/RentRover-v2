@@ -41,7 +41,7 @@
   cursor: pointer;
   gap: 0.5rem;
 }
-.add-house-form #additional-info {
+.add-house-form #additional-info, .add-house-form #info {
   min-height: 140px;
   max-height: 200px;
 }/*# sourceMappingURL=add-house.css.map */
