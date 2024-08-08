@@ -174,10 +174,16 @@ if (!isset($page))
                 searchHouse(searchData);
             });
 
+            $('#content').on('input', function() {
+                if ($(this).val() === '') {
+                    loadHouse();
+                }
+            });
+
             // function to search user
             function searchHouse(searchData) {
                 $.ajax({
-                    url: '/rentrover/pages/admin/sections/search-house-old.php',
+                    url: '/rentrover/pages/admin/sections/search-house.php',
                     type: "POST",
                     data: { content: searchData },
                     success: function (data) {

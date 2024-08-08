@@ -135,17 +135,21 @@ $page = "users";
     <script>
         $(document).ready(function () {
             // loading users
-            $.ajax({
-                url: '/rentrover/pages/admin/sections/user-table.php',
-                type: 'POST',
-                success: function (data) {
-                    $('#user-table-body').html(data);
-                    toggleEmptyContent();
-                },
-                error: function () {
-                    console.log("Error occured in fetching users.");
-                }
-            });
+            function loadUsers(){
+                $.ajax({
+                    url: '/rentrover/pages/admin/sections/user-table.php',
+                    type: 'POST',
+                    success: function (data) {
+                        $('#user-table-body').html(data);
+                        toggleEmptyContent();
+                    },
+                    error: function () {
+                        console.log("Error occured in fetching users.");
+                    }
+                });
+            }
+
+            loadUsers();
 
             // count number of users
             function countUsers() {
@@ -244,6 +248,13 @@ $page = "users";
                     }
                 });
             }
+
+            // clear search
+            $('#content').on('input', function() {
+                if ($(this).val() === '') {
+                    loadUsers();
+                }
+            });
         });
     </script>
 </body>

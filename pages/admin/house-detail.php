@@ -104,6 +104,14 @@ if (!isset($page))
                 <div class="d-flex flex-column-reverse justify-content-between flex-xl-row details">
                     <!-- requirememnts, amenities and reviews -->
                     <div class="d-flex flex-column gap-3 mt-3 mt-lg-5 requirements-amenities-reviews">
+                        <!-- nearest landmark -->
+                        <div class="requirements">
+                            <h3 class="m-0 fw-semibold"> Nearest Landmark </h3>
+                            <p class="m-0 mt-3">
+                                <?= $houseObj->address['nearestLandmark'] != '' ? ucfirst($houseObj->address['nearestLandmark']) : "-"; ?>
+                            </p>
+                        </div>
+
                         <!-- Notes -->
                         <div class="requirements">
                             <h3 class="m-0 fw-semibold"> Important Notes </h3>

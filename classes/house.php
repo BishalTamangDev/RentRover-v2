@@ -260,7 +260,7 @@ class House
     {
         global $conn;
         $searchedHouses = [];
-        $query = "SELECT * FROM house_tb WHERE municipality_rural LIKE '%$content%' OR tole_village LIKE '%$content%'";
+        $query = "SELECT * FROM house_tb WHERE house_id LIKE '%$content%' OR municipality_rural LIKE '%$content%' OR tole_village LIKE '%$content%'";
         $result = mysqli_query($conn, $query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -268,5 +268,55 @@ class House
             }
         }
         return $searchedHouses;
+    }
+
+    // update house
+    public function update()
+    {
+        global $conn;
+
+        $district = $this->address['district'];
+        $municipalityRural = $this->address['municipalityRural'];
+        $toleVillage = $this->address['toleVillage'];
+        $ward = $this->address['ward'];
+        $nearestLandmark = $this->address['nearestLandmark'];
+        $longitude = $this->coordinate['longitude'];
+        $latitude = $this->coordinate['latitude'];
+        $this->flag = "verified";
+
+        $query = "UPDATE house_tb SET longitude = '$longitude', latitude = '$latitude', district = '$district', municipality_rural = '$municipalityRural', tole_village = '$toleVillage', ward = '$ward', nearest_landmark = '$nearestLandmark', info = '$this->info', flag = '$this->flag' WHERE house_id = '$this->houseId'";
+
+        $result = mysqli_query($conn, $query);
+
+        return $result ? true : false;
+    }
+
+    public function updateAmenity($oldAmenity, $newAmenity)
+    {
+        global $conn;
+
+        // remove old amenity
+        $query = "DELETE FROM amenity_tb WHERE room_id = '0' AND house_id = '$this->houseId'";
+        $result = mysqli_query($conn, $query);
+
+        // add new amenity
+        foreach ($newAmenity as $new) {
+            if ($new != '') {
+                $query = "INSERT INTO amenity_tb (house_id, amenity, room_id) VALUES ('$this->houseId', '$new', '0')";
+
+                $result = mysqli_query($conn, $query);
+            }
+        }
+    }
+
+    // update photo
+    public function updatePhoto($newFileName)
+    {
+        global $conn;
+
+        $query = "UPDATE house_photo_tb SET photo = '$newFileName' WHERE house_id = '$this->houseId'";
+        $result = mysqli_query($conn, $query);
+
+        return $result ? true : false;
     }
 }

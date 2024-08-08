@@ -176,18 +176,15 @@ if (in_array($arr[1], $unsignedUserPages)) {
             }
             break;
         case 'add-house':
-            if (isset($arr[3])) {
-                if ($arr[3] != '') {
-                    $task = $arr[3];
-                } else {
-                    $task = 'add';
-                }
+            require_once __DIR__ . '/pages/landlord/add-house.php';
+            $redirected = true;
+            break;
+        case 'edit-house':
+            if(!isset($arr[3])) {
+                header("Location: /rentrover/landlord/houses/");
             } else {
-                $task = "add";
-            }
-
-            if ($task == "add" || $task == "edit") {
-                require_once __DIR__ . '/pages/landlord/add-house.php';
+                $houseId = $arr[3];
+                require_once __DIR__ . '/pages/landlord/edit-house.php';
                 $redirected = true;
             }
             break;

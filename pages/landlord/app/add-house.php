@@ -12,6 +12,7 @@ if ($csrfToken != $_SESSION['csrf-token']) {
 }
 
 require_once __DIR__ . '/../../../classes/house.php';
+
 $tempHouse = new House();
 
 if (isset($_FILES['house-photo-1']) && $_FILES['house-photo-1']['error'] != UPLOAD_ERR_NO_FILE) {
@@ -46,10 +47,10 @@ $tempHouse->coordinate = [
 
 $tempHouse->address = [
     'district' => $_POST['district'],
-    'municipalityRural' => $_POST['municipality-rural'],
-    'toleVillage' => $_POST['tole-village'],
+    'municipalityRural' => mysqli_real_escape_string($conn, $_POST['municipality-rural']),
+    'toleVillage' => mysqli_real_escape_string($conn, $_POST['tole-village']),
     'ward' => $_POST['ward'],
-    'nearestLandmark' => $_POST['nearest-landmark'],
+    'nearestLandmark' => mysqli_real_escape_string($conn, $_POST['nearest-landmark']),
 ];
 
 if (isset($_POST['amenity'])) {
@@ -58,7 +59,7 @@ if (isset($_POST['amenity'])) {
     $tempHouse->amenity[] = '';
 }
 
-$tempHouse->info = $_POST['additional-info'];
+$tempHouse->info = mysqli_real_escape_string($conn, $_POST['additional-info']);
 
 $response = $tempHouse->register() ? "true" : "false";
 

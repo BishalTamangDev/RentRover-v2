@@ -93,8 +93,16 @@ $page = "houses";
                     <div class="d-flex flex-column-reverse justify-content-between flex-xl-row details">
                         <!-- requirememnts, amenities and reviews -->
                         <div class="d-flex flex-column gap-3 mt-3 mt-lg-5 requirements-amenities-reviews">
-                            <!-- Notes -->
+                            <!-- nearest landmark -->
                             <div class="requirements">
+                                <h3 class="m-0 fw-semibold"> Nearest Landmark </h3>
+                                <p class="m-0 mt-3">
+                                    <?= $houseObj->address['nearestLandmark'] != '' ? ucfirst($houseObj->address['nearestLandmark']) : "-"; ?>
+                                </p>
+                            </div>
+
+                            <!-- Notes -->
+                            <div class="requirements mt-2">
                                 <h3 class="m-0 fw-semibold"> Important Notes </h3>
                                 <p class="m-0 mt-3">
                                     <?= $houseObj->info != '' ? ucfirst($houseObj->info) : "-"; ?>
@@ -144,7 +152,7 @@ $page = "houses";
 
                             <!-- actions :: edit || delete -->
                             <div class="room-operations">
-                                <a href="/rentrover/landlord/add-house/edit/<?=$houseId?>" type="button" class="btn btn-brand"> <i
+                                <a href="/rentrover/landlord/edit-house/<?= $houseId ?>" type="button" class="btn btn-brand"> <i
                                         class="fa-solid fa-arrow-up-right-from-square"></i> Edit </a>
                                 <button class="btn btn-danger" data-leave-application-id="" data-bs-toggle="modal"
                                     data-bs-target="#deleteHouseModal"> <i class="fa fa-trash"></i> Delete House </button>

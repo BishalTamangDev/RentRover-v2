@@ -3,11 +3,21 @@ if (session_status() == PHP_SESSION_NONE)
     session_start();
 
 require_once __DIR__ . '/../../classes/user.php';
+require_once __DIR__ . '/../../classes/house.php';
 require_once __DIR__ . '/../../functions/district-array.php';
 require_once __DIR__ . '/../../functions/amenity-array.php';
-$profileUser = new User();
 
+$profileUser = new User();
 $profileUser->fetch($r_id, "all");
+
+$houseObj = new House();
+$houseExists = $houseObj->fetch($houseId);
+
+// check if the user is the owner of the house
+if (!$houseExists || $r_id != $houseObj->getLandlordId()) {
+    header("Location: /rentrover/landlord/");
+    exit;
+}
 
 if (!isset($tab))
     $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
@@ -23,7 +33,7 @@ $page = "houses";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> Add House </title>
+    <title> Edit House </title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/rentrover/assets/brands/rentrover-circular-logo.png">
@@ -60,32 +70,41 @@ $page = "houses";
 
     <main>
         <section class="add-house">
-            <form class="form d-flex flex-column add-house-form" method="POST" id="add-house-form" enctype="multipart/form-data">
+            <form class="form d-flex flex-column add-house-form" method="POST"
+                action="/rentrover/pages/landlord/app/update-house.php" id="edit-house-form"
+                enctype="multipart/form-data">
                 <!-- top section -->
                 <div class="d-flex flex-column flex-md-row row-gap-2 justify-content-between top-section">
                     <!-- heading -->
-                    <p class="m-0 fs-3 fw-semibold"> Add New House </p>
+                    <p class="m-0 fs-3 fw-semibold"> Edit House </p>
                     <!-- rest or cancel -->
-                    <div class="d-flex flex-row gap-2 justify-content-end mb-3">
+                    <div class="d-flex flex-row gap-2 mb-3">
                         <a class="btn btn-outline-secondary fit-content" id="form-reset"> Reset </a>
-                        <a href="/rentrover/landlord/houses" class="btn btn-danger fit-content"> Cancel </a>
+                        <a href="/rentrover/landlord/house-detail/<?= $houseId ?>" class="btn btn-danger fit-content"
+                            id="cancel-btn">
+                            Cancel </a>
                     </div>
                 </div>
 
                 <!-- error message -->
-                <p class="m-0 text-danger small error-message" id="error-message"> Error message appears here... </p>
+                <p class="m-0 text-danger small error-message mt-2" id="error-message"> Error message appears here...
+                </p>
 
                 <!-- token -->
-                <input type="hidden" name="add-house-csrf-token" class="form-control mt-3" placeholder="token id"
-                    id="add-house-csrf-token">
+                <input type="hidden" name="edit-house-csrf-token" class="form-control mt-3" placeholder="token id"
+                    id="edit-house-csrf-token">
 
                 <!-- longitude & latitude -->
                 <div class="d-flex flex-column flex-md-row gap-3 mt-3">
-                    <input type="hidden" name="longitude" id="longitude" class="form-control" value="0"
-                        placeholder="longitude">
-                    <input type="hidden" name="latitude" id="latitude" class="form-control" value="0"
-                        placeholder="latitude">
+                    <input type="hidden" name="longitude" id="longitude" class="form-control"
+                        value="<?= $houseObj->coordinate['longitude'] ?>" placeholder="longitude">
+                    <input type="hidden" name="latitude" id="latitude" class="form-control"
+                        value="<?= $houseObj->coordinate['latitude'] ?>" placeholder="latitude">
                 </div>
+
+                <!-- house id -->
+                <input type="hidden" name="house-id" class="form-control mt-3" placeholder="token id"
+                    value="<?= $houseId ?>" id="house-id">
 
                 <!-- district && municipality -->
                 <div class="d-flex flex-column flex-md-row w-100 gap-3 mt-3">
@@ -93,7 +112,9 @@ $page = "houses";
                     <div class="d-flex flex-column w-100 w-md-50 district">
                         <label for="district" class="mb-2 fw-semibold"> District </label>
                         <select name="district" class="form-select" id="district" required>
-                            <option value="" selected hidden> Select District </option>
+                            <option value="<?= $houseObj->address['district'] ?>" selected hidden>
+                                <?= $houseObj->address['district'] ?>
+                            </option>
                             <?php
                             foreach ($districtArray as $districtList) {
                                 ?>
@@ -108,8 +129,8 @@ $page = "houses";
                     <div class="d-flex flex-column w-100 w-md-50 municipality">
                         <label for="municipality-rural" class="mb-2 fw-semibold"> Municipality/ Rural
                             Municipality </label>
-                        <input type="text" name="municipality-rural" id="municipality-rural" class="form-control"
-                            required>
+                        <input type="text" name="municipality-rural" id="municipality-rural"
+                            value="<?= $houseObj->address['municipalityRural'] ?>" class="form-control" required>
                     </div>
                 </div>
 
@@ -118,14 +139,17 @@ $page = "houses";
                     <!-- tole/ village -->
                     <div class="w-100 w-md-50">
                         <label for="tole-village" class="mb-2 fw-semibold"> Tole/ Village </label>
-                        <input type="text" name="tole-village" id="tole-village" class="form-control" required>
+                        <input type="text" name="tole-village" value="<?= $houseObj->address['toleVillage'] ?>"
+                            id="tole-village" class="form-control" required>
                     </div>
 
                     <!-- ward -->
                     <div class="w-100 w-md-50">
                         <label for="ward" class="mb-2 fw-semibold"> Ward </label>
                         <select name="ward" id="ward" class="form-select" required>
-                            <option value="" selected hidden> Select ward </option>
+                            <option value="<?= $houseObj->address['ward'] ?>" selected hidden>
+                                <?= $houseObj->address['ward'] ?>
+                            </option>
                             <option value="1"> 1 </option>
                             <option value="2"> 2 </option>
                             <option value="3"> 3 </option>
@@ -143,7 +167,8 @@ $page = "houses";
                 <div class="d-flex flex-column flex-md-row w-100 w-md-50 flex-row gap-3 mt-3">
                     <div class="w-100">
                         <label for="nearest-landmark" class="fw-semibold mb-2"> Nearest Landmark </label>
-                        <input type="text" name="nearest-landmark" id="nearest-landmark" class="form-control" required>
+                        <input type="text" name="nearest-landmark" value="<?= $houseObj->address['nearestLandmark'] ?>"
+                            id="nearest-landmark" class="form-control" required>
                     </div>
                 </div>
 
@@ -154,8 +179,12 @@ $page = "houses";
                     <div class="image-input-container">
                         <!-- image container -->
                         <div class="image-container" id="image-container-1">
+                            <?php
+                            $houseObj->fetchPhoto($houseId);
+                            $photoSrc = $houseObj->photo != "" ? "/rentrover/uploads/houses/$houseObj->photo" : "/rentrover/uploads/blank.jpg";
+                            ?>
                             <!-- background-image -->
-                            <img src="/rentrover/assets/images/blank.jpg" alt="image-file-1" id="image-file-1">
+                            <img src="<?= $photoSrc ?>" alt="image-file-1" id="image-file-1">
 
                             <!-- delete icon -->
                             <div class="delete-div" id="delete-image-1">
@@ -163,8 +192,8 @@ $page = "houses";
                             </div>
 
                             <!-- file input -->
-                            <input type="file" name="house-photo-1" id="house-photo-1" accept=".jpg, .jpeg, .png, .webp"
-                                required>
+                            <input type="file" name="house-photo-1" id="house-photo-1"
+                                accept=".jpg, .jpeg, .png, .webp" />
                         </div>
 
                         <label for="house-photo-1" class="upload-label small"> <i class="fa-solid fa-upload"></i> Upload
@@ -177,12 +206,14 @@ $page = "houses";
                 <p class="mb-2 mt-4 fw-semibold"> Amenities </p>
                 <div class="d-flex gap-2 flex-wrap input-amenity-container">
                     <?php
+                    $houseObj->fetchAmenity($houseId);
                     $count = 0;
                     foreach ($amenityList as $amenity) {
                         $count++;
                         ?>
                         <div class="d-flex flex-row gap-2 input-amenity">
-                            <input type="checkbox" name="amenity[]" value="<?= $amenity ?>" id="amenity-<?= $count ?>">
+                            <input type="checkbox" name="amenity[]" value="<?= $amenity ?>" id="amenity-<?= $count ?>" <?php if (in_array($amenity, $houseObj->amenity))
+                                    echo "checked"; ?>>
 
                             <label class="amenity-detail" for="amenity-<?= $count ?>">
                                 <img src="/rentrover/assets/icons/amenities/<?= amenityIcon($amenity) ?>" alt="">
@@ -197,10 +228,12 @@ $page = "houses";
                 <!-- additional informations -->
                 <label for="additional-info" class="mb-2 mt-3 fw-semibold"> Some additional informations </label>
                 <textarea name="additional-info" class="form-control mb-2"
-                    placeholder="Some information about the house or the requirements." id="additional-info"></textarea>
+                    placeholder="Some information about the house or the requirements."
+                    id="additional-info"><?= $houseObj->info ?></textarea>
 
                 <!-- submit -->
-                <button type="submit" class="btn btn-brand fit-content mt-3" id="add-house-btn"> Add Now </button>
+                <button type="submit" class="btn btn-success fit-content mt-3" id="update-house-btn"> Update Now
+                </button>
             </form>
         </section>
     </main>
@@ -234,42 +267,46 @@ $page = "houses";
                 $.ajax({
                     url: '/rentrover/app/csrf-token-generation.php',
                     success: function (data) {
-                        $('#add-house-csrf-token').val(data);
+                        $('#edit-house-csrf-token').val(data);
                     }
                 });
             }
 
             generateCsrfToken();
 
-            // add house
-            $('#add-house-form').submit(function (e) {
+            // edit house
+            $('#edit-house-form').on('submit', function (e) {
                 e.preventDefault();
-                var formData = new FormData($('#add-house-form')[0]);
+                var formData = new FormData($('#edit-house-form')[0]);
                 $.ajax({
-                    url: '/rentrover/pages/landlord/app/add-house.php',
+                    url: '/rentrover/pages/landlord/app/update-house.php',
                     type: "POST",
-                    data : formData,
+                    data: formData,
                     contentType: false,
                     processData: false,
                     beforeSend: function () {
-                        $('#add-house-btn').html("Adding...").prop('disabled', true);
+                        $('#update-house-btn').html("Updating...").prop('disabled', true);
                     },
                     success: function (response) {
                         if (response == "true") {
                             $('#error-message').fadeOut();
+                            setTimeout(function () {
+                                window.location.href = "/rentrover/landlord/house-detail/<?= $houseId ?>";
+                            }, 2000);
 
                             // show popup message
-                            showPopupAlert("House added successfully.");
+                            showPopupAlert("House updated successfully.");
+
 
                             // reset form
-                            $('#add-house-form').trigger("reset");
+                            $('#edit-house-form').trigger("reset");
                         } else {
-                            $('#error-message').html("House counldn't be added.").fadeIn();
+                            $('#error-message').html("House counldn't be updated.").fadeIn();
                         }
-                        $('#add-house-btn').html("Add Now").prop('disabled', false);
+                        $('#update-house-btn').html("Update").prop('disabled', false);
                     },
                     error: function () {
-                        $('#add-house-btn').html("Add Now").prop('disabled', false);
+                        $('#update-house-btn').html("Update").prop('disabled', false);
                     },
                 });
             });
@@ -291,15 +328,13 @@ $page = "houses";
             });
 
             $('#delete-image-1').click(function () {
-                $('#image-file-1').attr('src', '/rentrover/assets/images/blank.jpg').show();
+                $('#image-file-1').attr('src', "<?= $photoSrc ?>").show();
                 $('#house-photo-1').val('');
             });
 
             // form reset
-            $('#form-reset').click(function () {
-                $('#add-house-form').trigger("reset");
-                $('#delete-image-1').click();
-                generateCsrfToken();
+            $('#form-reset').on('click', function () {
+                location.reload();
             });
         });
     </script>
