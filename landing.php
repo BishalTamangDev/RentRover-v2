@@ -40,7 +40,7 @@ if (session_status() == PHP_SESSION_NONE)
 
 <body>
     <!-- header -->
-    <?php require_once __DIR__ . '/sections/header-unsigned.php';?>
+    <?php require_once __DIR__ . '/sections/header-unsigned.php'; ?>
 
     <!-- landing-container -->
     <section class="container position-relative landing-container">
@@ -50,7 +50,8 @@ if (session_status() == PHP_SESSION_NONE)
                 Accommodation Solutions.
             </h5>
 
-            <a href="/rentrover/registration" class="btn btn-brand fit-content" id="register-btn"> Register&nbsp;Now </a>
+            <a href="/rentrover/registration" class="btn btn-brand fit-content" id="register-btn"> Register&nbsp;Now
+            </a>
         </div>
     </section>
 
@@ -60,7 +61,7 @@ if (session_status() == PHP_SESSION_NONE)
             <p class="m-0 mt-1 mb-2 fw-semibold fs-4 px-1"> Available Rooms </p>
         </div>
 
-        <section class="room-container">
+        <section class="room-container" id="all-room-container">
             <!-- backup -->
             <div class="d-none room shadow-sm room-element bhk-element non-bhk-element unfurnished-element semi-furnished-element full-furnished-element district-kathmandu-element"
                 data-rent="17000" data-floor="4">
@@ -99,129 +100,12 @@ if (session_status() == PHP_SESSION_NONE)
                     </div>
                 </div>
             </div>
-
-            <!-- room 2 -->
-            <div class="room shadow-sm room-element bhk-element unfurnished-element district-kathmandu-element"
-                data-rent="12000" data-floor="3">
-                <!-- image -->
-                <div class="room-image-div">
-                    <img src="/rentrover/assets/images/room-1.jpg" alt="room image">
-                </div>
-
-                <!-- details -->
-                <div class="room-details">
-                    <!-- location -->
-                    <div class="location-wishlist">
-                        <div class="location-container">
-                            <abbr title="Jaldhunga Marg, Pipalboat, Kathmandu">
-                                <p class="location">
-                                    Pipalboat, Kathmandu
-                                </p>
-                            </abbr>
-                        </div>
-                        <i class="fa-regular fa-bookmark"></i>
-                    </div>
-
-                    <!-- specs :: number of room & floor -->
-                    <p class="spec"> 2 BHK, 3rd floor, Unfurnished </p>
-
-                    <!-- rent -->
-                    <p class="rent"> NPR. 12,000/month </p>
-
-                    <div class="room-bottom">
-                        <div class="rating">
-                            <img src="/rentrover/assets/icons/full-star.png" alt="">
-                            <p class="fw-semibold small"> 2.4 </p>
-                        </div>
-
-                        <a href="/rentrover/room-detail/2" class="btn btn-outlined-brand show-more-btn"> Show More </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- room 3 -->
-            <div class="room shadow-sm room-element non-bhk-element semi-furnished-element district-bhaktapur-element"
-                data-rent="35000" data-floor="5">
-                <!-- image -->
-                <div class="room-image-div">
-                    <img src="/rentrover/assets/images/room-3.jpg" alt="room image">
-                </div>
-
-                <!-- details -->
-                <div class="room-details">
-                    <!-- location -->
-                    <div class="location-wishlist">
-                        <div class="location-container">
-                            <abbr title="Sallaghari, Bhaktapur">
-                                <p class="location">
-                                    Sallaghari, Bhaktapur
-                                </p>
-                            </abbr>
-                        </div>
-                        <i class="fa-regular fa-bookmark"></i>
-                    </div>
-
-                    <!-- specs :: number of room & floor -->
-                    <p class="spec"> 2 Rooms, 5th floor, Semi-furnished </p>
-
-                    <!-- rent -->
-                    <p class="rent"> NPR. 35,000/month </p>
-
-                    <div class="room-bottom">
-                        <div class="rating">
-                            <img src="/rentrover/assets/icons/full-star.png" alt="">
-                            <p class="fw-semibold small"> 2.4 </p>
-                        </div>
-
-                        <a href="/rentrover/room-detail/3" class="btn btn-outlined-brand show-more-btn"> Show More </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- room 4 -->
-            <div class="room shadow-sm room-element bhk-element full-furnished-element district-lalitpur-element"
-                data-rent="45000" data-floor="4">
-                <!-- image -->
-                <div class="room-image-div">
-                    <img src="/rentrover/assets/images/room-4.jpg" alt="room image">
-                </div>
-
-                <!-- details -->
-                <div class="room-details">
-                    <!-- location -->
-                    <div class="location-wishlist">
-                        <div class="location-container">
-                            <abbr title="Imadol, Lalitpur">
-                                <p class="location">
-                                    Imadol, Lalitpur
-                                </p>
-                            </abbr>
-                        </div>
-                        <i class="fa-regular fa-bookmark"></i>
-                    </div>
-
-                    <!-- specs :: number of room & floor -->
-                    <p class="spec"> 1 BHK, 4th floor, Full-furnished </p>
-
-                    <!-- rent -->
-                    <p class="rent"> NPR. 45,000/month </p>
-
-                    <div class="room-bottom">
-                        <div class="rating">
-                            <img src="/rentrover/assets/icons/full-star.png" alt="">
-                            <p class="fw-semibold small"> 2.4 </p>
-                        </div>
-
-                        <a href="/rentrover/room-detail/4" class="btn btn-outlined-brand show-more-btn"> Show More </a>
-                    </div>
-                </div>
-            </div>
         </section>
 
         <!-- load more -->
-        <div class="mt-4 d-flex flex-row load-more-container">
+        <!-- <div class="mt-4 d-flex flex-row load-more-container">
             <button class="btn btn-brand"> Load More </button>
-        </div>
+        </div> -->
     </div>
 
     <!-- about us -->
@@ -390,7 +274,7 @@ if (session_status() == PHP_SESSION_NONE)
     </footer>
 
     <!-- popup alert -->
-     <div class="popup-alert-container" id="popup-alert-container">
+    <div class="popup-alert-container" id="popup-alert-container">
         <p id="popup-message"> Popup alert content. </p>
     </div>
 
@@ -412,6 +296,24 @@ if (session_status() == PHP_SESSION_NONE)
 
     <!-- script -->
     <script src="/rentrover/js/popup-alert.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // load all room
+            function loadAllRoom() {
+                $.ajax({
+                    url: '/rentrover/sections/load-all-room.php',
+                    success: function (data) {
+                        $('#all-room-container').html(data);
+                    }, error: function () {
+                        $('#all-room-container').html("An error occured");
+                    }
+                });
+            }
+
+            loadAllRoom();
+        });
+    </script>
 </body>
 
 </html>

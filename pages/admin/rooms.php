@@ -52,19 +52,19 @@ if (!isset($page))
             <!-- total rooms -->
             <div class="card-v2">
                 <p class="title"> Number of rooms </p>
-                <p class="data"> 120 </p>
+                <p class="data" id="all-room-count"> 0 </p>
             </div>
 
             <!-- acquired rooms -->
             <div class="card-v2">
                 <p class="title"> Acquired </p>
-                <p class="data"> 12 </p>
+                <p class="data" id="acquired-room-count"> 0 </p>
             </div>
 
             <!-- Unacquired room -->
             <div class="card-v2">
                 <p class="title"> Unacquired </p>
-                <p class="data"> 108 </p>
+                <p class="data" id="unacquired-room-count"> 0 </p>
             </div>
         </section>
 
@@ -122,8 +122,8 @@ if (!isset($page))
                         <th scope="col" class="action"> </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="room-row bhk-row unfurnished-row unacquired-row">
+                <tbody id="room-table-body">
+                    <!-- <tr class="room-row bhk-row unfurnished-row unacquired-row">
                         <th scope="row" class="serial"> 1 </th>
                         <td> 10256 </td>
                         <td> Phungling, Pathivara, 3 </td>
@@ -131,42 +131,12 @@ if (!isset($page))
                         <td> BHK, 4BHK </td>
                         <td> Unfurnished </td>
                         <td> Unacquired </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td class="action">
+                        <td class="text-secondary small"> 0000-00-00 00:00:00 </td>
+                        <td class="action text-primary">
                             <a href="/rentrover/pages/admin/room-detail.php" class="text-primary small"> Show details
                             </a>
                         </td>
-                    </tr>
-
-                    <tr class="room-row non-bhk-row semi-furnished-row acquired-row">
-                        <th scope="row" class="serial"> 2 </th>
-                        <td> 2324 </td>
-                        <td> Bhojpur </td>
-                        <td> Shristi Pradhan </td>
-                        <td> Non-BHK, 3 Rooms</td>
-                        <td> Semi-furnished </td>
-                        <td> Acquired </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td class="action">
-                            <a href="/rentrover/pages/admin/room-detail.php" class="text-primary small"> Show details
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr class="room-row bhk-row fully-furnished-row acquired-row">
-                        <th scope="row" class="serial"> 3 </th>
-                        <td> 784516 </td>
-                        <td> Sindhupalchowk </td>
-                        <td> Bishal Tamang </td>
-                        <td> 2 BHK </td>
-                        <td> Fully-furnished </td>
-                        <td> Acquired </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td class="action">
-                            <a href="/rentrover/pages/admin/room-detail.php" class="text-primary small"> Show details
-                            </a>
-                        </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
 
                 <tfoot id="empty-data-foot">
@@ -196,6 +166,54 @@ if (!isset($page))
             let furnishing = "all";
             let acquired = "all";
             let filterState = false;
+
+            // count rooms :: all, acquired , unacquired
+            function countRooms(){
+                // all rooms
+                $.ajax({
+                    url: '/rentrover/pages/admin/app/count-room.php',
+                    success : function (data) {
+                        $('#all-room-count').html(data);
+                    }, error :function () {
+                        $('#all-room-count').html("0");
+                    }
+                });
+
+                // acquired rooms
+                $.ajax({
+                    url: '/rentrover/pages/admin/app/count-acquired-room.php',
+                    success : function (data) {
+                        $('#acquired-room-count').html(data);
+                    }, error :function () {
+                        $('#acquired-room-count').html("0");
+                    }
+                });
+
+                // unacquired rooms
+                $.ajax({
+                    url: '/rentrover/pages/admin/app/count-room.php',
+                    success : function (data) {
+                        $('#unacquired-room-count').html(data);
+                    }, error :function () {
+                        $('#unacquired-room-count').html("0");
+                    }
+                });
+            }
+
+            countRooms();
+
+            // load all rooms
+            function loadAllRoom(){
+                $.ajax({
+                    url: '/rentrover/pages/admin/sections/room-table.php',
+                    success :function(data){
+                        $('#room-table-body').html(data);
+                        toggleEmptyContent();
+                    }
+                });
+            }
+
+            loadAllRoom();
 
             // type
             $('#type').change(function () {
@@ -233,6 +251,7 @@ if (!isset($page))
                 $('.room-row:visible').length == 0 ? $('#empty-data-foot').show() : $('#empty-data-foot').hide();
             }
 
+            // toggle data
             function toggleData() {
                 filterState = false;
                 $('.room-row').show();

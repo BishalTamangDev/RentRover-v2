@@ -1,3 +1,11 @@
+<?php
+require_once __DIR__ . '/../../../classes/user.php';
+if(!isset($profileUser)) {
+    $profileUser = new User();
+    $profileUser->fetch($r_id, "all");
+}
+?>
+
 <header class="position-fixed w-100 header ">
     <div class="container py-3 bg-white d-flex flex-row align-items-center justify-content-between header-container">
         <a href="/rentrover/tenant/home">

@@ -1,3 +1,34 @@
+<?php
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/../../classes/user.php';
+require_once __DIR__ . '/../../classes/house.php';
+require_once __DIR__ . '/../../classes/room.php';
+
+$profileUser = new User();
+
+$houseObj = new House();
+$roomObj = new Room();
+
+$profileUser->fetch($r_id, "all");
+
+$page = "room-detail";
+
+if (!isset($tab))
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
+
+$tempPhotoSrc = '/rentrover/uploads/blank.jpg';
+
+// fetch room detail
+$roomExists = $roomObj->fetch($roomId);
+
+if ($roomExists) {
+    $houseObj->fetch($roomObj->houseId);
+    $location = $houseObj->getAddress();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +37,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> Room Detail </title>
+    <title> Room Detail: <?php echo $roomExists ? $location : "Room Not Found!"; ?> </title>
 
     <link rel="icon" type="image/x-icon" href="/rentrover/assets/brands/rentrover-circular-logo.png">
 
@@ -28,6 +59,7 @@
     <link rel="stylesheet" href="/rentrover/css/room-detail.css">
     <link rel="stylesheet" href="/rentrover/css/review.css">
     <link rel="stylesheet" href="/rentrover/css/header.css">
+    <link rel="stylesheet" href="/rentrover/css/room.css">
     <link rel="stylesheet" href="/rentrover/css/tenant/room-detail.css">
 </head>
 
@@ -36,211 +68,254 @@
     <?php require_once __DIR__ . '/sections/header.php'; ?>
 
     <!-- room detail -->
-    <section class="container room-detail-container pb-4">
-        <!-- top section -->
-        <!-- address, rating, wishlist -->
-        <div class="d-flex flex-row justify-content-between">
-            <div class="d-flex flex-column gap-1 address-review top-section">
-                <p class="m-0 fw-bold fs-4"> Jaldhunga Marga, Pipalboat, Kathmandu </p>
+    <?php
+    if (!$roomExists) {
+        ?>
+        <p class="m-0 fs-1 fw-bold"> Room not found! </p>
+        <?php
+    } else {
+        require_once __DIR__ . '/../../functions/amenity-array.php';
 
-                <div class="d-flex flex-row gap-2 align-items-center rating-div">
-                    <div class="rating">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/half-star.png" alt="">
-                    </div>
-                    <p class="m-0 text-secondary small pt-1"> (3 Reviews) </p>
-                </div>
-            </div>
+        $houseExists = $houseObj->fetch($roomObj->houseId);
 
-            <!-- wishlist -->
-            <i class="fa-regular fa-bookmark pointer fs-5 pt-2" id="wishlist-trigger"></i>
-        </div>
+        if (!$houseExists) {
+            $houseId = $houseObj->houseId;
+            ?>
+            <p class="m-0 fs-1 fw-bold"> House not found! </p>
+            <?php
+        } else {
+            ?>
+            <section class="container room-detail-container pb-4">
+                <!-- top section -->
+                <!-- address, rating, wishlist -->
+                <div class="d-flex flex-row justify-content-between">
+                    <div class="d-flex flex-column gap-1 address-review top-section">
+                        <p class="m-0 fw-bold fs-4"> <?= $location ?> </p>
 
-        <!-- image -->
-        <div class="d-flex flex-column mt-4 gap-2 room-image-container">
-            <div class="left">
-                <img src="/rentrover/assets/images/room-2.jpg" alt="">
-            </div>
-
-            <div class="d-flex flex-row flex-wrap gap-2 right">
-                <div class="room-image">
-                    <img src="/rentrover/assets/images/room-2.jpg" alt="">
-                </div>
-
-                <div class="room-image">
-                    <img src="/rentrover/assets/images/room-2.jpg" alt="">
-                </div>
-
-                <div class="room-image">
-                    <img src="/rentrover/assets/images/room-2.jpg" alt="">
-                </div>
-
-                <div class="room-image">
-                    <img src="/rentrover/assets/images/room-2.jpg" alt="">
-                </div>
-            </div>
-        </div>
-
-        <div class="d-flex flex-column-reverse flex-xl-row details">
-            <!-- requirememnts, amenities and reviews -->
-            <div class="d-flex flex-column gap-3 mt-3 mt-lg-5 requirements-amenities-reviews">
-                <!-- requirements -->
-                <div class="requirements">
-                    <h3 class="m-0 fw-semibold"> Room Requirements </h3>
-                    <p class="m-0 mt-1"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi maiores rerum
-                        repellendus mollitia nesciunt error voluptatum commodi esse placeat. Maxime aliquid accusantium,
-                        ad amet reiciendis obcaecati inventore mollitia ullam esse doloremque modi! Id dolorum a
-                        excepturi, veniam sequi labore sint praesentium est tempora, cum dolorem officia vitae iure
-                        earum repellendus! </p>
-                </div>
-
-                <!-- amenities -->
-                <h3 class="m-0 fw-semibold mt-3"> Amenities </h3>
-                <div class="d-flex flex-row flex-wrap gap-2 amenity-container">
-                    <!-- amenity -->
-                    <div class="amenity">
-                        <img src="/rentrover/assets/icons/amenities/air-conditioner.png" alt="" class="amenity-icon">
-                        <p> Air Contitioning </p>
-                    </div>
-
-                    <!-- amenity -->
-                    <div class="amenity">
-                        <img src="/rentrover/assets/icons/amenities/balcony.png" alt="" class="amenity-icon">
-                        <p> Balcony </p>
-                    </div>
-
-                    <!-- amenity -->
-                    <div class="amenity">
-                        <img src="/rentrover/assets/icons/amenities/fire-place.png" alt="" class="amenity-icon">
-                        <p> Fireplace </p>
-                    </div>
-
-                    <!-- amenity -->
-                    <div class="amenity">
-                        <img src="/rentrover/assets/icons/amenities/internet.png" alt="" class="amenity-icon">
-                        <p> Internet </p>
-                    </div>
-
-                    <!-- amenity -->
-                    <div class="amenity">
-                        <img src="/rentrover/assets/icons/amenities/laundry.png" alt="" class="amenity-icon">
-                        <p> Laundry </p>
-                    </div>
-
-                    <!-- amenity -->
-                    <div class="amenity">
-                        <img src="/rentrover/assets/icons/amenities/parking.png" alt="" class="amenity-icon">
-                        <p> Parking </p>
-                    </div>
-
-                    <!-- amenity -->
-                    <div class="amenity">
-                        <img src="/rentrover/assets/icons/amenities/pets-allowed.png" alt="" class="amenity-icon">
-                        <p> Pets Allowed </p>
-                    </div>
-
-                    <!-- amenity -->
-                    <div class="amenity">
-                        <img src="/rentrover/assets/icons/amenities/prompt-repair-service.png" alt=""
-                            class="amenity-icon">
-                        <p> Promt Repair Service </p>
-                    </div>
-
-                    <!-- amenity -->
-                    <div class="amenity">
-                        <img src="/rentrover/assets/icons/amenities/security.png" alt="" class="amenity-icon">
-                        <p> Security </p>
-                    </div>
-
-                    <!-- amenity -->
-                    <div class="amenity">
-                        <img src="/rentrover/assets/icons/amenities/solar-heating.png" alt="" class="amenity-icon">
-                        <p> Solar Heating </p>
-                    </div>
-
-                    <!-- amenity -->
-                    <div class="amenity">
-                        <img src="/rentrover/assets/icons/amenities/swimming-pool.png" alt="" class="amenity-icon">
-                        <p> Swimming Pool </p>
-                    </div>
-                </div>
-
-                <!-- reviews -->
-                <h3 class="m-0 fw-semibold mt-3"> Reviews and Ratings </h3>
-                <div class="review-container">
-                    <div class="review-div">
-                        <div class="image">
-                            <img src="/rentrover/assets/images/rupak.png" alt="">
-                        </div>
-                        <div class="review-details">
-                            <p class="reviewer"> Tenant Name </p>
-                            <p class="review"> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit,
-                                cupiditate non eligendi sed reiciendis, sapiente eum deleniti nam recusandae eveniet
-                                commodi suscipit eius architecto ut veniam laboriosam! Provident, nisi natus? </p>
+                        <div class="d-flex flex-row gap-2 align-items-center rating-div">
                             <div class="rating">
+                                <img src="/rentrover/assets/icons/full-star.png" alt="">
+                                <img src="/rentrover/assets/icons/full-star.png" alt="">
                                 <img src="/rentrover/assets/icons/full-star.png" alt="">
                                 <img src="/rentrover/assets/icons/full-star.png" alt="">
                                 <img src="/rentrover/assets/icons/half-star.png" alt="">
                             </div>
+                            <p class="m-0 text-secondary small pt-1"> (3 Reviews) </p>
+                        </div>
+                    </div>
+
+                    <!-- wishlist -->
+                    <i class="fa-regular fa-bookmark pointer fs-5 pt-2" id="wishlist-trigger"></i>
+                </div>
+
+                <!-- image -->
+                <div class="d-flex flex-column mt-4 gap-2 room-image-container">
+                    <?php $roomObj->fetchPhotos($roomId); ?>
+                    <div class="left">
+                        <img src="/rentrover/uploads/rooms/<?= $roomObj->photo['first'] ?>" alt="">
+                    </div>
+
+                    <div class="d-flex flex-row flex-wrap gap-2 right">
+                        <div class="room-image">
+                            <img src="/rentrover/uploads/rooms/<?= $roomObj->photo['first'] ?>" alt="">
+                        </div>
+
+                        <div class="room-image">
+                            <img src="/rentrover/uploads/rooms/<?= $roomObj->photo['second'] ?>" alt="">
+                        </div>
+
+                        <div class="room-image">
+                            <img src="/rentrover/uploads/rooms/<?= $roomObj->photo['third'] ?>" alt="">
+                        </div>
+
+                        <div class="room-image">
+                            <img src="/rentrover/uploads/rooms/<?= $roomObj->photo['fourth'] ?>" alt="">
                         </div>
                     </div>
                 </div>
 
-            </div>
+                <div class="d-flex flex-column-reverse flex-xl-row details">
+                    <!-- requirememnts, amenities and reviews -->
+                    <div class="d-flex flex-column gap-3 mt-3 mt-lg-5 requirements-amenities-reviews">
+                        <!-- nearest landmark -->
+                        <div class="requirements">
+                            <h3 class="m-0 fw-semibold"> Nearest Landmark </h3>
+                            <p class="m-0 mt-3"> <?= ucfirst($houseObj->address['nearestLandmark']) ?> </p>
+                        </div>
 
-            <!-- remaining specs -->
-            <div class="mt-4 mt-lg-5 specifications">
-                <table class="border table mt-0 specification-table">
-                    <!-- room number -->
-                    <tr>
-                        <td class="title"> Room Number </td>
-                        <td class="data"> 100 </td>
-                    </tr>
+                        <!-- additional info -->
+                        <div class="requirements mt-4">
+                            <h3 class="m-0 fw-semibold"> Additional Information </h3>
+                            <p class="m-0 mt-3"> <?= ucfirst($houseObj->info) ?> </p>
+                        </div>
 
-                    <!-- type -->
-                    <tr>
-                        <td class="title"> Type </td>
-                        <td class="data"> BHK || Non-BHK </td>
-                    </tr>
+                        <!-- amenities -->
+                        <h3 class="m-0 fw-semibold mt-4"> Amenities </h3>
+                        <div class="d-flex flex-row mt-2 flex-wrap gap-2 amenity-container">
+                            <?php $roomObj->fetchAmenity($roomId) ?>
+                            <?php
+                            foreach ($roomObj->amenity as $amenity) {
+                                if ($amenity != '') {
 
-                    <!-- furnishing -->
-                    <tr>
-                        <td class="title"> Furnishing </td>
-                        <td class="data"> Unfirnished </td>
-                    </tr>
+                                    ?>
+                                    <!-- amenity -->
+                                    <div class="amenity">
+                                        <img src="/rentrover/assets/icons/amenities/<?= amenityIcon($amenity) ?>" alt=""
+                                            class="amenity-icon">
+                                        <p> <?= $amenity ?> </p>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
 
-                    <!-- floor -->
-                    <tr>
-                        <td class="title"> Floor </td>
-                        <td class="data"> 3rd </td>
-                    </tr>
+                        <!-- reviews -->
+                        <h3 class="m-0 fw-semibold mt-4"> Reviews and Ratings </h3>
+                        <div class="review-container">
+                            <div class="review-div">
+                                <div class="image">
+                                    <img src="/rentrover/assets/images/rupak.png" alt="">
+                                </div>
+                                <div class="review-details">
+                                    <p class="reviewer"> Tenant Name </p>
+                                    <p class="review"> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit,
+                                        cupiditate non eligendi sed reiciendis, sapiente eum deleniti nam recusandae eveniet
+                                        commodi suscipit eius architecto ut veniam laboriosam! Provident, nisi natus? </p>
+                                    <div class="rating">
+                                        <img src="/rentrover/assets/icons/full-star.png" alt="">
+                                        <img src="/rentrover/assets/icons/full-star.png" alt="">
+                                        <img src="/rentrover/assets/icons/half-star.png" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    <!-- type -->
-                    <tr>
-                        <td class="title"> Rent Amount </td>
-                        <td class="data text-success fw-semibold"> NRS. 12,000.00 </td>
-                    </tr>
+                    <!-- remaining specs -->
+                    <div class="mt-4 mt-lg-5 specifications">
+                        <table class="border table mt-0 specification-table">
+                            <!-- room number -->
+                            <tr>
+                                <td class="title"> Room Number </td>
+                                <td class="data"> <?= $roomObj->number ?> </td>
+                            </tr>
 
-                    <!-- room acquired state -->
-                    <tr>
-                        <td class="title"> Room state </td>
-                        <td class="data"> Acquired </td>
-                    </tr>
-                </table>
+                            <!-- type -->
+                            <tr>
+                                <td class="title"> Type </td>
+                                <td class="data"> <?= $roomObj->type == 'bhk' ? 'BHK' : "Non-BHK" ?> </td>
+                            </tr>
 
-                <div class="room-operations">
-                    <button type="button" class="btn btn-brand" data-bs-toggle="modal" data-bs-target="#login-modal">
-                        Apply Now </button>
+                            <!-- furnishing -->
+                            <tr>
+                                <td class="title"> Furnishing </td>
+                                <td class="data"> <?= ucwords($roomObj->furnishing) ?> </td>
+                            </tr>
+
+                            <!-- floor -->
+                            <tr>
+                                <td class="title"> Floor </td>
+                                <td class="data">
+                                    <?php
+                                    echo $roomObj->floor;
+                                    $x = $roomObj->floor % 10;
+                                    ?>
+                                    <sup>
+                                        <?php
+                                        if ($x == 1) {
+                                            echo "st";
+                                        } elseif ($x == 2) {
+                                            echo "nd";
+                                        } elseif ($x == 3) {
+                                            echo "rd";
+                                        } else {
+                                            echo "th";
+                                        }
+                                        ?> </sup>
+                                </td>
+                            </tr>
+
+                            <!-- type -->
+                            <tr>
+                                <td class="title"> Rent Amount </td>
+                                <td class="data text-success fw-semibold"> <?= "NPR." . number_format($roomObj->rent, 2) ?> </td>
+                            </tr>
+
+                            <!-- room acquired state -->
+                            <tr>
+                                <td class="title"> Room state </td>
+                                <td class="data"> <?= $roomObj->flag == 'verified' ? "Available" : 'Nor-available' ?> </td>
+                            </tr>
+                        </table>
+
+                        <div class="room-operations">
+                            <?php
+                            if ($roomObj->flag == 'verified') {
+                                ?>
+                                <button type="button" class="btn btn-brand" data-bs-toggle="modal"
+                                    data-bs-target="#room-apply-modal"> Apply Now </button>
+                                <?php
+                            } else {
+                                ?>
+                                <button type="button" class="btn btn-brand" data-bs-toggle="modal"
+                                    data-bs-target="#not-available-modal"> Apply Now </button>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- modal -->
-    <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login modal" aria-hidden="true">
+            <!-- room of the same house -->
+            <section class="container room-container" id="same-house-room-container">
+                <!-- backup -->
+                <div class="d-none room shadow-sm room-element bhk-element non-bhk-element unfurnished-element semi-furnished-element full-furnished-element district-kathmandu-element"
+                    data-rent="17000" data-floor="4">
+                    <!-- image -->
+                    <div class="room-image-div">
+                        <img src="/rentrover/assets/images/room-2.jpg" alt="room image">
+                    </div>
+
+                    <!-- details -->
+                    <div class="room-details">
+                        <!-- location -->
+                        <div class="location-wishlist">
+                            <div class="location-container">
+                                <abbr title="Pipalboat, Kathmandu">
+                                    <p class="location">
+                                        Pipalboat, Kathmandu
+                                    </p>
+                                </abbr>
+                            </div>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+
+                        <!-- specs :: number of room & floor -->
+                        <p class="spec"> 2 Rooms, 3rd floor </p>
+
+                        <!-- rent -->
+                        <p class="rent"> NPR. 12,000/month </p>
+
+                        <div class="room-bottom">
+                            <div class="rating">
+                                <img src="/rentrover/assets/icons/full-star.png" alt="">
+                                <p class="fw-semibold small"> 2.4 </p>
+                            </div>
+
+                            <a href="/rentrover/room-detail/1" class="btn btn-outlined-brand show-more-btn"> Show More </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <?php
+        }
+    }
+    ?>
+
+    <!-- application modal -->
+    <div class="modal fade" id="room-apply-modal" tabindex="-1" aria-labelledby="room apply modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="p-3 modal-content">
                 <div class="d-flex flex-row justify-content-between heading pt-2">
@@ -275,6 +350,22 @@
             </div>
         </div>
     </div>
+
+    <!-- room not available modal -->
+    <div class="modal fade" id="not-available-modal" tabindex="-1" aria-labelledby="not available modal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="p-3 modal-content">
+                <div class="d-flex flex-row justify-content-between heading pt-2">
+                    <h5 class="m-0"> Not-available </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <p class="m-0 fs-5 mt-3 text-danger"> This room is not accepting the application at this moment. </p>
+            </div>
+        </div>
+    </div>
+
 
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -344,6 +435,25 @@
                 $('#move-out-date').removeAttr("required");
             }
         });
+
+        // loading the rooms of the same
+        function loadSameHouseRooms(){
+            house_id = <?=$roomObj->houseId ?? 0?>;
+            room_id = <?=$roomId ?? 0 ?>;
+
+            if(house_id != 0 && room_id != 0){
+                $.ajax({
+                    url: '/rentrover/pages/tenant/sections/load-room-of-same-house.php',
+                    method: "POST",
+                    data: { houseId: house_id, roomId: room_id },
+                    success: function (data) {
+                        $('#same-house-room-container').html(data);
+                    }
+                });
+            }
+        }
+
+        loadSameHouseRooms();
     </script>
 </body>
 

@@ -193,21 +193,22 @@ if (in_array($arr[1], $unsignedUserPages)) {
             $redirected = true;
             break;
         case 'add-room':
-            if (isset($arr[3])) {
-                if ($arr[3] != '') {
-                    $task = $arr[3];
-                } else {
-                    $task = 'add';
-                }
+            require_once __DIR__ . '/pages/landlord/add-room.php';
+            $redirected = true;
+            break;
+        case 'edit-room':
+            if(!isset($arr[3])) {
+                header("Location: /rentrover/landlord/rooms/");
             } else {
-                $task = "add";
-            }
-
-            if ($task == "add" || $task == "edit") {
-                require_once __DIR__ . '/pages/landlord/add-room.php';
+                $roomId = $arr[3];
+                if($roomId == '') {
+                    header("Location: /rentrover/landlord/rooms/");
+                }
+                require_once __DIR__ . '/pages/landlord/edit-room.php';
                 $redirected = true;
             }
             break;
+
         case 'room-detail':
             if (isset($arr[3])) {
                 if ($arr[3] != '') {

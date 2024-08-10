@@ -85,7 +85,7 @@ $page = "dashboard";
 
                 <div class="details">
                     <p class="title"> Rooms </p>
-                    <p class="data"> 18,566 </p>
+                    <p class="data" id="room-count"> </p>
                 </div>
             </div>
 
@@ -227,7 +227,7 @@ $page = "dashboard";
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
 
     <script>
-        // user pie chart
+        // room pie chart
         var roomChart = new Chart($('#room-pie-chart'), {
             type: 'pie',
             data: {
@@ -246,8 +246,9 @@ $page = "dashboard";
         $(document).ready(function () {
             var userCount = 0;
             var houseCount = 0;
+            var roomCount = 0;
 
-            // counting users
+            // animated counting users
             function animatedUserCounting() {
                 var count = 0;
 
@@ -263,7 +264,7 @@ $page = "dashboard";
                 }, 150);
             }
 
-            // counting houses
+            // animated counting houses
             function animatedHouseCounting() {
                 var count = 0;
 
@@ -277,7 +278,21 @@ $page = "dashboard";
                 }, 150);
             }
 
-            // all users
+            // animated counting rooms
+            function animatedRoomCounting() {
+                var count = 0;
+
+                var interval = setInterval(function () {
+                    if (count <= roomCount) {
+                        $('#room-count').html(count++);
+                    } else {
+                        clearInterval(interval);
+                    }
+
+                }, 150);
+            }
+
+            // count all users
             $.ajax({
                 url: '/rentrover/pages/admin/app/count-user.php',
                 type: "POST",
@@ -291,16 +306,28 @@ $page = "dashboard";
                 },
             });
 
-            // count house
+            // count all house
             $.ajax({
                 url: '/rentrover/pages/admin/app/count-house.php',
-                type: "POST",
                 success: function (data) {
                     houseCount = data;
                     animatedHouseCounting();
                 },
                 error: function (data) {
                     $('#house-count').html('0');
+                },
+            });
+
+            // count all roms
+            $.ajax({
+                url:'/rentrover/pages/admin/app/count-room.php',
+                type: "POST",
+                success: function (data) {
+                    roomCount = data;
+                    animatedRoomCounting();
+                },
+                error: function (data) {
+                    $('#room-count').html('0');
                 },
             });
         });

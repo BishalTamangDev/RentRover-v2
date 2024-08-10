@@ -52,13 +52,14 @@ $page = "rooms";
     <?php require_once __DIR__ . '/sections/aside.php'; ?>
 
     <main>
-    <?php
+        <?php
         $eligible = $house->checkIfEligibleToAddRoom($r_id);
-        
-        if(!$eligible) {
+
+        if (!$eligible) {
             ?>
             <div class="alert alert-danger" role="alert">
-                Please add house first to add room. <a href="/rentrover/landlord/add-house" class="text-primary"> Click here </a> to add house.
+                Please add house first to add room. <a href="/rentrover/landlord/add-house" class="text-primary"> Click here
+                </a> to add house.
             </div>
             <?php
         }
@@ -69,30 +70,31 @@ $page = "rooms";
             <!-- total rooms -->
             <div class="card-v2">
                 <p class="title"> Number of rooms </p>
-                <p class="data"> 120 </p>
+                <p class="data" id="all-room-count"> 0 </p>
             </div>
 
             <!-- acquired rooms -->
             <div class="card-v2">
                 <p class="title"> Acquired </p>
-                <p class="data"> 12 </p>
+                <p class="data" id="acquired-room-count"> 0 </p>
             </div>
 
             <!-- Unacquired room -->
             <div class="card-v2">
                 <p class="title"> Unacquired </p>
-                <p class="data"> 108 </p>
+                <p class="data" id="unacquired-room-count"> 0 </p>
             </div>
         </section>
 
         <!-- check if the landlord is eligible for adding room -->
-        
-            <!-- add room button -->
-            <button onclick="window.location.href='/rentrover/landlord/add-room'"
-                class="d-flex flex-row gap-2 align-items-center btn btn-brand mb-3 mt-4 fit-content" <?php if(!$eligible) echo "disabled"; ?>> <i class="fa fa-add"></i> Add New Room </button>
+
+        <!-- add room button -->
+        <button onclick="window.location.href='/rentrover/landlord/add-room'"
+            class="d-flex flex-row gap-2 align-items-center btn btn-brand mb-3 mt-4 fit-content" <?php if (!$eligible)
+                echo "disabled"; ?>> <i class="fa fa-add"></i> Add New Room </button>
 
         <!-- filter -->
-        <section class="filter-container">
+        <section class="flex-wrap filter-container">
             <!-- room type -->
             <div class="parameter">
                 <label for="type"> Room Type </label>
@@ -144,8 +146,8 @@ $page = "rooms";
                         <th scope="col" class="action"> </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="room-row bhk-row unfurnished-row unacquired-row">
+                <tbody id="room-table-body">
+                    <!-- <tr class="room-row bhk-row unfurnished-row unacquired-row">
                         <th scope="row" class="serial"> 1 </th>
                         <td> 10256 </td>
                         <td> Phungling, Pathivara, 3 </td>
@@ -158,37 +160,7 @@ $page = "rooms";
                                 Show details
                             </a>
                         </td>
-                    </tr>
-
-                    <tr class="room-row non-bhk-row semi-furnished-row acquired-row">
-                        <th scope="row" class="serial"> 2 </th>
-                        <td> 2324 </td>
-                        <td> Bhojpur </td>
-                        <td> Non-BHK, 3 Rooms</td>
-                        <td> Semi-furnished </td>
-                        <td> Acquired </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td class="action">
-                            <a href="/rentrover/landlord/room-detail/2" class="text-primary small">
-                                Show details
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr class="room-row bhk-row fully-furnished-row acquired-row">
-                        <th scope="row" class="serial"> 3 </th>
-                        <td> 784516 </td>
-                        <td> Sindhupalchowk </td>
-                        <td> 2 BHK </td>
-                        <td> Fully-furnished </td>
-                        <td> Acquired </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td class="action">
-                            <a href="/rentrover/landlord/room-detail/3" class="text-primary small">
-                                Show details
-                            </a>
-                        </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
 
                 <tfoot id="empty-data-foot">
@@ -238,6 +210,55 @@ $page = "rooms";
             let acquired = "all";
             let filterState = false;
 
+            // count rooms :: all, acquired , unacquired
+            function countRooms(){
+                // all rooms
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-room.php',
+                    success : function (data) {
+                        $('#all-room-count').html(data);
+                    }, error :function () {
+                        $('#all-room-count').html("0");
+                    }
+                });
+
+                // acquired rooms
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-acquired-room.php',
+                    success : function (data) {
+                        $('#acquired-room-count').html(data);
+                    }, error :function () {
+                        $('#acquired-room-count').html("0");
+                    }
+                });
+
+                // unacquired rooms
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-unacquired-room.php',
+                    success : function (data) {
+                        $('#unacquired-room-count').html(data);
+                    }, error :function () {
+                        $('#unacquired-room-count').html("0");
+                    }
+                });
+            }
+
+            countRooms();
+
+            // load all rooms
+            function loadAllRoom() {
+                const landlord_id = <?= $r_id ?>;
+                $.ajax({
+                    url: '/rentrover/pages/landlord/sections/room-table.php',
+                    success: function (data) {
+                        $('#room-table-body').html(data);
+                        toggleEmptyContent();
+                    }
+                });
+            }
+
+            loadAllRoom();
+
             // type
             $('#type').change(function () {
                 type = $('#type').val();
@@ -275,11 +296,6 @@ $page = "rooms";
             }
 
             function toggleData() {
-                console.clear();
-                console.log(type);
-                console.log(furnishing);
-                console.log(acquired);
-
                 filterState = false;
                 $('.room-row').show();
                 // type

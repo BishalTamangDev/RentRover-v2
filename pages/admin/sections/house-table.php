@@ -1,8 +1,11 @@
 <?php
 
 require_once __DIR__ . '/../../../classes/house.php';
+require_once __DIR__ . '/../../../classes/room.php';
 require_once __DIR__ . '/../../../classes/user.php';
+
 $tempHouse = new House();
+$tempRoom = new Room();
 $tempUser = new User();
 
 $houseList = $tempHouse->fetchAllHouse();
@@ -26,6 +29,7 @@ if (sizeof($houseList) > 0) {
                     <?= $landlordName ?> 
                 </a> 
             </td>
+            <td> <?= $tempRoom->countRoomOfThisHouse($id) ?> </td>
             <td class="small text-secondary"> <?= $house['registration_date'] ?> </td>
             <td class="action">
                 <a href="/rentrover/admin/house-detail/<?= $id ?>" class="text-primary small">

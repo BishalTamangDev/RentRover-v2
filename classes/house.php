@@ -328,4 +328,32 @@ class House
         $result = $conn->query($query);
         return ($result->num_rows > 0) ? true : false;
     }
+
+     // delete house
+     public function delete($houseId)
+     {
+         global $conn;
+         $query = "DELETE FROM house_tb WHERE house_id = '$houseId'";
+         $result = $conn->query($query);
+         if ($result) {
+             // delete amenity
+             $amenityQuery = "DELETE FROM amenity_tb WHERE house_id = '$houseId'";
+             $amenityQueryResult = $conn->query($amenityQuery);
+ 
+             // delete photos
+             $photoFetchQuery = "SELECT * FROM house_photo_tb WHERE house_id = '$houseId'";
+             $photoFetchQueryResult = $conn->query($photoFetchQuery);
+ 
+             if($photoFetchQueryResult->num_rows > 0) {
+                 while($row = $photoFetchQueryResult->fetch_assoc()){
+                     $file = $row['photo'];
+                     unlink("../../../uploads/houses/$file");
+                 }
+             }
+ 
+             $photoQuery = "DELETE FROM house_photo_tb WHERE house_id = '$houseId'";
+             $photoQueryResult = $conn->query($photoQuery);
+         }
+         return $result;
+     }
 }

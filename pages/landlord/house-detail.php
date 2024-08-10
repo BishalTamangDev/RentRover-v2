@@ -52,6 +52,7 @@ $page = "houses";
     <link rel="stylesheet" href="/rentrover/css/style.css">
     <link rel="stylesheet" href="/rentrover/css/room-detail.css">
     <link rel="stylesheet" href="/rentrover/css/room.css">
+    <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
     <link rel="stylesheet" href="/rentrover/css/review.css">
     <link rel="stylesheet" href="/rentrover/css/aside.css">
 </head>
@@ -152,7 +153,7 @@ $page = "houses";
 
                             <!-- actions :: edit || delete -->
                             <div class="room-operations">
-                                <a href="/rentrover/landlord/edit-house/<?= $houseId ?>" type="button" class="btn btn-brand"> <i
+                                <a href="/rentrover/landlord/edit-house/<?= $houseId ?>" type="button" class="btn btn-outlined-brand"> <i
                                         class="fa-solid fa-arrow-up-right-from-square"></i> Edit </a>
                                 <button class="btn btn-danger" data-leave-application-id="" data-bs-toggle="modal"
                                     data-bs-target="#deleteHouseModal"> <i class="fa fa-trash"></i> Delete House </button>
@@ -163,9 +164,9 @@ $page = "houses";
 
                 <!-- rooms in this house -->
                 <p class="heading fw-semibold mt-5 fs-2"> Rooms in this house </p>
-                <section class="room-container">
+                <section class="room-container" id="house-room-container">
                     <!-- backup -->
-                    <div class="room shadow-sm room-element bhk-element non-bhk-element unfurnished-element semi-furnished-element full-furnished-element district-kathmandu-element"
+                    <div class="room shadow-sm d-none room-element bhk-element non-bhk-element unfurnished-element semi-furnished-element full-furnished-element district-kathmandu-element"
                         data-rent="17000" data-floor="4">
                         <!-- image -->
                         <div class="room-image-div">
@@ -211,7 +212,6 @@ $page = "houses";
                 <?php
             }
             ?>
-
             <?php
         } else {
             ?>
@@ -238,13 +238,19 @@ $page = "houses";
 
                     <!-- action -->
                     <div class="d-flex flex-row action mt-2 gap-2">
-                        <button class="btn btn-outline-danger"> <i class="fa fa-trash"></i> Delete Now </button>
+                        <button class="btn btn-outline-danger" id="delete-house-btn"> <i class="fa fa-trash"></i> Delete
+                            Now </button>
                         <button class="btn btn-success" data-bs-dismiss="modal" aria-label="Close"> <i
                                 class="fa fa-multiply"></i> Cancel </button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- popup alert -->
+    <div class="popup-alert-container" id="popup-alert-container">
+        <p id="popup-message"> Popup alert content. </p>
     </div>
 
     <!-- bootstrap js :: cdn -->
@@ -257,6 +263,45 @@ $page = "houses";
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+    <!-- popup script -->
+    <script src="/rentrover/js/popup-alert.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#delete-house-btn').click(function () {
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/delete-house.php',
+                    type: "POST",
+                    data: { houseId: <?= $houseId ?> },
+                    beforeSend: function () {
+                        $('#delete-house-btn').html("Deleting...").prop('disabled', true);
+                    }, success: function (response) {
+                        if (response == "true") {
+                            showPopupAlert("House deleted successfully.");
+                            $(location).attr('href', '/rentrover/landlord/houses');
+                        } else {
+                            showPopupAlert("House couldn't be deleted.");
+                        }
+                        $('#delete-house-btn').html("<i class='fa fa-trash'></i>Delete Now").prop('disabled', false);
+                    }, error: function () {
+                        $('#delete-house-btn').html("<i class='fa fa-trash'></i>Delete Now").prop('disabled', false);
+                    }
+                });
+            });
+
+            // loading rooms of this house
+            $.ajax({
+                url: '/rentrover/pages/landlord/sections/load-room-for-house.php',
+                type: "POST",
+                data: { houseId: <?= $houseId ?> },
+                success: function (data) {
+                    console.log(data);
+                    $('#house-room-container').html(data);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

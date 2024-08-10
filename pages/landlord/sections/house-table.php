@@ -6,7 +6,10 @@ if (!isset($_POST['landlordId'])) {
 }
 
 require_once __DIR__ . '/../../../classes/house.php';
+require_once __DIR__ . '/../../../classes/room.php';
+
 $tempHouse = new House();
+$tempRoom = new Room();
 
 $landlordId = $_POST['landlordId'];
 
@@ -23,7 +26,7 @@ if (sizeof($houseList) > 0) {
         <tr class="house-row">
             <th scope="row" class="serial"> <?= $serial++ ?> </th>
             <td> <?= $address ?> </td>
-            <td> <?= "-" ?> </td>
+            <td> <?= $tempRoom->countRoomOfThisHouse($id) ?> </td>
             <td class="small text-secondary"> <?= $house['registration_date'] ?> </td>
             <td class="action">
                 <a href="/rentrover/landlord/house-detail/<?= $id ?>" class="text-primary small">

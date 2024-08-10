@@ -81,24 +81,6 @@ if (!isset($page))
                     <div class="left">
                         <img src="<?= $photoSrc ?>" alt="">
                     </div>
-                    <!-- 
-                    <div class="d-flex flex-row flex-wrap gap-2 right">
-                        <div class="room-image">
-                            <img src="/rentrover/assets/images/room-2.jpg" alt="">
-                        </div>
-
-                        <div class="room-image">
-                            <img src="/rentrover/assets/images/room-2.jpg" alt="">
-                        </div>
-
-                        <div class="room-image">
-                            <img src="/rentrover/assets/images/room-2.jpg" alt="">
-                        </div>
-
-                        <div class="room-image">
-                            <img src="/rentrover/assets/images/room-2.jpg" alt="">
-                        </div>
-                    </div> -->
                 </div>
 
                 <div class="d-flex flex-column-reverse justify-content-between flex-xl-row details">
@@ -189,10 +171,9 @@ if (!isset($page))
 
             <!-- rooms in this house -->
             <p class="heading fw-semibold mt-5 fs-2"> Rooms in this house </p>
-            <section class="room-container">
+            <section class="room-container" id="house-room-container">
                 <!-- backup -->
-                <div class="room shadow-sm room-element bhk-element non-bhk-element unfurnished-element semi-furnished-element full-furnished-element district-kathmandu-element"
-                    data-rent="17000" data-floor="4">
+                <div class="d-none room shadow-sm">
                     <!-- image -->
                     <div class="room-image-div">
                         <img src="/rentrover/assets/images/room-2.jpg" alt="room image">
@@ -248,6 +229,20 @@ if (!isset($page))
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/rentrover/pages/admin/sections/load-room-for-house.php',
+                type: "POST",
+                data: { houseId: <?= $houseId ?> },
+                success: function (data) {
+                    console.log(data);
+                    $('#house-room-container').html(data);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
