@@ -88,7 +88,7 @@ if (sizeof($allRoomList) > 0) {
                 </p>
 
                 <!-- rent -->
-                <p class="rent"> <?= "NPR. " . number_format($rent, 2) ?> </p>
+                <p class="rent text-success"> <?= "NPR. " . number_format($rent, 2) ?> </p>
 
                 <div class="room-bottom">
                     <div class="rating">

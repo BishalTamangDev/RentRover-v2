@@ -53,10 +53,9 @@ if (!isset($tab))
         <!-- wishlist container -->
         <section class="mt-4 wishlist-container">
             <!-- room container -->
-            <section class="room-container">
+            <section class="room-container" id="wishlist-room-container">
                 <!-- backup -->
-                <div class="room shadow-sm room-element bhk-element non-bhk-element unfurnished-element semi-furnished-element full-furnished-element district-kathmandu-element"
-                    data-rent="17000" data-floor="4">
+                <div class="d-none invisible room shadow-sm" data-rent="17000" data-floor="4">
                     <!-- image -->
                     <div class="room-image-div">
                         <img src="/rentrover/assets/images/room-2.jpg" alt="room image">
@@ -95,9 +94,9 @@ if (!isset($tab))
                 </div>
             </section>
 
-            <div class="empty-context-container">
+            <div class="invisible empty-context-container" id="empty-context-container">
                 <img src="/rentrover/assets/images/empty.png" alt="">
-                <p class="m-0 text-danger"> Empty! </p>
+                <p class="m-0 text-danger"> Your wishlist is empty! </p>
             </div>
         </section>
     </main>
@@ -112,7 +111,71 @@ if (!isset($tab))
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
     <script type="text/javascript" src="/rentrover/js/tenant.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            function loadWishlist() {
+                $.ajax({
+                    url: '/rentrover/pages/tenant/sections/load-wishlist.php',
+                    type: "POST",
+                    data: { userId: <?= $r_id ?> },
+                    success: function (data) {
+                        if (data == false) {
+                            $('#empty-context-container').removeClass('invisible');
+                        } else {
+                            $('#empty-context-container').addClass('invisible');
+                        }
+                        $('#wishlist-room-container').html(data);
+                    }
+                });
+            }
+
+            loadWishlist();
+
+            // wishlist
+            $(document).on('click', '.wish-icon', function (e) {
+                room_id = $(this).data('id');
+                task = $(this).data('task');
+
+                var targetIcon = $(this).closest("i");
+                var targetRoomContainer = $(this).closest(".room");
+
+                $.ajax({
+                    url: '/rentrover/pages/tenant/app/toggle-wishlist.php',
+                    data: { roomId: room_id, toDo: task },
+                    type: 'POST',
+                    beforeSend: function () {
+                        if (task == 'add') {
+                            targetIcon.data('task', 'remove');
+                            targetIcon.addClass('fa-solid');
+                            targetIcon.removeClass('fa-regular');
+                        } else {
+                            targetIcon.data('task', 'add');
+                            targetIcon.addClass('fa-regular');
+                            targetIcon.removeClass('fa-solid');
+                            targetRoomContainer.hide();
+                            toggleEmptySection();
+                        }
+                    },
+                    success: function (response) {
+                        if (response != true) {
+                            location.reload();
+                        }
+                    }
+                });
+
+                function toggleEmptySection() {
+                    console.log("toggle");
+                    if ($('.room:visible').length == 0) {
+                        $('#empty-context-container').removeClass('invisible').fadeIn("slow");
+                    }
+                }
+            });
+
+        });
+    </script>
 </body>
 
 </html>

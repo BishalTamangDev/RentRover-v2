@@ -1,11 +1,19 @@
 <?php
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
 require_once __DIR__ . '/../../../classes/house.php';
 require_once __DIR__ . '/../../../classes/room.php';
 require_once __DIR__ . '/../../../classes/user.php';
+require_once __DIR__ . '/../../../classes/wishlist.php';
 
 $tempUser = new User();
 $tempHouse = new House();
 $tempRoom = new Room();
+$tempWishlist = new Wishlist();
+
+$tempWishlist->setUserId($_SESSION['rentrover-id']);
+$wishlist = $tempWishlist->fetchList();
 
 $allRoomList = $tempRoom->fetchAllRoom();
 
@@ -62,7 +70,19 @@ foreach ($allRoomList as $room) {
                         </p>
                     </abbr>
                 </div>
-                <i class="fa-regular fa-bookmark"></i>
+
+                <!-- wishlist -->
+                <?php
+                if (in_array($roomId, $wishlist)) {
+                    ?>
+                    <i class="fa-solid fa-bookmark wish-icon" data-task="remove" data-id="<?= $roomId ?>"></i>
+                    <?php
+                } else {
+                    ?>
+                    <i class="fa-regular fa-bookmark wish-icon out" data-task="add" data-id="<?= $roomId ?>"></i>
+                    <?php
+                }
+                ?>
             </div>
 
             <!-- specs :: number of room & floor -->
@@ -74,11 +94,11 @@ foreach ($allRoomList as $room) {
                 if ($x == 1) {
                     ?>
                     <sup> st </sup>
-                <?php
+                    <?php
                 } elseif ($x == 2) {
                     ?>
                     <sup> nd </sup>
-                <?php
+                    <?php
                 } elseif ($x == 3) {
                     ?>
                     <sup> rd </sup>
@@ -88,7 +108,7 @@ foreach ($allRoomList as $room) {
             </p>
 
             <!-- rent -->
-            <p class="rent"> <?= "NPR. " . number_format($rent, 2) ?> </p>
+            <p class="rent text-success"> <?= "NPR. " . number_format($rent, 2) ?> </p>
 
             <div class="room-bottom">
                 <div class="rating">

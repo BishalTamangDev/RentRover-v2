@@ -5,21 +5,15 @@ if (session_status() == PHP_SESSION_NONE)
 require_once __DIR__ . '/../../../classes/house.php';
 require_once __DIR__ . '/../../../classes/room.php';
 require_once __DIR__ . '/../../../classes/user.php';
-require_once __DIR__ . '/../../../classes/wishlist.php';
 
 $tempUser = new User();
 $tempHouse = new House();
 $tempRoom = new Room();
-$tempWishlist = new Wishlist();
 
 $houseId = $_POST['houseId'];
 $currentRoomId = $_POST['roomId'];
 
 $allRoomList = $tempRoom->fetchRoomByHouseId($houseId);
-
-$tempWishlist->setUserId($_SESSION['rentrover-id']);
-
-$wishlist = $tempWishlist->fetchList();
 
 $count = 0;
 foreach ($allRoomList as $room) {
@@ -77,18 +71,9 @@ foreach ($allRoomList as $room) {
                             </p>
                         </abbr>
                     </div>
+
                     <!-- wishlist -->
-                    <?php
-                    if (in_array($roomId, $wishlist)) {
-                        ?>
-                        <i class="fa-solid fa-bookmark wish-icon" data-task="remove" data-id="<?= $roomId ?>"></i>
-                        <?php
-                    } else {
-                        ?>
-                        <i class="fa-regular fa-bookmark wish-icon" data-task="add" data-id="<?= $roomId ?>"></i>
-                        <?php
-                    }
-                    ?>
+                    <!-- <i class="fa-solid fa-bookmark wish-icon"></i> -->
                 </div>
 
                 <!-- specs :: number of room & floor -->
@@ -122,7 +107,7 @@ foreach ($allRoomList as $room) {
                         <p class="fw-semibold small"> 2.4 </p>
                     </div>
 
-                    <a href="/rentrover/tenant/room-detail/<?= $roomId ?>" class="btn btn-outlined-brand show-more-btn">
+                    <a href="/rentrover/room-detail/<?= $roomId ?>" class="btn btn-outlined-brand show-more-btn">
                         Show More </a>
                 </div>
             </div>

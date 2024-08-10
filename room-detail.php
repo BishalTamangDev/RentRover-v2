@@ -47,6 +47,7 @@ if ($roomExists) {
     <link rel="stylesheet" href="/rentrover/css/header-unsigned.css">
     <link rel="stylesheet" href="/rentrover/css/room-detail.css">
     <link rel="stylesheet" href="/rentrover/css/review.css">
+    <link rel="stylesheet" href="/rentrover/css/room.css">
 </head>
 
 <body>
@@ -80,7 +81,7 @@ if ($roomExists) {
                 <!-- address, rating, wishlist -->
                 <div class="d-flex flex-row justify-content-between">
                     <div class="d-flex flex-column gap-1 address-review top-section">
-                        <p class="m-0 fw-bold fs-4"> <?=$location?> </p>
+                        <p class="m-0 fw-bold fs-4"> <?= $location ?> </p>
 
                         <div class="d-flex flex-row gap-2 align-items-center rating-div">
                             <div class="rating">
@@ -131,13 +132,13 @@ if ($roomExists) {
                         </div>
 
                         <!-- additional info -->
-                        <div class="requirements mt-4">
+                        <div class="requirements mt-5">
                             <h3 class="m-0 fw-semibold"> Additional Information </h3>
                             <p class="m-0 mt-3"> <?= ucfirst($houseObj->info) ?> </p>
                         </div>
 
                         <!-- amenities -->
-                        <h3 class="m-0 fw-semibold mt-4"> Amenities </h3>
+                        <h3 class="m-0 fw-semibold mt-5"> Amenities </h3>
                         <div class="d-flex flex-row mt-2 flex-wrap gap-2 amenity-container">
                             <?php $roomObj->fetchAmenity($roomId) ?>
                             <?php
@@ -158,7 +159,7 @@ if ($roomExists) {
                         </div>
 
                         <!-- reviews -->
-                        <h3 class="m-0 fw-semibold mt-4"> Reviews and Ratings </h3>
+                        <h3 class="m-0 fw-semibold mt-5"> Reviews and Ratings </h3>
                         <div class="review-container">
                             <div class="review-div">
                                 <div class="image">
@@ -180,7 +181,7 @@ if ($roomExists) {
                     </div>
 
                     <!-- remaining specs -->
-                    <div class="mt-4 mt-lg-5 specifications">
+                    <div class="mt-5 mt-lg-5 specifications">
                         <table class="border table mt-0 specification-table">
                             <!-- room number -->
                             <tr>
@@ -243,12 +244,54 @@ if ($roomExists) {
                         </div>
                     </div>
                 </div>
+
+                <!-- room of the same house -->
+                <h3 class="m-0 fw-semibold mt-5"> Other rooms in this house </h3>
+                <section class="room-container mt-4" id="same-house-room-container">
+                    <!-- backup -->
+                    <div class="d-none room shadow-sm room-element bhk-element non-bhk-element unfurnished-element semi-furnished-element full-furnished-element district-kathmandu-element"
+                        data-rent="17000" data-floor="4">
+                        <!-- image -->
+                        <div class="room-image-div">
+                            <img src="/rentrover/assets/images/room-2.jpg" alt="room image">
+                        </div>
+
+                        <!-- details -->
+                        <div class="room-details">
+                            <!-- location -->
+                            <div class="location-wishlist">
+                                <div class="location-container">
+                                    <abbr title="Pipalboat, Kathmandu">
+                                        <p class="location">
+                                            Pipalboat, Kathmandu
+                                        </p>
+                                    </abbr>
+                                </div>
+                                <i class="fa-regular fa-bookmark"></i>
+                            </div>
+
+                            <!-- specs :: number of room & floor -->
+                            <p class="spec"> 2 Rooms, 3rd floor </p>
+
+                            <!-- rent -->
+                            <p class="rent"> NPR. 12,000/month </p>
+
+                            <div class="room-bottom">
+                                <div class="rating">
+                                    <img src="/rentrover/assets/icons/full-star.png" alt="">
+                                    <p class="fw-semibold small"> 2.4 </p>
+                                </div>
+
+                                <a href="/rentrover/room-detail/1" class="btn btn-outlined-brand show-more-btn"> Show More </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </section>
             <?php
         }
     }
     ?>
-
 
     <!-- modal -->
     <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login modal" aria-hidden="true">
@@ -274,6 +317,29 @@ if ($roomExists) {
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // loading the rooms of the same
+            function loadSameHouseRooms() {
+                house_id = <?= $roomObj->houseId ?? 0 ?>;
+                room_id = <?= $roomId ?? 0 ?>;
+
+                if (house_id != 0 && room_id != 0) {
+                    $.ajax({
+                        url: '/rentrover/pages/tenant/sections/load-room-of-same-house-unsigned-user.php',
+                        method: "POST",
+                        data: { houseId: house_id, roomId: room_id },
+                        success: function (data) {
+                            $('#same-house-room-container').html(data);
+                        }
+                    });
+                }
+            }
+
+            loadSameHouseRooms();
+        });
+    </script>
 </body>
 
 </html>

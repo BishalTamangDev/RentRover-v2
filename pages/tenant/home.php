@@ -5,13 +5,18 @@ if (session_status() == PHP_SESSION_NONE)
 require_once __DIR__ . '/../../classes/user.php';
 require_once __DIR__ . '/../../classes/house.php';
 require_once __DIR__ . '/../../classes/room.php';
+require_once __DIR__ . '/../../classes/wishlist.php';
 require_once __DIR__ . '/../../functions/amenity-array.php';
+require_once __DIR__ . '/../../functions/district-array.php';
 
 $profileUser = new User();
 $profileUser->fetch($r_id, "all");
 
 $houseObj = new House();
 $roomObj = new Room();
+$wishlistObj = new Wishlist();
+
+$wishlistObj->setUserId($r_id);
 
 $page = "home";
 if (!isset($tab))
@@ -33,16 +38,16 @@ if (!isset($tab))
 
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- bootstrap :: cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <!-- bootstrap :: local -->
     <link rel="stylesheet" href="/rentrover/bootstrap/bootstrap-css-5.3.3/bootstrap.min.css">
-    
+
     <!-- css files -->
     <link rel="stylesheet" href="/rentrover/css/style.css">
     <link rel="stylesheet" href="/rentrover/css/header.css">
@@ -50,7 +55,7 @@ if (!isset($tab))
     <link rel="stylesheet" href="/rentrover/css/tenant/home.css">
 </head>
 
-<body>
+<body class="pb-5">
     <!-- header -->
     <?php require_once __DIR__ . '/sections/header.php'; ?>
 
@@ -84,10 +89,14 @@ if (!isset($tab))
                     <hr class="m-0 mb-2 mt-1">
                     <p class="m-0 px-1 small mb-1"> District </p>
                     <select name="filter-district" id="filter-district" class="form-select-sm w-100">
-                        <option value="all"> All </option>
-                        <option value="bhaktapur"> Bhaktapur </option>
-                        <option value="kathmandu"> Kathmandu </option>
-                        <option value="lalitpur"> Lalitpur </option>
+                        <option value="all" selected> All </option>
+                        <?php
+                        foreach($districtArray as $district) {
+                            ?>
+                            <option value="<?=$district?>"> <?=$district?> </option>
+                            <?php
+                        }
+                        ?>
                     </select>
                 </div>
 
@@ -183,8 +192,6 @@ if (!isset($tab))
                         </div>
                     </div>
                 </div>
-
-                
             </section>
 
             <!-- load more -->
@@ -210,12 +217,12 @@ if (!isset($tab))
     <script>
         $(document).ready(function () {
             // load all room
-            function loadAllRoom(){
+            function loadAllRoom() {
                 $.ajax({
                     url: '/rentrover/pages/tenant/sections/load-all-room.php',
-                    success : function(data) {
+                    success: function (data) {
                         $('#all-room-container').html(data);
-                    },error :function(){
+                    }, error: function () {
                         $('#all-room-container').html("An error occured");
                     }
                 });
@@ -266,9 +273,18 @@ if (!isset($tab))
                 district = $('#filter-district').val();
                 roomType = $('#filter-room-type').val();
                 furnishing = $('#filter-furnishing').val();
+
                 minRent = $('#filter-min-rent').val() != '' ? parseFloat($('#filter-min-rent').val()) : 0;
                 maxRent = $('#filter-max-rent').val() != '' && $('#filter-max-rent').val() != 0 ? parseFloat($('#filter-max-rent').val()) : Infinity;
                 floor = $('#filter-floor').val() != '' && $('#filter-floor').val() != 0 ? $('#filter-floor').val() : Infinity;
+                
+                console.log(district);
+                console.log(roomType);
+                console.log(furnishing);
+                console.log(minRent);
+                console.log(maxRent);
+                console.log(floor);
+
 
                 if (minRent <= maxRent) {
                     filterRoom();
@@ -322,8 +338,37 @@ if (!isset($tab))
                 if (window.innerWidth < 1200) {
                     $('#filter-container-with-background').css('display', "none");
                 };
-
             }
+
+            // wishlist
+            $(document).on('click', '.wish-icon', function (e) {
+                room_id = $(this).data('id');
+                task = $(this).data('task');
+
+                var targetIcon = $(this).closest("i");
+
+                $.ajax({
+                    url: '/rentrover/pages/tenant/app/toggle-wishlist.php',
+                    data: { roomId: room_id, toDo: task },
+                    type: 'POST',
+                    beforeSend: function () {
+                        if (task == 'add') {
+                            targetIcon.data('task', 'remove');
+                            targetIcon.addClass('fa-solid');
+                            targetIcon.removeClass('fa-regular');
+                        } else {
+                            targetIcon.data('task', 'add');
+                            targetIcon.addClass('fa-regular');
+                            targetIcon.removeClass('fa-solid');
+                        }
+                    },
+                    success: function (response) {
+                        if (response != true) {
+                            location.reload();
+                        }
+                    }
+                });
+            });
         });
     </script>
 </body>

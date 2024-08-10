@@ -41,6 +41,7 @@
   text-decoration: none;
 }
 .room .room-details .location-wishlist .location-container abbr p {
+  font-size: 1.1rem;
   font-weight: 600;
 }
 .room .room-details .location-wishlist i {

@@ -5,11 +5,13 @@ if (session_status() == PHP_SESSION_NONE)
 require_once __DIR__ . '/../../classes/user.php';
 require_once __DIR__ . '/../../classes/house.php';
 require_once __DIR__ . '/../../classes/room.php';
+require_once __DIR__ . '/../../classes/wishlist.php';
 
 $profileUser = new User();
 
 $houseObj = new House();
 $roomObj = new Room();
+$tempWishlist = new Wishlist();
 
 $profileUser->fetch($r_id, "all");
 
@@ -26,6 +28,9 @@ $roomExists = $roomObj->fetch($roomId);
 if ($roomExists) {
     $houseObj->fetch($roomObj->houseId);
     $location = $houseObj->getAddress();
+
+    $tempWishlist->setUserId($r_id);
+    $wishlist = $tempWishlist->fetchList();
 }
 ?>
 
@@ -63,7 +68,7 @@ if ($roomExists) {
     <link rel="stylesheet" href="/rentrover/css/tenant/room-detail.css">
 </head>
 
-<body>
+<body class="pb-5">
     <!-- header -->
     <?php require_once __DIR__ . '/sections/header.php'; ?>
 
@@ -105,7 +110,20 @@ if ($roomExists) {
                     </div>
 
                     <!-- wishlist -->
-                    <i class="fa-regular fa-bookmark pointer fs-5 pt-2" id="wishlist-trigger"></i>
+                    <!-- wishlist -->
+                    <?php
+                    if (in_array($roomId, $wishlist)) {
+                        ?>
+                        <i class="fa-solid fa-bookmark pointer pt-2" id="selected-room-wishlist-icon" data-task="remove"
+                            data-id="<?= $roomId ?>"></i>
+                        <?php
+                    } else {
+                        ?>
+                        <i class="fa-regular fa-bookmark pointer pt-2" id="selected-room-wishlist-icon" data-task="add"
+                            data-id="<?= $roomId ?>"></i>
+                        <?php
+                    }
+                    ?>
                 </div>
 
                 <!-- image -->
@@ -239,7 +257,8 @@ if ($roomExists) {
                             <!-- type -->
                             <tr>
                                 <td class="title"> Rent Amount </td>
-                                <td class="data text-success fw-semibold"> <?= "NPR." . number_format($roomObj->rent, 2) ?> </td>
+                                <td class="data text-success fw-semibold"> <?= "NPR." . number_format($roomObj->rent, 2) ?>
+                                </td>
                             </tr>
 
                             <!-- room acquired state -->
@@ -260,7 +279,7 @@ if ($roomExists) {
                                 ?>
                                 <button type="button" class="btn btn-brand" data-bs-toggle="modal"
                                     data-bs-target="#not-available-modal"> Apply Now </button>
-                            <?php
+                                <?php
                             }
                             ?>
                         </div>
@@ -366,7 +385,6 @@ if ($roomExists) {
         </div>
     </div>
 
-
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -437,11 +455,11 @@ if ($roomExists) {
         });
 
         // loading the rooms of the same
-        function loadSameHouseRooms(){
-            house_id = <?=$roomObj->houseId ?? 0?>;
-            room_id = <?=$roomId ?? 0 ?>;
+        function loadSameHouseRooms() {
+            house_id = <?= $roomObj->houseId ?? 0 ?>;
+            room_id = <?= $roomId ?? 0 ?>;
 
-            if(house_id != 0 && room_id != 0){
+            if (house_id != 0 && room_id != 0) {
                 $.ajax({
                     url: '/rentrover/pages/tenant/sections/load-room-of-same-house.php',
                     method: "POST",
@@ -454,6 +472,59 @@ if ($roomExists) {
         }
 
         loadSameHouseRooms();
+
+        // toggle selected room wish
+        $('#selected-room-wishlist-icon').click(function () {
+            room_id = $('#selected-room-wishlist-icon').data('id');
+            task = $('#selected-room-wishlist-icon').data('task');
+            $.ajax({
+                url: '/rentrover/pages/tenant/app/toggle-wishlist.php',
+                type: 'POST',
+                data: { roomId: room_id, toDo: task },
+                beforeSend : function (){
+                    if(task == 'add') {
+                        $('#selected-room-wishlist-icon').data('task', 'remove').addClass('fa-solid').removeClass('fa-regular');
+                    } else {
+                        $('#selected-room-wishlist-icon').data('task', 'add').addClass('fa-regular').removeClass('fa-solid');
+                    }
+                },
+                success: function (response) {
+                    if(response != true) {
+                        location.reload();
+                    }
+                }
+            })
+        });
+
+        // wishlist for room of same house
+        $(document).on('click', '.wish-icon', function (e) {
+                room_id = $(this).data('id');
+                task = $(this).data('task');
+
+                var targetIcon = $(this).closest("i");
+
+                $.ajax({
+                    url: '/rentrover/pages/tenant/app/toggle-wishlist.php',
+                    data: { roomId: room_id, toDo: task },
+                    type: 'POST',
+                    beforeSend: function () {
+                        if (task == 'add') {
+                            targetIcon.data('task', 'remove');
+                            targetIcon.addClass('fa-solid');
+                            targetIcon.removeClass('fa-regular');
+                        } else {
+                            targetIcon.data('task', 'add');
+                            targetIcon.addClass('fa-regular');
+                            targetIcon.removeClass('fa-solid');
+                        }
+                    },
+                    success: function (response) {
+                        if (response != true) {
+                            location.reload();
+                        }
+                    }
+                });
+            });
     </script>
 </body>
 
