@@ -294,6 +294,24 @@ class Application
         return $applicationList;
     }
 
+    // fetch all pending application my room list
+    public function fetchPendingApplicationIdByRoomList($roomIdList)
+    {
+        global $conn;
+        $applicationList = [];
+
+        $arrayString = "'" . implode("','", $roomIdList) . "'";
+
+        $query = "SELECT application_id FROM application_tb WHERE room_id IN ($arrayString) AND flag = 'pending'";
+        $result = $conn->query($query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $applicationList[] = $row;
+            }
+        }
+        return $applicationList;
+    }
+
     // fetch all accepted application my room list
     public function fetchAcceptedApplicationIdByRoomList($roomIdList)
     {
@@ -321,6 +339,42 @@ class Application
         $arrayString = "'" . implode("','", $roomIdList) . "'";
 
         $query = "SELECT application_id FROM application_tb WHERE room_id IN ($arrayString) AND flag = 'rejected'";
+        $result = $conn->query($query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $applicationList[] = $row;
+            }
+        }
+        return $applicationList;
+    }
+
+     // fetch all expired application my room list
+     public function fetchExpiredApplicationIdByRoomList($roomIdList)
+     {
+         global $conn;
+         $applicationList = [];
+ 
+         $arrayString = "'" . implode("','", $roomIdList) . "'";
+ 
+         $query = "SELECT application_id FROM application_tb WHERE room_id IN ($arrayString) AND flag = 'expired'";
+         $result = $conn->query($query);
+         if ($result->num_rows > 0) {
+             while ($row = $result->fetch_assoc()) {
+                 $applicationList[] = $row;
+             }
+         }
+         return $applicationList;
+     }
+
+      // fetch all rejected application my room list
+    public function fetchCancelledApplicationIdByRoomList($roomIdList)
+    {
+        global $conn;
+        $applicationList = [];
+
+        $arrayString = "'" . implode("','", $roomIdList) . "'";
+
+        $query = "SELECT application_id FROM application_tb WHERE room_id IN ($arrayString) AND flag = 'cancelled'";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {

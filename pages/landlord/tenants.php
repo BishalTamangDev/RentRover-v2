@@ -50,23 +50,23 @@ $page = "tenants";
 
     <main>
         <!-- card container -->
-        <section class="card-v2-container">
+        <section class="card-v2-container" id="card-container">
             <!-- total tenants -->
             <div class="card-v2">
                 <p class="title"> Total Tenants </p>
-                <p class="data"> 120 </p>
+                <p class="data" id="total-tenant-count"> 0 </p>
             </div>
 
             <!-- current tenants -->
             <div class="card-v2">
                 <p class="title"> Current Tenant </p>
-                <p class="data"> 50 </p>
+                <p class="data" id="current-tenant-count"> 0 </p>
             </div>
 
             <!-- ex-tenants -->
             <div class="card-v2">
                 <p class="title"> Ex-Tenant </p>
-                <p class="data"> 70 </p>
+                <p class="data" id="ex-tenant-count"> 0 </p>
             </div>
         </section>
 
@@ -100,8 +100,8 @@ $page = "tenants";
                         <th scope="col" class="action"> </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="tenant-row current-row">
+                <tbody id="tenant-table-body">
+                    <!-- <tr class="tenant-row current-row">
                         <th scope="row" class="serial"> 1 </th>
                         <td> Rupak dangi </td>
                         <td> Phungling, Pathivara, 3 </td>
@@ -113,21 +113,7 @@ $page = "tenants";
                                 Show details
                             </a>
                         </td>
-                    </tr>
-
-                    <tr class="tenant-row ex-row">
-                        <th scope="row" class="serial"> 2 </th>
-                        <td> Shristi Pradhan </td>
-                        <td> Bhojpur, Myanglung </td>
-                        <td> 984514586 </td>
-                        <td> 0000-00-00 </td>
-                        <td> 0000-00-00 </td>
-                        <td class="action">
-                            <a href="/rentrover/landlord/tenant-detail/2" class="text-primary pointer small">
-                                Show details
-                            </a>
-                        </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
 
                 <tfoot id="empty-data-foot">
@@ -153,6 +139,39 @@ $page = "tenants";
     <!-- script -->
     <script>
         $(document).ready(function () {
+            // count tenants :: all, current & ex
+            function countTenant(){
+                // all tenant
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-tenant.php',
+                    type:'POST',
+                    data : {landlordId: <?=$r_id?>},
+                    success : function(data){
+                        $('#card-container').html(data);
+                    },
+                    error: function(){
+                    }
+                });
+            }
+
+            countTenant();
+            
+            // load tenants
+            function loadTenantTable() {
+                $.ajax({
+                    url: '/rentrover/pages/landlord/sections/tenant-table.php',
+                    type: 'POST',
+                    data: { landlordId: <?= $r_id ?> },
+                    success: function (data) {
+                        $('#tenant-table-body').html(data);
+                        toggleEmptyContent();
+                    },
+                    error: function () { },
+                });
+            }
+
+            loadTenantTable();
+
             // status
             $('#filter-status').change(function () {
                 toggleData($('#filter-status').val());

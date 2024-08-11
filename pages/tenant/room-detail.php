@@ -324,7 +324,7 @@ if ($roomExists) {
                                             ?>
                                             <p class="text-danger mb-3 small"> Your another application has been accepted. So you won't be able
                                                 to apply for another room. </p>
-                                            <!-- <button type="button" class="btn btn-danger" disabled> Apply Now </button> -->
+                                            <button type="button" class="btn btn-brand"> Apply Now </button>
                                             <?php
                                         }
                                         ?>
@@ -337,8 +337,8 @@ if ($roomExists) {
 
                                 if ($isAcceptedApplicant) {
                                     ?>
-                                    <p class="text-success mb-3"> Your application is already accepted. </p>
-                                    <button class="btn btn-brand mb-3"> Move In </button>
+                                    <p class="text-success mb-3 small"> Your application is already accepted. </p>
+                                    <button class="btn btn-brand mb-3"> Apply Now </button>
                                     <?php
                                 } else {
                                     ?>

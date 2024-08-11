@@ -3,14 +3,26 @@ if (session_status() == PHP_SESSION_NONE)
     session_start();
 
 require_once __DIR__ . '/../../classes/user.php';
+require_once __DIR__ . '/../../classes/house.php';
+require_once __DIR__ . '/../../classes/room.php';
+require_once __DIR__ . '/../../classes/tenancy-history.php';
+
 $profileUser = new User();
+$houseObj = new House();
+$roomObj = new Room();
+$tenancyObj = new Tenancy();
 
 $profileUser->fetch($r_id, "all");
 
 if (!isset($tab))
     $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
 
-$page = "tenants";
+$page = "tenant-detail";
+
+// get tenancy id
+$houseIdList = $houseObj->fetchHouseIdByLandlordId($r_id);
+$roomIdList = $roomObj->fetchAllRoomIdByLandlord($houseIdList);
+$histories = $tenancyObj->fetchHistoryForLandlord($roomIdList);
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +62,10 @@ $page = "tenants";
     <?php require_once __DIR__ . '/sections/aside.php'; ?>
 
     <main>
+        <?php
+        $tenant = new User();
+        $tenant->fetch($tenantId, "all");
+        ?>
         <!-- my profile -->
         <section class="d-flex flex-column user-profile-container profile-content">
             <p class="m-0 fs-4 fw-semibold"> Tenant Information </p>
@@ -57,45 +73,33 @@ $page = "tenants";
             <!-- top section -->
             <div class="d-flex flex-row gap-3 mt-4 align-items-center photo-username-email">
                 <div class="photo">
-                    <img src="/rentrover/assets/images/bishal.jpg" alt="">
+                    <img src="/rentrover/uploads/users/<?= $tenant->profilePhoto ?>" alt="">
                 </div>
                 <div class="username-email">
-                    <p class="m-0 fw-semibold"> Mr. Beast </p>
-                    <p class="m-0 text-secondary small"> someone@gmail.com </p>
+                    <p class="m-0 fw-semibold"> <?= $tenant->getFullName() ?> </p>
                 </div>
             </div>
 
             <hr class="mt-4 text-secondary" />
 
             <div class="d-nones mb-3 profile-informations">
-                <div class="d-flex">
+                <!-- name -->
+                <div class="d-flex flex-column flex-md-row row-gap-3">
                     <div class="w-50">
                         <p class="m-0 text-secondary"> First Name </p>
-                        <p class="m-0 fw-semibold"> Bishal </p>
+                        <p class="m-0 fw-semibold"> <?= ucfirst($tenant->name['first']) ?> </p>
                     </div>
 
                     <div class="w-50">
                         <p class="m-0 text-secondary"> Last Name </p>
-                        <p class="m-0 fw-semibold"> Tamang </p>
+                        <p class="m-0 fw-semibold"> <?= ucfirst($tenant->name['last']) ?> </p>
                     </div>
                 </div>
 
-                <div class="mt-3 d-flex">
+                <div class="d-flex flex-column flex-md-row row-gap-3 mt-3">
                     <div class="w-50">
                         <p class="m-0 text-secondary"> Gender </p>
                         <p class="m-0 fw-semibold"> Male </p>
-                    </div>
-
-                    <div class="w-50">
-                        <p class="m-0 text-secondary"> DoB </p>
-                        <p class="m-0 fw-semibold"> 2000-06-06 </p>
-                    </div>
-                </div>
-
-                <div class="mt-3 d-flex">
-                    <div class="w-50">
-                        <p class="m-0 text-secondary"> Email </p>
-                        <p class="m-0 fw-semibold"> bishaltamang117@gmail.com </p>
                     </div>
 
                     <div class="w-50">
@@ -106,72 +110,67 @@ $page = "tenants";
 
                 <p class="m-0 mt-3 text-secondary"> Address </p>
                 <div class="d-flex flex-column">
-                    <div class="d-flex">
+                    <div class="d-flex flex-column flex-md-row row-gap-3 mt-1">
                         <div class="w-50">
                             <p class="m-0 mt-2 text-secondary"> Province </p>
-                            <p class="m-0 fw-semibold"> Bagmati </p>
+                            <p class="m-0 fw-semibold"> <?= $tenant->address['province'] ?> </p>
                         </div>
                         <div class="w-50">
                             <p class="m-0 mt-2 text-secondary"> District </p>
-                            <p class="m-0 fw-semibold"> Sindhupalchowk </p>
+                            <p class="m-0 fw-semibold"> <?= $tenant->address['district'] ?> </p>
                         </div>
                     </div>
 
-                    <div class="d-flex">
+                    <div class="d-flex flex-column flex-md-row row-gap-3 mt-3">
                         <div class="w-50">
                             <p class="m-0 mt-3 text-secondary"> Municipality/ Rupal Municipality </p>
-                            <p class="m-0 fw-semibold"> Melamchi </p>
+                            <p class="m-0 fw-semibold"> <?= $tenant->address['municipalityRural'] ?> </p>
                         </div>
 
                         <div class="w-50">
                             <p class="m-0 mt-3 text-secondary"> Ward </p>
-                            <p class="m-0 fw-semibold"> 3 </p>
+                            <p class="m-0 fw-semibold"> <?= $tenant->address['ward'] ?> </p>
                         </div>
                     </div>
 
                     <div>
                         <p class="m-0 mt-3 text-secondary"> Tole/ Village </p>
-                        <p class="m-0 fw-semibold"> Bobrang </p>
-                    </div>
-
-                    <!-- documents -->
-                    <p class="m-0 mt-3 text-secondary"> Documents </p>
-                    <div class="d-flex flex-row gap-2 mt-2 document-div">
-                        <div class="document">
-                            <img src="/rentrover/assets/images/blank.jpg" class="pointer" alt="" id="document-1">
-                        </div>
-
-                        <div class="document">
-                            <img src="/rentrover/assets/images/blank.jpg" class="pointer" alt="" id="document-2">
-                        </div>
+                        <p class="m-0 fw-semibold"> <?= ucfirst($tenant->address['toleVillage']) ?> </p>
                     </div>
                 </div>
             </div>
 
             <hr class="m-0" />
 
-            <!-- tenancy details -->
-            <div class="mt-3 tenancy-info">
-                <p class="m-0 fw-semibold"> Tenancy History </p>
-                <div class="mt-2">
-                    <table>
-                        <tr>
-                            <th class="fw-semibold"> Applied on </th>
-                            <td class="px-3"> Applied on </td>
-                        </tr>
+            <?php
+            foreach ($histories as $history) {
+                $tenancyObj->fetch($history);
+                if ($tenancyObj->getTenantId() == $tenantId) {
+                    $moveInDate = $tenancyObj->moveInDate;
+                    $moveOutDate = $tenancyObj->moveOutDate != '0000-00-00 00:00:00' ? $tenancyObj->moveOutDate : 'Still Residing';
+                    ?>
+                    <!-- tenancy details -->
+                    <div class="mt-3 tenancy-info">
+                        <p class="m-0 fw-semibold fs-4" style="color:var(--brand-color)"> Tenancy History </p>
+                        <div class="mt-2">
+                            <table>
+                                <tr>
+                                    <th> Move in Date </th>
+                                    <td class="px-3 fw-semibold"> <?= $moveInDate ?> </td>
+                                </tr>
 
-                        <tr>
-                            <th class="fw-semibold"> Move in Date </th>
-                            <td class="px-3"> 0000-00-00 </td>
-                        </tr>
+                                <tr>
+                                    <th> Move out Date </th>
+                                    <td class="px-3 fw-semibold"> <?= $moveOutDate ?> </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
 
-                        <tr>
-                            <th class="fw-semibold"> Move out Date </th>
-                            <td class="px-3"> 0000-00-00 </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
 
             <!-- action -->
             <button class="btn btn-danger fit-content py-1 mt-3"> Remove Tenant </button>

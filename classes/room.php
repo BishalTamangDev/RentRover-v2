@@ -13,6 +13,7 @@ class Room
     public $furnishing;
     public $floor;
     public $rent;
+    private $tenantId;
     public $photo = [
         'first' => '',
         'second' => '',
@@ -42,10 +43,16 @@ class Room
             'third' => '',
             'fourth' => '',
         ];
+        $this->tenantId = '';
         $this->amenity = [''];
         $this->info = '';
         $this->flag = '';
         $this->registrationDate = '';
+    }
+
+    // getter
+    public function getTenantId(){
+        return $this->tenantId;
     }
 
     // register
@@ -93,7 +100,7 @@ class Room
     }
 
     // set room
-    public function set($roomId, $houseId, $type, $bhk, $numberOfRoom, $number, $furnishing, $floor, $rent, $info, $flag, $registrationDate)
+    public function set($roomId, $houseId, $type, $bhk, $numberOfRoom, $number, $furnishing, $floor, $rent, $info, $tenantId, $flag, $registrationDate)
     {
         $this->roomId = $roomId;
         $this->houseId = $houseId;
@@ -106,6 +113,7 @@ class Room
         $this->rent = $rent;
         $this->info = $info;
         $this->flag = $flag;
+        $this->tenantId = $tenantId;
         $this->registrationDate = $registrationDate;
     }
 
@@ -119,7 +127,7 @@ class Room
         if ($result->num_rows != 0) {
             $dbData = $result->fetch_assoc();
             $roomExists = true;
-            $this->set($dbData['room_id'], $dbData['house_id'], $dbData['type'], $dbData['bhk'], $dbData['number_of_room'], $dbData['number'], $dbData['furnishing'], $dbData['floor'], $dbData['rent'], $dbData['info'], $dbData['flag'], $dbData['registration_date']);
+            $this->set($dbData['room_id'], $dbData['house_id'], $dbData['type'], $dbData['bhk'], $dbData['number_of_room'], $dbData['number'], $dbData['furnishing'], $dbData['floor'], $dbData['rent'], $dbData['info'], $dbData['tenant_id'], $dbData['flag'], $dbData['registration_date']);
         }
 
         return $roomExists;
@@ -273,7 +281,7 @@ class Room
     {
         global $conn;
         $arrayString = "'" . implode("','", $houseIdList) . "'";
-        $query = "SELECT room_id FROM room_tb WHERE house_id IN ($arrayString) AND flag = 'acquired'";
+        $query = "SELECT room_id FROM room_tb WHERE house_id IN ($arrayString) AND tenant_id != '0'";
         $result = $conn->query($query);
         return $result->num_rows;
     }
@@ -292,7 +300,7 @@ class Room
     {
         global $conn;
         $arrayString = "'" . implode("','", $houseIdList) . "'";
-        $query = "SELECT room_id FROM room_tb WHERE house_id IN ($arrayString) AND flag != 'acquired'";
+        $query = "SELECT room_id FROM room_tb WHERE house_id IN ($arrayString) AND tenant_id = '0'";
         $result = $conn->query($query);
         return $result->num_rows;
     }
@@ -417,12 +425,30 @@ class Room
         $result = $conn->query($query);
 
         // temporary
-        $roomId = 1;
+        $roomId = 0;
 
         if ($result->num_rows > 0) {
             $dbData = $result->fetch_assoc();
             $roomId = $dbData['room_id'];
         }
         return $roomId;
+    }
+
+    // make tenant
+    public function makeTenant($roomId, $applicantId)
+    {
+        global $conn;
+        $query = "UPDATE room_tb SET tenant_id = '$applicantId' WHERE room_id = '$roomId'";
+        $result = $conn->query($query);
+        return $result ? true : false;
+    }
+
+    // check if tenant
+    public function checkIfTenant($userId, $roomId)
+    {
+        global $conn;
+        $query = "SELECT flag FROM room_tb WHERE tenant_id = '$userId' AND room_id = '$roomId' LIMIT 1";
+        $result = $conn->query($query);
+        return $result->num_rows == 1 ? true : false;
     }
 }

@@ -408,6 +408,7 @@ $tempPhotoSrc = '/rentrover/uploads/blank.jpg';
 
             };
 
+
             // apply for verification
             $('#apply-for-verification-trigger').click(function () {
                 $.ajax({

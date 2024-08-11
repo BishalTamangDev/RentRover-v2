@@ -61,16 +61,34 @@ $page = "room-applications";
                 <p class="data" id="total-application-count"> 0 </p>
             </div>
 
-            <!-- current tenants -->
+            <!-- pending -->
+            <div class="card-v2">
+                <p class="title"> Pending </p>
+                <p class="data" id="pending-application-count"> 0 </p>
+            </div>
+
+            <!-- accepted -->
             <div class="card-v2">
                 <p class="title"> Accepted </p>
                 <p class="data" id="accepted-application-count"> 0 </p>
             </div>
 
-            <!-- ex-tenants -->
+            <!-- rejected -->
             <div class="card-v2">
                 <p class="title"> Rejected </p>
                 <p class="data" id="rejected-application-count"> 0 </p>
+            </div>
+
+            <!-- expired -->
+            <div class="card-v2">
+                <p class="title"> Expired </p>
+                <p class="data" id="expired-application-count"> 0 </p>
+            </div>
+
+            <!-- cancelled -->
+            <div class="card-v2">
+                <p class="title"> Cancelled </p>
+                <p class="data" id="cancelled-application-count"> 0 </p>
             </div>
         </section>
 
@@ -300,12 +318,12 @@ $page = "room-applications";
                         $('.accepted-row').hide();
                         $('.cancelled-row').hide();
                         $('.expired-row').hide();
-                    }  else if (status == "cancelled") {
+                    } else if (status == "cancelled") {
                         $('.pending-row').hide();
                         $('.accepted-row').hide();
                         $('.rejected-row').hide();
                         $('.expired-row').hide();
-                    } else if(status == "expired") {
+                    } else if (status == "expired") {
                         $('.pending-row').hide();
                         $('.accepted-row').hide();
                         $('.rejected-row').hide();
@@ -364,7 +382,7 @@ $page = "room-applications";
                         if (response == true) {
                             loadRoomApplication();
                             countApplication();
-                            $('#accept-application-btn').html("<i class='fa-solid fa-check'> </i> Accepted");
+                            $('#accept-application-btn').html("<i class='fa-solid fa-check'> </i> Accepted").prop('disabled', true);
                             $('#reject-application-btn').fadeOut();
                         } else {
                             $('#error-message').html("Application couln't be accepted.").show();
@@ -409,6 +427,14 @@ $page = "room-applications";
                     }
                 });
 
+                // pending
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-pending-applications.php',
+                    success: function (data) {
+                        $('#pending-application-count').html(data);
+                    }
+                });
+
                 // accepted
                 $.ajax({
                     url: '/rentrover/pages/landlord/app/count-accepted-applications.php',
@@ -424,7 +450,42 @@ $page = "room-applications";
                         $('#rejected-application-count').html(data);
                     }
                 });
+
+                // expired
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-expired-applications.php',
+                    success: function (data) {
+                        $('#expired-application-count').html(data);
+                    }
+                });
+
+                // cancelled
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-cancelled-applications.php',
+                    success: function (data) {
+                        $('#cancelled-application-count').html(data);
+                    }
+                });
             }
+
+            // make tenant btn
+            $(document).on('click', '#make-tenant-btn', function () {
+                var room_id = $(this).data('room-id');
+                var applicant_id = $(this).data('applicant-id');
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/make-tenant.php',
+                    type: 'POST',
+                    data: { roomId: room_id, applicantId: applicant_id },
+                    beforeSend: function () { },
+                    success: function (response) {
+                        console.log(response);
+                        if(response == true) {
+                            $('#make-tenant-btn').html("<i class='fa fa-check'> </i> Added as Tenant");
+                            $('#reject-application-btn').fadeOut();
+                        }
+                    },
+                });
+            });
         });
     </script>
 </body>
