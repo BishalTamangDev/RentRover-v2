@@ -93,7 +93,7 @@ if ($roomExists) {
                 <div class="d-flex flex-column gap-1 address-review top-section">
                     <p class="m-0 fw-bold fs-4"> <?= $location ?> </p>
 
-                    <div class="d-flex flex-row gap-2 align-items-center rating-div">
+                    <div class="d-flex flex-row gap-2 align-items-center rating-div" id="rating-div">
                         <div class="rating">
                             <img src="/rentrover/assets/icons/full-star.png" alt="">
                             <img src="/rentrover/assets/icons/full-star.png" alt="">
@@ -169,9 +169,11 @@ if ($roomExists) {
                     </div>
 
                     <!-- reviews -->
-                    <h3 class="m-0 fw-semibold mt-4"> Reviews and Ratings </h3>
+                    <h3 class="m-0 fw-semibold mt-4"> Submit your thoughts on for this room </h3>
 
                     <form action="" class="form review-form rounded shadow p-3" id="review-form">
+                        <input type="hidden" name="userId" id="userId" class="form-control mb-3" value="<?= $r_id ?>">
+                        <input type="hidden" name="roomId" id="roomId" class="form-control mb-3" value="<?= $roomId ?>">
                         <textarea name="review" id="review" class="form-control mb-3" placeholder="submit your review here"
                             style="min-height:140px;max-height:200px;" required></textarea>
                         <select name="rating" id="rating" class="form-select fit-content mb-3" required>
@@ -185,10 +187,11 @@ if ($roomExists) {
                         <button class="btn btn-brand"> Submit </button>
                     </form>
 
-                    <h3 class="m-0 fw-semibold mt-4"> Reviews from Ex-tenants </h3>
+                    <h3 class="m-0 fw-semibold mt-4"> Reviews and Ratings </h3>
 
-                    <div class="review-container">
-                        <div class="review-div">
+                    <div class="review-container" id="review-container">
+                        <!-- review -->
+                        <div class="invisible review-div">
                             <div class="image">
                                 <img src="/rentrover/assets/images/rupak.png" alt="">
                             </div>
@@ -202,79 +205,85 @@ if ($roomExists) {
                                     <img src="/rentrover/assets/icons/full-star.png" alt="">
                                     <img src="/rentrover/assets/icons/half-star.png" alt="">
                                 </div>
+
+                                <!-- action -->
+                                <div>
+                                    <abbr title="Delete">
+                                        <i class="fa fa-trash"></i>
+                                        </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- remaining specs -->
-                <div class="mt-4 mt-lg-5 specifications">
-                    <table class="border table mt-0 specification-table">
-                        <!-- room number -->
-                        <tr>
-                            <td class="title"> Room Number </td>
-                            <td class="data"> <?= $roomObj->number ?> </td>
-                        </tr>
+                    <!-- remaining specs -->
+                    <div class="mt-4 mt-lg-5 specifications">
+                        <table class="border table mt-0 specification-table">
+                            <!-- room number -->
+                            <tr>
+                                <td class="title"> Room Number </td>
+                                <td class="data"> <?= $roomObj->number ?> </td>
+                            </tr>
 
-                        <!-- type -->
-                        <tr>
-                            <td class="title"> Type </td>
-                            <td class="data"> <?= $roomObj->type == 'bhk' ? 'BHK' : "Non-BHK" ?> </td>
-                        </tr>
+                            <!-- type -->
+                            <tr>
+                                <td class="title"> Type </td>
+                                <td class="data"> <?= $roomObj->type == 'bhk' ? 'BHK' : "Non-BHK" ?> </td>
+                            </tr>
 
-                        <!-- furnishing -->
-                        <tr>
-                            <td class="title"> Furnishing </td>
-                            <td class="data"> <?= ucwords($roomObj->furnishing) ?> </td>
-                        </tr>
+                            <!-- furnishing -->
+                            <tr>
+                                <td class="title"> Furnishing </td>
+                                <td class="data"> <?= ucwords($roomObj->furnishing) ?> </td>
+                            </tr>
 
-                        <!-- floor -->
-                        <tr>
-                            <td class="title"> Floor </td>
-                            <td class="data">
-                                <?php
-                                echo $roomObj->floor;
-                                $x = $roomObj->floor % 10;
-                                ?>
-                                <sup>
+                            <!-- floor -->
+                            <tr>
+                                <td class="title"> Floor </td>
+                                <td class="data">
                                     <?php
-                                    if ($x == 1) {
-                                        echo "st";
-                                    } elseif ($x == 2) {
-                                        echo "nd";
-                                    } elseif ($x == 3) {
-                                        echo "rd";
-                                    } else {
-                                        echo "th";
-                                    }
-                                    ?> </sup>
-                            </td>
-                        </tr>
+                                    echo $roomObj->floor;
+                                    $x = $roomObj->floor % 10;
+                                    ?>
+                                    <sup>
+                                        <?php
+                                        if ($x == 1) {
+                                            echo "st";
+                                        } elseif ($x == 2) {
+                                            echo "nd";
+                                        } elseif ($x == 3) {
+                                            echo "rd";
+                                        } else {
+                                            echo "th";
+                                        }
+                                        ?> </sup>
+                                </td>
+                            </tr>
 
-                        <!-- type -->
-                        <tr>
-                            <td class="title"> Rent Amount </td>
-                            <td class="data text-success fw-semibold"> <?= "NPR." . number_format($roomObj->rent, 2) ?>
-                            </td>
-                        </tr>
+                            <!-- type -->
+                            <tr>
+                                <td class="title"> Rent Amount </td>
+                                <td class="data text-success fw-semibold"> <?= "NPR." . number_format($roomObj->rent, 2) ?>
+                                </td>
+                            </tr>
 
-                        <!-- tenancy hostory -->
-                        <tr>
-                            <td class="title"> Move in Date </td>
-                            <td class="data text-success fw-semibold"> <?= "-" ?>
-                            </td>
-                        </tr>
-                    </table>
+                            <!-- tenancy hostory -->
+                            <tr>
+                                <td class="title"> Move in Date </td>
+                                <td class="data text-success fw-semibold"> <?= "-" ?>
+                                </td>
+                            </tr>
+                        </table>
 
-                    <div class="room-operations">
-                        <!-- leave room -->
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#leave-room-modal"> <i
-                                class="fa-solid fa-arrow-right-from-bracket"></i> Leave room </button>
-                        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#report-an-issue"> <i
-                                class="fa-regular fa-comment"></i> Report an Issue </button>
+                        <div class="room-operations">
+                            <!-- leave room -->
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#leave-room-modal"> <i
+                                    class="fa-solid fa-arrow-right-from-bracket"></i> Leave room </button>
+                            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#report-an-issue">
+                                <i class="fa-regular fa-comment"></i> Report an Issue </button>
+                        </div>
                     </div>
                 </div>
-            </div>
         </section>
         <?php
     }
@@ -369,11 +378,21 @@ if ($roomExists) {
     <!-- popup js -->
     <script src="/rentrover/js/popup-alert.js"></script>
 
+    <!-- delete review -->
+    <!-- <script src="/rentrover/js/delete-review.js"></script> -->
+    
+    <!-- top bar rating -->
+    <script src="/rentrover/js/load-top-bar-rating.js"></script>
+
     <!-- script -->
     <script>
         $(document).ready(function () {
+            loadTopBarRating(<?=$roomId?>);
+
             // load wishlist count
             $(document, loadWishlistCount());
+
+            loadReviews();
 
             // leave application form
             $('#leave-application-form').submit(function (e) {
@@ -414,7 +433,52 @@ if ($roomExists) {
             // review form
             $('#review-form').submit(function (e) {
                 e.preventDefault();
-                console.log("Submit review");
+                $.ajax({
+                    url: '/rentrover/pages/tenant/app/review-submit.php',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response == true) {
+                            $('#review-form').trigger('reset');
+                            showPopupAlert("Review submitted.");
+                            loadReviews();
+                        } else {
+                            showPopupAlert("Review couldn't be submitted.");
+                        }
+                    }
+                });
+            });
+
+            // load reviews
+            function loadReviews() {
+                $.ajax({
+                    url: '/rentrover/pages/tenant/sections/load-review.php',
+                    type: 'POST',
+                    data: { roomId: <?= $roomId ?> },
+                    success: function (data) {
+                        loadTopBarRating(<?= $roomId ?>);
+                        $('#review-container').html(data);
+                    }
+                });
+            }
+
+            // delete review
+            $(document).on('click', '.delete-review-icon', function () {
+                review_id = $(this).data('review-id');
+
+                $.ajax({
+                    url: "/rentrover/pages/tenant/app/delete-review.php",
+                    type: "POST",
+                    data: { reviewId: review_id },
+                    success: function (response) {
+                        if (response == true) {
+                            loadReviews();
+                            showPopupAlert('Review deleted.');
+                        } else {
+                            showPopupAlert("Review couldn't be deleted.");
+                        }
+                    }
+                });
             });
         });
     </script>

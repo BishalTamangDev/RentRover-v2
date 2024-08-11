@@ -248,6 +248,34 @@ $page = "dashboard";
             var houseCount = 0;
             var roomCount = 0;
 
+            acquired = 0;
+            unacquired = 0;
+
+            function updatePieChart(acquired, unacquired){
+                roomChart.data.datasets[0].data[0] = acquired;
+                roomChart.data.datasets[0].data[1] = unacquired;
+                roomChart.update();
+            }
+
+            
+            // acquired rooms
+            $.ajax({
+                    url: '/rentrover/pages/admin/app/count-acquired-room.php',
+                    success : function (data) {
+                        acquired = data;
+                        updatePieChart(data,unacquired);
+                    }
+                });
+
+                // unacquired rooms
+                $.ajax({
+                    url: '/rentrover/pages/admin/app/count-unacquired-room.php',
+                    success : function (data) {
+                        unacquired = data;
+                        updatePieChart(acquired, data);
+                    }
+                });
+            
             // animated counting users
             function animatedUserCounting() {
                 var count = 0;
@@ -255,8 +283,6 @@ $page = "dashboard";
                 var interval = setInterval(function () {
                     if (count <= userCount) {
                         $('#user-count').html(count++);
-                        roomChart.data.datasets[0].data[0] = count;
-                        roomChart.update();
                     } else {
                         clearInterval(interval);
                     }

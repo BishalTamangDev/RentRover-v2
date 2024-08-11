@@ -106,15 +106,11 @@ if ($roomExists) {
                     <div class="d-flex flex-column gap-1 address-review top-section">
                         <p class="m-0 fw-bold fs-4"> <?= $location ?> </p>
 
-                        <div class="d-flex flex-row gap-2 align-items-center rating-div">
+                        <div class="d-flex flex-row gap-2 align-items-center rating-div" id="rating-div">
                             <div class="rating">
                                 <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                <img src="/rentrover/assets/icons/half-star.png" alt="">
                             </div>
-                            <p class="m-0 text-secondary small pt-1"> (3 Reviews) </p>
+                            <p class="m-0 text-secondary small pt-1"> (0 Review) </p>
                         </div>
                     </div>
 
@@ -199,8 +195,8 @@ if ($roomExists) {
 
                         <!-- reviews -->
                         <h3 class="m-0 fw-semibold mt-4"> Reviews and Ratings </h3>
-                        <div class="review-container">
-                            <div class="review-div">
+                        <div class="review-container" id="review-container">
+                            <div class="invisible review-div">
                                 <div class="image">
                                     <img src="/rentrover/assets/images/rupak.png" alt="">
                                 </div>
@@ -358,6 +354,10 @@ if ($roomExists) {
             </section>
 
             <!-- room of the same house -->
+            <section class="container mt-3 mb-4">
+                <h3 class="m-0 fw-semibold"> Other rooms in this house </h3>
+            </section>
+
             <section class="container room-container" id="same-house-room-container">
                 <!-- backup -->
                 <div class="d-none room shadow-sm room-element bhk-element non-bhk-element unfurnished-element semi-furnished-element full-furnished-element district-kathmandu-element"
@@ -476,184 +476,213 @@ if ($roomExists) {
     <!-- popup js -->
     <script src="/rentrover/js/popup-alert.js"></script>
 
+    <!-- top bar rating -->
+    <script src="/rentrover/js/load-top-bar-rating.js"></script>
+
     <!-- script -->
     <script>
-        // room apply form
-        $('#room-application-form').submit(function (e) {
-            e.preventDefault();
+        $(document).ready(function () {
+            loadTopBarRating(<?= $roomId ?>);
 
-            // check date
-            var currentDate = new Date();
-            currentDate.setHours(0, 0, 0, 0);
-            var renting_type = $('#renting-type').val();
-            var move_in_date = new Date($('#move-in-date').val());
-            var move_out_date = 0;
+            // room apply form
+            $('#room-application-form').submit(function (e) {
+                e.preventDefault();
 
-            move_in_date.setHours(0, 0, 0, 0);
+                // check date
+                var currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0);
+                var renting_type = $('#renting-type').val();
+                var move_in_date = new Date($('#move-in-date').val());
+                var move_out_date = 0;
 
-            if (renting_type == 'fixed') {
-                move_out_date = new Date($('#move-out-date').val());
-                move_out_date.setHours(0, 0, 0, 0);
-            }
+                move_in_date.setHours(0, 0, 0, 0);
 
-            // check if the dates are past date
-            if (move_in_date < currentDate) {
-                $('#error-message').html("Please set the valid move in date.").show();
-                formValid = false;
-            } else {
-                if (renting_type == "fixed") {
-                    if (move_in_date > move_out_date) {
-                        $('#error-message').html("Please set the valid move out date.").show();
-                    } else {
-                        // minimum days to rent :: 28 days
-                        var timeDiff = move_out_date.getTime() - move_in_date.getTime();
-                        var dayDiff = Math.round(timeDiff / (1000 * 60 * 60 * 24));
-
-                        if (dayDiff < 28) {
-                            $('#error-message').html("The minimun days for renting is 28 days.").show();
-                        } else {
-                            $('#error-message').html("Valid").hide();
-                            var formData = $(this).serialize();
-                            submitApplication(formData);
-                        }
-                    }
-                } else {
-                    $('#error-message').hide();
-                    $('#move-out-date').val('');
-                    var formData = $(this).serialize();
-                    submitApplication(formData);
+                if (renting_type == 'fixed') {
+                    move_out_date = new Date($('#move-out-date').val());
+                    move_out_date.setHours(0, 0, 0, 0);
                 }
-            }
-        });
 
-        function submitApplication(formData) {
-            console.clear();
-            $.ajax({
-                url: '/rentrover/pages/tenant/app/apply-for-room.php',
-                type: "POST",
-                data: formData,
-                beforeSend: function () {
-                    $('#room-application-btn').html("Applying..").prop('disabled', true);
-                },
-                success: function (response) {
-                    if (response == true) {
-                        $('#error-message').fadeOut();
-                        $('#close-application-btn').click();
-                        $('#success-btn').removeClass('invisible');
-                        $('#apply-form-trigger-btn').fadeOut();
-                        showPopupAlert("Application has been submitted.");
+                // check if the dates are past date
+                if (move_in_date < currentDate) {
+                    $('#error-message').html("Please set the valid move in date.").show();
+                    formValid = false;
+                } else {
+                    if (renting_type == "fixed") {
+                        if (move_in_date > move_out_date) {
+                            $('#error-message').html("Please set the valid move out date.").show();
+                        } else {
+                            // minimum days to rent :: 28 days
+                            var timeDiff = move_out_date.getTime() - move_in_date.getTime();
+                            var dayDiff = Math.round(timeDiff / (1000 * 60 * 60 * 24));
+
+                            if (dayDiff < 28) {
+                                $('#error-message').html("The minimun days for renting is 28 days.").show();
+                            } else {
+                                $('#error-message').html("Valid").hide();
+                                var formData = $(this).serialize();
+                                submitApplication(formData);
+                            }
+                        }
                     } else {
-                        $('#error-message').html("Application couldn't be submitted").fadeIn();
+                        $('#error-message').hide();
+                        $('#move-out-date').val('');
+                        var formData = $(this).serialize();
+                        submitApplication(formData);
                     }
-                    $('#room-application-btn').html("Apply Now").prop('disabled', false);
-                }, error: function () {
-                    $('#room-application-btn').html("Apply Now").prop('disabled', false);
                 }
             });
-        }
 
-        // renting type
-        $('#renting-type').change(function () {
-            if ($('#renting-type').val() == "fixed") {
-                $('#move-out-date-div').show();
-                $('#move-out-date').attr("required", "required");
-            } else {
-                $('#move-out-date-div').hide();
-                $('#move-out-date').removeAttr("required");
-            }
-        });
 
-        // loading the rooms of the same
-        function loadSameHouseRooms() {
-            house_id = <?= $roomObj->houseId ?? 0 ?>;
-            room_id = <?= $roomId ?? 0 ?>;
-
-            if (house_id != 0 && room_id != 0) {
+            function submitApplication(formData) {
+                console.clear();
                 $.ajax({
-                    url: '/rentrover/pages/tenant/sections/load-room-of-same-house.php',
-                    method: "POST",
-                    data: { houseId: house_id, roomId: room_id },
-                    success: function (data) {
-                        $('#same-house-room-container').html(data);
+                    url: '/rentrover/pages/tenant/app/apply-for-room.php',
+                    type: "POST",
+                    data: formData,
+                    beforeSend: function () {
+                        $('#room-application-btn').html("Applying..").prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response == true) {
+                            $('#error-message').fadeOut();
+                            $('#close-application-btn').click();
+                            $('#success-btn').removeClass('invisible');
+                            $('#apply-form-trigger-btn').fadeOut();
+                            showPopupAlert("Application has been submitted.");
+                        } else {
+                            $('#error-message').html("Application couldn't be submitted").fadeIn();
+                        }
+                        $('#room-application-btn').html("Apply Now").prop('disabled', false);
+                    }, error: function () {
+                        $('#room-application-btn').html("Apply Now").prop('disabled', false);
                     }
                 });
             }
-        }
 
-        loadSameHouseRooms();
 
-        // toggle selected room wish
-        $('#selected-room-wishlist-icon').click(function () {
-            room_id = $('#selected-room-wishlist-icon').data('id');
-            task = $('#selected-room-wishlist-icon').data('task');
-            $.ajax({
-                url: '/rentrover/pages/tenant/app/toggle-wishlist.php',
-                type: 'POST',
-                data: { roomId: room_id, toDo: task },
-                beforeSend: function () {
-                    if (task == 'add') {
-                        $('#selected-room-wishlist-icon').data('task', 'remove').addClass('fa-solid').removeClass('fa-regular');
-                    } else {
-                        $('#selected-room-wishlist-icon').data('task', 'add').addClass('fa-regular').removeClass('fa-solid');
-                    }
-                },
-                success: function (response) {
-                    if (response != true) {
-                        location.reload();
-                    }
-                    // load wishlist count
-                    $(document, loadWishlistCount());
-                }
-            })
-        });
-
-        // wishlist for room of same house
-        $(document).on('click', '.wish-icon', function (e) {
-            room_id = $(this).data('id');
-            task = $(this).data('task');
-
-            var targetIcon = $(this).closest("i");
-
-            $.ajax({
-                url: '/rentrover/pages/tenant/app/toggle-wishlist.php',
-                data: { roomId: room_id, toDo: task },
-                type: 'POST',
-                beforeSend: function () {
-                    if (task == 'add') {
-                        targetIcon.data('task', 'remove');
-                        targetIcon.addClass('fa-solid');
-                        targetIcon.removeClass('fa-regular');
-                    } else {
-                        targetIcon.data('task', 'add');
-                        targetIcon.addClass('fa-regular');
-                        targetIcon.removeClass('fa-solid');
-                    }
-                },
-                success: function (response) {
-                    if (response != true) {
-                        location.reload();
-                    }
+            // renting type
+            $('#renting-type').change(function () {
+                if ($('#renting-type').val() == "fixed") {
+                    $('#move-out-date-div').show();
+                    $('#move-out-date').attr("required", "required");
+                } else {
+                    $('#move-out-date-div').hide();
+                    $('#move-out-date').removeAttr("required");
                 }
             });
-        });
 
-        // cancel application
-        $('#cancel-application').click(function () {
-            const room_id = <?= $roomId ?>;
-            const user_id = <?= $r_id ?? 0 ?>;
 
-            $.ajax({
-                url: '/rentrover/pages/tenant/app/cancel-application.php',
-                type: "POST",
-                data: { userId: user_id, roomId: room_id },
-                success: function (data) {
-                    location.reload();
+            // loading the rooms of the same
+            function loadSameHouseRooms() {
+                house_id = <?= $roomObj->houseId ?? 0 ?>;
+                room_id = <?= $roomId ?? 0 ?>;
+
+                if (house_id != 0 && room_id != 0) {
+                    $.ajax({
+                        url: '/rentrover/pages/tenant/sections/load-room-of-same-house.php',
+                        method: "POST",
+                        data: { houseId: house_id, roomId: room_id },
+                        success: function (data) {
+                            $('#same-house-room-container').html(data);
+                        }
+                    });
                 }
-            });
-        });
+            }
 
-        // load wishlist count
-        $(document, loadWishlistCount());
+
+            loadSameHouseRooms();
+
+
+            // toggle selected room wish
+            $('#selected-room-wishlist-icon').click(function () {
+                room_id = $('#selected-room-wishlist-icon').data('id');
+                task = $('#selected-room-wishlist-icon').data('task');
+                $.ajax({
+                    url: '/rentrover/pages/tenant/app/toggle-wishlist.php',
+                    type: 'POST',
+                    data: { roomId: room_id, toDo: task },
+                    beforeSend: function () {
+                        if (task == 'add') {
+                            $('#selected-room-wishlist-icon').data('task', 'remove').addClass('fa-solid').removeClass('fa-regular');
+                        } else {
+                            $('#selected-room-wishlist-icon').data('task', 'add').addClass('fa-regular').removeClass('fa-solid');
+                        }
+                    },
+                    success: function (response) {
+                        if (response != true) {
+                            location.reload();
+                        }
+                        // load wishlist count
+                        $(document, loadWishlistCount());
+                    }
+                })
+            });
+
+
+            // wishlist for room of same house
+            $(document).on('click', '.wish-icon', function (e) {
+                room_id = $(this).data('id');
+                task = $(this).data('task');
+
+                var targetIcon = $(this).closest("i");
+
+                $.ajax({
+                    url: '/rentrover/pages/tenant/app/toggle-wishlist.php',
+                    data: { roomId: room_id, toDo: task },
+                    type: 'POST',
+                    beforeSend: function () {
+                        if (task == 'add') {
+                            targetIcon.data('task', 'remove');
+                            targetIcon.addClass('fa-solid');
+                            targetIcon.removeClass('fa-regular');
+                        } else {
+                            targetIcon.data('task', 'add');
+                            targetIcon.addClass('fa-regular');
+                            targetIcon.removeClass('fa-solid');
+                        }
+                    },
+                    success: function (response) {
+                        if (response != true) {
+                            location.reload();
+                        }
+                    }
+                });
+            });
+
+
+            // cancel application
+            $('#cancel-application').click(function () {
+                const room_id = <?= $roomId ?>;
+                const user_id = <?= $r_id ?? 0 ?>;
+
+                $.ajax({
+                    url: '/rentrover/pages/tenant/app/cancel-application.php',
+                    type: "POST",
+                    data: { userId: user_id, roomId: room_id },
+                    success: function (data) {
+                        location.reload();
+                    }
+                });
+            });
+
+
+            // load wishlist count
+            $(document, loadWishlistCount());
+
+            // load reviews
+            function loadReviews() {
+                $.ajax({
+                    url: '/rentrover/pages/tenant/sections/load-review.php',
+                    type: 'POST',
+                    data: { roomId: <?= $roomId ?> },
+                    success: function (data) {
+                        $('#review-container').html(data);
+                    }
+                });
+            }
+
+            loadReviews();
+        });
     </script>
 </body>
 

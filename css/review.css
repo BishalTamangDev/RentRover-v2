@@ -1,3 +1,9 @@
+.review-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
 .review-div {
   display: flex;
   flex-direction: row;
@@ -14,6 +20,9 @@
   overflow: hidden;
 }
 
+.review-details {
+  width: 100%;
+}
 .review-details p {
   margin: 0;
 }

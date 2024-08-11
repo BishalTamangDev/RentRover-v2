@@ -271,7 +271,7 @@ class Room
     public function countAcquiredRoom()
     {
         global $conn;
-        $query = "SELECT room_id FROM room_tb WHERE flag = 'acquired'";
+        $query = "SELECT room_id FROM room_tb WHERE flag = 'on-hold'";
         $result = $conn->query($query);
         return $result->num_rows;
     }
@@ -290,7 +290,7 @@ class Room
     public function countUnacquiredRoom()
     {
         global $conn;
-        $query = "SELECT room_id FROM room_tb WHERE flag != 'acquired'";
+        $query = "SELECT room_id FROM room_tb WHERE flag = 'verified'";
         $result = $conn->query($query);
         return $result->num_rows;
     }

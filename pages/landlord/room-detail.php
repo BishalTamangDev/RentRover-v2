@@ -83,15 +83,11 @@ $page = "rooms";
                         <div class="d-flex flex-column gap-1 address-review top-section">
                             <p class="m-0 fw-bold fs-4"> <?= $houseObj->getAddress() ?> </p>
 
-                            <div class="d-flex flex-row gap-2 align-items-center rating-div">
+                            <div class="d-flex flex-row gap-2 align-items-center rating-div" id="rating-div">
                                 <div class="rating">
                                     <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                    <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                    <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                    <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                    <img src="/rentrover/assets/icons/half-star.png" alt="">
                                 </div>
-                                <p class="m-0 text-secondary small pt-1"> (3 Reviews) </p>
+                                <p class="m-0 text-secondary small pt-1"> (0 Review) </p>
                             </div>
                         </div>
                     </div>
@@ -161,8 +157,8 @@ $page = "rooms";
 
                             <!-- reviews -->
                             <h3 class="m-0 fw-semibold mt-3"> Reviews and Ratings </h3>
-                            <div class="review-container">
-                                <div class="review-div">
+                            <div class="review-container" id="review-container">
+                                <div class="invisible review-div">
                                     <div class="image">
                                         <img src="/rentrover/assets/images/rupak.png" alt="">
                                     </div>
@@ -305,6 +301,9 @@ $page = "rooms";
     <!-- popup script -->
     <script src="/rentrover/js/popup-alert.js"></script>
 
+    <!-- top bar rating -->
+    <script src="/rentrover/js/load-top-bar-rating.js"></script>
+
     <script>
         $(document).ready(function () {
             $('#delete-room-btn').click(function () {
@@ -327,6 +326,22 @@ $page = "rooms";
                     }
                 });
             });
+
+            // loca reviews
+            // load reviews
+            function loadReviews() {
+                $.ajax({
+                    url: '/rentrover/pages/tenant/sections/load-review.php',
+                    type: 'POST',
+                    data: { roomId: <?= $roomId ?> },
+                    success: function (data) {
+                        loadTopBarRating(<?= $roomId ?>);
+                        $('#review-container').html(data);
+                    }
+                });
+            }
+
+            loadReviews();
         });
     </script>
 </body>

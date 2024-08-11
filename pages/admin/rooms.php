@@ -7,7 +7,6 @@ $profileUser = new Admin();
 
 $profileUser->fetch($r_id, "all");
 
-
 if (!isset($page))
     $page = "rooms";
 ?>
@@ -191,7 +190,7 @@ if (!isset($page))
 
                 // unacquired rooms
                 $.ajax({
-                    url: '/rentrover/pages/admin/app/count-room.php',
+                    url: '/rentrover/pages/admin/app/count-unacquired-room.php',
                     success : function (data) {
                         $('#unacquired-room-count').html(data);
                     }, error :function () {

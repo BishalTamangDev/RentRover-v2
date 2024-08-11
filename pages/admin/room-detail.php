@@ -54,18 +54,18 @@ if (!isset($page))
     <?php require_once __DIR__ . '/sections/aside.php'; ?>
 
     <main>
-        <?php 
-        if($roomExists) {
+        <?php
+        if ($roomExists) {
             require_once __DIR__ . '/../../functions/amenity-array.php';
 
             $houseObj = new House();
             $houseExists = $houseObj->fetch($roomObj->houseId);
 
-            if(!$houseExists) {
+            if (!$houseExists) {
                 ?>
                 <p class="m-0 fs-1 fw-bold"> House not found! </p>
                 <?php
-            } else{
+            } else {
                 ?>
                 <!-- room detail -->
                 <section class="room-detail-container">
@@ -73,86 +73,82 @@ if (!isset($page))
                     <!-- address, rating, wishlist -->
                     <div class="d-flex flex-row justify-content-between">
                         <div class="d-flex flex-column gap-1 address-review top-section">
-                            <p class="m-0 fw-bold fs-4"> <?=$houseObj->getAddress()?> </p>
-                
-                            <div class="d-flex flex-row gap-2 align-items-center rating-div">
+                            <p class="m-0 fw-bold fs-4"> <?= $houseObj->getAddress() ?> </p>
+
+                            <div class="d-flex flex-row gap-2 align-items-center rating-div" id="rating-div">
                                 <div class="rating">
                                     <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                    <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                    <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                    <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                    <img src="/rentrover/assets/icons/half-star.png" alt="">
                                 </div>
-                                <p class="m-0 text-secondary small pt-1"> (3 Reviews) </p>
+                                <p class="m-0 text-secondary small pt-1"> (0 Review) </p>
                             </div>
                         </div>
                     </div>
-                
+
                     <!-- image -->
                     <div class="d-flex flex-column mt-4 gap-2 room-image-container">
-                        <?php $roomObj->fetchPhotos($roomId);?>
+                        <?php $roomObj->fetchPhotos($roomId); ?>
                         <div class="left">
-                            <img src="/rentrover/uploads/rooms/<?=$roomObj->photo['first']?>" alt="">
+                            <img src="/rentrover/uploads/rooms/<?= $roomObj->photo['first'] ?>" alt="">
                         </div>
-                
+
                         <div class="d-flex flex-row flex-wrap gap-2 right">
                             <div class="room-image">
-                                <img src="/rentrover/uploads/rooms/<?=$roomObj->photo['first']?>" alt="">
+                                <img src="/rentrover/uploads/rooms/<?= $roomObj->photo['first'] ?>" alt="">
                             </div>
-                
+
                             <div class="room-image">
-                                <img src="/rentrover/uploads/rooms/<?=$roomObj->photo['second']?>" alt="">
+                                <img src="/rentrover/uploads/rooms/<?= $roomObj->photo['second'] ?>" alt="">
                             </div>
-                
+
                             <div class="room-image">
-                                <img src="/rentrover/uploads/rooms/<?=$roomObj->photo['third']?>" alt="">
+                                <img src="/rentrover/uploads/rooms/<?= $roomObj->photo['third'] ?>" alt="">
                             </div>
-                
+
                             <div class="room-image">
-                                <img src="/rentrover/uploads/rooms/<?=$roomObj->photo['fourth']?>" alt="">
+                                <img src="/rentrover/uploads/rooms/<?= $roomObj->photo['fourth'] ?>" alt="">
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="d-flex flex-column-reverse flex-xl-row details">
                         <!-- requirememnts, amenities and reviews -->
                         <div class="d-flex flex-column gap-3 mt-3 mt-lg-5 requirements-amenities-reviews">
                             <!-- nearest landmark -->
                             <div class="requirements">
                                 <h3 class="m-0 fw-semibold"> Nearest Landmark </h3>
-                                <p class="m-0 mt-3"> <?=ucfirst($houseObj->address['nearestLandmark'])?> </p>
+                                <p class="m-0 mt-3"> <?= ucfirst($houseObj->address['nearestLandmark']) ?> </p>
                             </div>
 
                             <!-- additional info -->
                             <div class="requirements mt-4">
                                 <h3 class="m-0 fw-semibold"> Additional Information </h3>
-                                <p class="m-0 mt-3"> <?=ucfirst($houseObj->info)?> </p>
+                                <p class="m-0 mt-3"> <?= ucfirst($houseObj->info) ?> </p>
                             </div>
-                
+
                             <!-- amenities -->
                             <h3 class="m-0 fw-semibold mt-4"> Amenities </h3>
                             <div class="d-flex flex-row mt-2 flex-wrap gap-2 amenity-container">
-                            <?php $roomObj->fetchAmenity($roomId)?>
+                                <?php $roomObj->fetchAmenity($roomId) ?>
                                 <?php
-                                foreach($roomObj->amenity as $amenity) {
-                                    if($amenity != '') {
+                                foreach ($roomObj->amenity as $amenity) {
+                                    if ($amenity != '') {
 
                                         ?>
-                                    <!-- amenity -->
-                                    <div class="amenity">
-                                        <img src="/rentrover/assets/icons/amenities/<?=amenityIcon($amenity)?>" alt=""
-                                        class="amenity-icon">
-                                        <p> <?=$amenity?> </p>
-                                    </div>
-                                    <?php
-                                }
+                                        <!-- amenity -->
+                                        <div class="amenity">
+                                            <img src="/rentrover/assets/icons/amenities/<?= amenityIcon($amenity) ?>" alt=""
+                                                class="amenity-icon">
+                                            <p> <?= $amenity ?> </p>
+                                        </div>
+                                        <?php
+                                    }
                                 }
                                 ?>
                             </div>
-                
+
                             <!-- reviews -->
                             <h3 class="m-0 fw-semibold mt-4"> Reviews and Ratings </h3>
-                            <div class="review-container">
+                            <div class="review-container" id="review-container">
                                 <div class="review-div">
                                     <div class="image">
                                         <img src="/rentrover/assets/images/rupak.png" alt="">
@@ -171,65 +167,66 @@ if (!isset($page))
                                 </div>
                             </div>
                         </div>
-                
+
                         <!-- remaining specs -->
                         <div class="mt-4 mt-lg-5 specifications">
                             <table class="border table mt-0 specification-table">
                                 <!-- room number -->
                                 <tr>
                                     <td class="title"> Room Number </td>
-                                    <td class="data"> <?=$roomObj->number?> </td>
+                                    <td class="data"> <?= $roomObj->number ?> </td>
                                 </tr>
-                
+
                                 <!-- house -->
                                 <tr>
                                     <td class="title"> House ID </td>
-                                    <td class="data"> <?=$houseObj->houseId?> </td>
+                                    <td class="data"> <?= $houseObj->houseId ?> </td>
                                 </tr>
-                
+
                                 <!-- landlord name -->
                                 <tr>
                                     <td class="title"> Landlord </td>
                                     <td class="data"> - </td>
                                 </tr>
-                
+
                                 <!-- type -->
                                 <tr>
                                     <td class="title"> Type </td>
-                                    <td class="data"> <?=$roomObj->type == 'bhk' ? 'BHK' : "Non-BHK"?> </td>
+                                    <td class="data"> <?= $roomObj->type == 'bhk' ? 'BHK' : "Non-BHK" ?> </td>
                                 </tr>
-                
+
                                 <!-- furnishing -->
                                 <tr>
                                     <td class="title"> Furnishing </td>
-                                    <td class="data"> <?=ucwords($roomObj->furnishing)?> </td>
+                                    <td class="data"> <?= ucwords($roomObj->furnishing) ?> </td>
                                 </tr>
-                
+
                                 <!-- floor -->
                                 <tr>
                                     <td class="title"> Floor </td>
-                                    <td class="data"> <?=$roomObj->floor?> </td>
+                                    <td class="data"> <?= $roomObj->floor ?> </td>
                                 </tr>
-                
+
                                 <!-- type -->
                                 <tr>
                                     <td class="title"> Rent Amount </td>
-                                    <td class="data text-success fw-semibold"> <?= "NPR.".number_format($roomObj->rent, 2)?> </td>
+                                    <td class="data text-success fw-semibold"> <?= "NPR." . number_format($roomObj->rent, 2) ?>
+                                    </td>
                                 </tr>
-                
+
                                 <!-- room acquired state -->
                                 <tr>
                                     <td class="title"> Room state </td>
-                                    <td class="data"> <?=ucfirst($roomObj->flag)?> </td>
+                                    <td class="data"> <?= ucfirst($roomObj->flag) ?> </td>
                                 </tr>
-                
+
                                 <!-- added date -->
                                 <tr>
                                     <td class="title"> Added on </td>
-                                    <td class="data"> <?=$roomObj->registrationDate?> </td>
+                                    <td class="data"> <?= $roomObj->registrationDate ?> </td>
                                 </tr>
                             </table>
-                
+
                             <div class="action">
                                 <button type="button" class="btn btn-outline-danger"> <i class="fa-regular fa-flag"></i>
                                     Unverify Room </button>
@@ -261,6 +258,29 @@ if (!isset($page))
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+    <!-- top bar rating -->
+    <script src="/rentrover/js/load-top-bar-rating.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            loadTopBarRating(<?= $roomId ?>);
+            loadReviews();
+
+            // load reviews
+            function loadReviews() {
+                $.ajax({
+                    url: '/rentrover/pages/tenant/sections/load-review.php',
+                    type: 'POST',
+                    data: { roomId: <?= $roomId ?> },
+                    success: function (data) {
+                        loadTopBarRating(<?= $roomId ?>);
+                        $('#review-container').html(data);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

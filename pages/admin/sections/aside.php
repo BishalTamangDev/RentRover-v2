@@ -1,4 +1,9 @@
 <?php
+require_once __DIR__ . '/../../../classes/admin.php';
+
+if (!isset($profileUser))
+    $profileUser = new Admin();
+
 if (!isset($page))
     $page = "";
 ?>
@@ -87,10 +92,11 @@ if (!isset($page))
         <!-- profile -->
         <div class="position-relative profile-container">
             <div class="profile" id="profile-image-container">
-                <?php 
-                if($profileUser->profilePhoto != ""){
+                <?php
+                if ($profileUser->profilePhoto != "") {
                     ?>
-                    <img src="/rentrover/uploads/admins/<?=$profileUser->profilePhoto?>" alt="user profile photo" class="pointer">
+                    <img src="/rentrover/uploads/admins/<?= $profileUser->profilePhoto ?>" alt="user profile photo"
+                        class="pointer">
                     <?php
                 } else {
                     ?>
@@ -154,13 +160,6 @@ if (!isset($page))
                 onclick="window.location.href='/rentrover/admin/feedbacks'">
                 <i class="fa-regular fa-comment"></i>
                 <span> Feedbacks </span>
-            </li>
-
-            <!-- custom application -->
-            <li class="<?= $page == 'custom-applications' ? 'active' : 'inactive'; ?>"
-                onclick="window.location.href='/rentrover/admin/custom-applications'">
-                <i class="fa-solid fa-gears"></i>
-                <span> Custom Search </span>
             </li>
 
             <!-- system notice application -->

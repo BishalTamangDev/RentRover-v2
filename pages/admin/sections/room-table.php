@@ -15,19 +15,31 @@ foreach ($roomList as $room) {
     $tempHouse->fetch($houseId);
     $landlordId = $tempHouse->getLandlordId();
     $tempUser->fetch($landlordId, "mandatory");
+
+    // class : filtering
+    $typeClass = $room['type'] == 'bhk' ? "bhk-row" : "non-bhk-row";
+
+    $furnishingClass = "";
+    
+    switch ($room['furnishing']) {
+        case 'unfurnished':
+            $furnishingClass = "unfurnished-row";
+            break;
+        case 'semi-furnished':
+            $furnishingClass = "semi-furnished-row";
+            break;
+        default:
+            $furnishingClass = "fully-furnished-row";
+    }
+
+    $statusClass = $room['flag'] == 'verified' ? "unacquired-row" : "acquired-row";
     ?>
-    <tr
-        class="room-row <?= $room['type'] == 'bhk' ? "bhk-row" : "non-bhk-row" ?> 
-        <?php if ($room['furnishing'] == 'unfunished')
-            echo "unfurnished-row";
-        elseif ($room['furnishing'] == 'semi-furnished')
-            echo "semi-furnished-row";
-        else
-            echo "full-furnished-row"; ?> <?= $room['flag'] != 'acquired' ? "unacquired-row" : "acquired-row" ?> bhk-row unfurnished-row unacquired-row">
+    <tr class="room-row <?= $typeClass ?> <?= $furnishingClass ?> <?= $statusClass ?>">
         <th scope="row" class="serial"> <?= $serial++ ?> </th>
         <td> <a href="/rentrover/admin/house-detail/<?= $houseId ?>" class="text-primary"> <?= $houseId ?> </a> </td>
         <td> <?= $tempHouse->getAddress() ?> </td>
-        <td> <a href="/rentrover/admin/user-detail/<?= $landlordId ?>" class="text-primary"> <?= $tempUser->getFullName() ?> </a> </td>
+        <td> <a href="/rentrover/admin/user-detail/<?= $landlordId ?>" class="text-primary"> <?= $tempUser->getFullName() ?>
+            </a> </td>
         <td>
             <?php
             if ($room['type'] == 'bhk') {
@@ -38,7 +50,7 @@ foreach ($roomList as $room) {
             ?>
         </td>
         <td> <?= ucfirst($room['furnishing']) ?> </td>
-        <td> <?= $room['flag'] != 'acquired' ? "Unacquired" : "Acquired" ?> </td>
+        <td> <?= $room['flag'] == 'verified' ? "Unacquired" : "Acquired" ?> </td>
         <td class="text-secondary small"> <?= $room['registration_date'] ?> </td>
         <td class="action text-primary">
             <a href="/rentrover/admin/room-detail/<?= $roomId ?>" class="text-primary small"> Show details
