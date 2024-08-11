@@ -163,17 +163,19 @@ if (!isset($tab))
                         if (response != true) {
                             location.reload();
                         }
+                        loadWishlistCount();
                     }
                 });
 
                 function toggleEmptySection() {
-                    console.log("toggle");
                     if ($('.room:visible').length == 0) {
                         $('#empty-context-container').removeClass('invisible').fadeIn("slow");
                     }
                 }
             });
 
+            // load wishlist count
+            $(document, loadWishlistCount());
         });
     </script>
 </body>

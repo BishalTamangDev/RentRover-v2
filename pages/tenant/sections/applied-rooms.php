@@ -8,25 +8,28 @@
                     <th scope="col"> Location </th>
                     <th scope="col"> Room No. </th>
                     <th scope="col"> Specification </th>
-                    <th scope="col"> Floor </th>
-                    <th scope="col"> Rent </th>
                     <th scope="col"> Move in date </th>
                     <th scope="col"> Move out date </th>
+                    <th scope="col"> Status </th>
                 </tr>
             </thead>
 
-            <tbody>
-                <tr>
-                    <td scope="row"> 1. </td>
-                    <td> Jaldhunga Marga, Pipalboat </td>
-                    <td> 200 </td>
-                    <td> 1 BHK, Un-furnished </td>
-                    <td> 2nd </td>
-                    <td> NRS. 18,000.00 </td>
-                    <td> 0000-00-00 </td>
-                    <td> Still Residing </td>
-                </tr>
+            <tbody id="application-table-body">
+                
             </tbody>
         </table>
     </div>
 </div>
+
+<script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/rentrover/pages/tenant/sections/load-applications.php',
+            success: function (data) {
+                $('#application-table-body').html(data);
+            }
+        });
+    });
+</script>

@@ -1,5 +1,10 @@
 <?php
-include_once __DIR__ . '/../../../functions/district-array.php';
+require_once __DIR__ . '/../../../functions/district-array.php';
+require_once __DIR__ . '/../../../classes/user.php';
+
+if (!isset($profileUser)) {
+    $profileUser = new User();
+}
 
 if (!isset($tab))
     $tab = "view";
@@ -47,37 +52,36 @@ if (!isset($tab))
 
     <hr class="mt-4 text-secondary" />
 
-    <?php 
-    if($profileUser->flag != "verified") {
+    <?php
+    if ($profileUser->flag != "verified") {
         ?>
         <div class="alert alert-danger" role="alert">
-            <?php 
-            if($profileUser->flag == "pending") {
+            <?php
+            if ($profileUser->flag == "pending") {
                 ?>
                 <p class="m-0">
                     Your account is not verified yet. Update your details and apply for verification.
-                </p> 
+                </p>
                 <?php
-            } elseif($profileUser->flag == "on-hold"){
+            } elseif ($profileUser->flag == "on-hold") {
                 ?>
                 <p class="m-0">
                     Your account is being verified. Please wait sometime. You'll get notified soon.
-                </p> 
-                <?php 
+                </p>
+            <?php
             }
             ?>
 
             <!-- check if the account is eligible for verification -->
-            <?php 
-            if($profileUser->checkAccountEligibilityForVerification($r_id)){
+            <?php
+            if ($profileUser->checkAccountEligibilityForVerification($r_id)) {
                 ?>
                 <p class="m-0">
-                    <a class="pointer"> Click Here </a> to apply for verification.
+                    <a class="pointer" id="apply-for-verification-trigger"> Click Here </a> to apply for verification.
                 </p>
                 <?php
             }
             ?>
-
         </div>
         <?php
     }
@@ -87,15 +91,15 @@ if (!isset($tab))
     if ($tab == "view") {
         ?>
         <div class="mb-3 profile-informations">
-            <div class="d-flex">
-                <div class="w-50">
+            <div class="d-flex flex-column flex-md-row row-gap-3">
+                <div class="w-100 w-md-50">
                     <p class="m-0 text-secondary"> First Name </p>
                     <p class="m-0 fw-semibold">
                         <?= ($profileUser->name['first'] != '') ? ucfirst($profileUser->name['first']) : "-" ?>
                     </p>
                 </div>
 
-                <div class="w-50">
+                <div class="w-100 w-md-50">
                     <p class="m-0 text-secondary"> Last Name </p>
                     <p class="m-0 fw-semibold">
                         <?= ($profileUser->name['last'] != '') ? ucfirst($profileUser->name['last']) : "-" ?>
@@ -104,7 +108,7 @@ if (!isset($tab))
                 </div>
             </div>
 
-            <div class="mt-3 d-flex">
+            <div class="d-flex flex-column flex-md-row row-gap-3 mt-3">
                 <div class="w-50">
                     <p class="m-0 text-secondary"> Gender </p>
                     <p class="m-0 fw-semibold"> <?= ($profileUser->gender != '') ? ucfirst($profileUser->gender) : "-" ?>
@@ -117,7 +121,7 @@ if (!isset($tab))
                 </div>
             </div>
 
-            <div class="mt-3 d-flex">
+            <div class="d-flex flex-column flex-md-row row-gap-3 mt-3">
                 <div class="w-50">
                     <p class="m-0 text-secondary"> Email </p>
                     <p class="m-0 fw-semibold"> <?= ($profileUser->email != '') ? $profileUser->email : "-" ?> </p>
@@ -133,7 +137,7 @@ if (!isset($tab))
 
             <p class="m-0 mt-3 text-secondary"> Address </p>
             <div class="d-flex flex-column">
-                <div class="d-flex">
+                <div class="d-flex flex-column flex-md-row row-gap-3 mt-3">
                     <div class="w-50">
                         <p class="m-0 mt-2 text-secondary"> Province </p>
                         <p class="m-0 fw-semibold">
@@ -148,7 +152,7 @@ if (!isset($tab))
                     </div>
                 </div>
 
-                <div class="d-flex">
+                <div class="d-flex flex-column flex-md-row row-gap-3 mt-3">
                     <div class="w-50">
                         <p class="m-0 mt-3 text-secondary"> Municipality/ Rupal Municipality </p>
                         <p class="m-0 fw-semibold">
@@ -179,8 +183,6 @@ if (!isset($tab))
                 ?>
                 <p class="text-danger m-0 small mt-2"> You haven't submitted the documents. You must submit the picture of your
                     citizenship to be able to use our services. </p>
-
-                <a href="/rentrover/tenant/profile/kyc" class="btn btn-dark mt-3"> Upload KYC Documents </a>
                 <?php
             } else {
                 ?>
@@ -188,17 +190,23 @@ if (!isset($tab))
                     <div class="d-flex flex-column gap-1 document-container">
                         <p class="m-0 small mb-1"> Front side </p>
                         <div class="document">
-                            <img src="/rentrover/uploads/kycs/<?=$profileUser->kyc['front']?>" alt="citizenship front side">
+                            <img src="/rentrover/uploads/kycs/<?= $profileUser->kyc['front'] ?>" alt="citizenship front side">
                         </div>
                     </div>
 
                     <div class="d-flex flex-column gap-1 document-container">
                         <p class="m-0 small mb-1"> Back side </p>
                         <div class="document">
-                            <img src="/rentrover/uploads/kycs/<?=$profileUser->kyc['back']?>" alt="citizenship back side">
+                            <img src="/rentrover/uploads/kycs/<?= $profileUser->kyc['back'] ?>" alt="citizenship back side">
                         </div>
                     </div>
                 </section>
+                <?php
+            }
+
+            if ($profileUser->flag != 'verified' && $profileUser->flag != 'on-hold') {
+                ?>
+                <a href="/rentrover/tenant/profile/kyc" class="btn btn-dark mt-3"> Upload/ Change KYC Documents </a>
                 <?php
             }
             ?>
@@ -359,7 +367,7 @@ if (!isset($tab))
             <label for="phone-number" class="mt-4 mb-2"> Phone number </label>
             <input type="text" value="<?php if ($profileUser->getPhoneNumber() != '')
                 echo $profileUser->getPhoneNumber(); ?>" name="phone-number" class="form-control" id="phone-number"
-                placeholder="phone number" minlength="10" maxlength="10" />
+                placeholder="phone number" minlength="10"  maxlength="10" />
 
             <div class="d-flex flex-row gap-2 action">
                 <button type="submit" class="mt-4 btn btn-success fit-content" id="update-profile-btn"> Update
@@ -375,7 +383,7 @@ if (!isset($tab))
 
         <p class="mb-2 text-danger error-message" id="error-message"> Error message appears here... </p>
 
-        <form action="/rentrover/app/kyc-upload.php" method="POST" id="kyc-form" enctype="multipart/form-data">
+        <form method="POST" id="kyc-form" enctype="multipart/form-data">
             <div class="d-flex flex-row flex-wrap gap-2 mt-2 document-div">
                 <!-- front document container -->
                 <div class="image-input-container">

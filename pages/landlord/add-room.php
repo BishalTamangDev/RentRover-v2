@@ -137,7 +137,7 @@ $page = "rooms";
                 <div class="d-flex flex-column flex-md-row gap-3">
                     <!-- room number -->
                     <div class="w-100 w-md-50">
-                        <label for="room-number" class="mb-2 fw-semibold mt-3"> Room Number </label>
+                        <label for="room-number" class="mb-2 fw-semibold mt-3"> Room Number (ID) </label>
                         <input type="number" name="room-number" min="1" class="form-control" id="room-number" required
                             <?php if (!$eligible)
                                 echo "disabled"; ?>>

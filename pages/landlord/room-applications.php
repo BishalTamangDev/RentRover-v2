@@ -42,6 +42,7 @@ $page = "room-applications";
     <link rel="stylesheet" href="/rentrover/css/style.css">
     <link rel="stylesheet" href="/rentrover/css/aside.css">
     <link rel="stylesheet" href="/rentrover/css/filter.css">
+    <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
     <link rel="stylesheet" href="/rentrover/css/room-application.css">
 </head>
 
@@ -57,46 +58,24 @@ $page = "room-applications";
             <!-- total tenants -->
             <div class="card-v2">
                 <p class="title"> Total Applications </p>
-                <p class="data"> 120 </p>
+                <p class="data" id="total-application-count"> 0 </p>
             </div>
 
             <!-- current tenants -->
             <div class="card-v2">
                 <p class="title"> Accepted </p>
-                <p class="data"> 50 </p>
+                <p class="data" id="accepted-application-count"> 0 </p>
             </div>
 
             <!-- ex-tenants -->
             <div class="card-v2">
                 <p class="title"> Rejected </p>
-                <p class="data"> 70 </p>
+                <p class="data" id="rejected-application-count"> 0 </p>
             </div>
         </section>
 
         <!-- filter -->
         <section class="filter-container">
-            <!-- house -->
-            <div class="parameter">
-                <label for="filter-house-id"> House </label>
-                <select name="filter-house-id" class="form-select-sm" id="filter-house-id">
-                    <option value="all"> All </option>
-                    <option value="house-id-1"> Pipalboat, Kathmandu </option>
-                    <option value="house-id-2"> Balkot, Bhaktapur </option>
-                    <option value="house-id-2"> Imadol, Lalitpur </option>
-                </select>
-            </div>
-
-            <!-- room -->
-            <div class="parameter">
-                <label for="filter-room-id"> Room </label>
-                <select name="filter-room-id" class="form-select-sm" id="filter-room-id">
-                    <option value="all"> All </option>
-                    <option value="room-id-1"> Room no 1 </option>
-                    <option value="room-id-1"> Room no 2 </option>
-                    <option value="room-id-1"> Room no 3 </option>
-                </select>
-            </div>
-
             <!-- rent type -->
             <div class="parameter">
                 <label for="filter-rent-type"> Rent Type </label>
@@ -115,6 +94,8 @@ $page = "room-applications";
                     <option value="pending"> Pending </option>
                     <option value="accepted"> Accepted </option>
                     <option value="rejected"> Rejected </option>
+                    <option value="cancelled"> Cancelled </option>
+                    <option value="expired"> Expired </option>
                 </select>
             </div>
 
@@ -129,7 +110,8 @@ $page = "room-applications";
                 <thead>
                     <tr>
                         <th scope="col" class="serial"> S.N. </th>
-                        <th scope="col"> Room </th>
+                        <th scope="col"> House </th>
+                        <th scope="col"> Room Number </th>
                         <th scope="col"> Applicant </th>
                         <th scope="col"> Rent Type </th>
                         <th scope="col"> Move In Date </th>
@@ -139,10 +121,11 @@ $page = "room-applications";
                     </tr>
                 </thead>
 
-                <tbody>
-                    <tr class="application-row rent-not-fixed pending-row">
+                <tbody id="application-table-body">
+                    <tr class="invisible application-row rent-not-fixed pending-row accepted-row rejected-row">
                         <th scope="row" class="serial"> 1 </th>
-                        <td> Phungling, Pathivara, 3 </td>
+                        <td> House </td>
+                        <td> Room number </td>
                         <td> Rupak dangi </td>
                         <td> Fixed </td>
                         <td> 00-00-00 </td>
@@ -156,45 +139,11 @@ $page = "room-applications";
                             </p>
                         </td>
                     </tr>
-
-                    <tr class="application-row rent-not-fixed accepted-row">
-                        <th scope="row" class="serial"> 2 </th>
-                        <td> Sindhupalchowk </td>
-                        <td> Bishal Tamang </td>
-                        <td> Not-Fixed </td>
-                        <td> 00-00-00 </td>
-                        <td> - </td>
-                        <td> Accepted </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td class="action">
-                            <p class="small text-primary pointer" data-bs-toggle="modal"
-                                data-bs-target="#applicationModal">
-                                Show details
-                            </p>
-                        </td>
-                    </tr>
-
-                    <tr class="application-row rent-fixed rejected-row">
-                        <th scope="row" class="serial"> 3. </th>
-                        <td> Bhojpur </td>
-                        <td> Shristi Pradhan </td>
-                        <td> Not-Fixed </td>
-                        <td> 00-00-00 </td>
-                        <td> 00-00-00 </td>
-                        <td> Rejected </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td class="action">
-                            <p class="small text-primary pointer" data-bs-toggle="modal"
-                                data-bs-target="#applicationModal">
-                                Show details
-                            </p>
-                        </td>
-                    </tr>
                 </tbody>
 
                 <tfoot id="empty-data-foot">
                     <tr>
-                        <td colspan="8"> No data found! </td>
+                        <td colspan="9"> No data found! </td>
                     </tr>
                 </tfoot>
             </table>
@@ -207,9 +156,10 @@ $page = "room-applications";
                 <div class="modal-content ">
                     <div class="modal-header">
                         <h1 class="modal-title fs-4 fw-semibold" id="applicationModalLabel"> Application Detail </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            id="modal-close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="application-detail-modal-body">
                         <!-- erro message -->
                         <p class="text-danger small mb-2 error-message" id="error-message"> Message appears here... </p>
 
@@ -249,9 +199,11 @@ $page = "room-applications";
 
                         <!-- action -->
                         <div class="action mt-2">
-                            <button type="button" class="btn btn-success"> <i class="fa-solid fa-check"></i> Accept
+                            <button type="button" class="btn btn-success" id="accept-application-btn"> <i
+                                    class="fa-solid fa-check"></i> Accept
                             </button>
-                            <button type="button" class="btn btn-outline-danger"> <i class="fa fa-multiply"></i> Reject
+                            <button type="button" class="btn btn-outline-danger" id="reject-application-btn"> <i
+                                    class="fa fa-multiply"></i> Reject
                             </button>
                         </div>
                     </div>
@@ -259,6 +211,11 @@ $page = "room-applications";
             </div>
         </div>
     </main>
+
+    <!-- popup alert -->
+    <div class="popup-alert-container" id="popup-alert-container">
+        <p id="popup-message"> Popup alert content. </p>
+    </div>
 
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -271,12 +228,17 @@ $page = "room-applications";
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
 
+    <!-- popup js -->
+    <script src="/rentrover/js/popup-alert.js"></script>
+
     <!-- script -->
     <script>
         $(document).ready(function () {
             let rentType = "all";
             let status = "all";
             let filterStatus = false;
+
+            countApplication();
 
             // rent type
             $('#filter-rent-type').change(function () {
@@ -294,7 +256,7 @@ $page = "room-applications";
             $('#clear').click(function () {
                 filterStatus = false;
                 $('#filter-rent-type').val("all");
-                $('#filter-staus').val("all");
+                $('#filter-status').val("all");
                 rentType = "all";
                 status = "all";
                 toggleData();
@@ -326,13 +288,28 @@ $page = "room-applications";
                     if (status == "pending") {
                         $('.accepted-row').hide();
                         $('.rejected-row').hide();
+                        $('.cancelled-row').hide();
+                        $('.expired-row').hide();
                     } else if (status == "accepted") {
                         $('.pending-row').hide();
                         $('.rejected-row').hide();
-
+                        $('.cancelled-row').hide();
+                        $('.expired-row').hide();
                     } else if (status == "rejected") {
                         $('.pending-row').hide();
                         $('.accepted-row').hide();
+                        $('.cancelled-row').hide();
+                        $('.expired-row').hide();
+                    }  else if (status == "cancelled") {
+                        $('.pending-row').hide();
+                        $('.accepted-row').hide();
+                        $('.rejected-row').hide();
+                        $('.expired-row').hide();
+                    } else if(status == "expired") {
+                        $('.pending-row').hide();
+                        $('.accepted-row').hide();
+                        $('.rejected-row').hide();
+                        $('.cancelled-row').hide();
                     }
                 }
 
@@ -343,6 +320,111 @@ $page = "room-applications";
             }
 
             toggleEmptyContent();
+
+            // load application
+            function loadRoomApplication() {
+                $.ajax({
+                    url: '/rentrover/pages/landlord/sections/room-application.php',
+                    type: "POST",
+                    data: { landlordId: <?= $r_id ?> },
+                    success: function (data) {
+                        $('#application-table-body').html(data);
+                        toggleEmptyContent();
+                    }
+                });
+            }
+
+            loadRoomApplication();
+            countApplication();
+
+            // fetch application detail
+            $(document).on('click', '.show-application-detail', function () {
+                var app_id = $(this).data('app-id');
+                $.ajax({
+                    url: '/rentrover/pages/landlord/sections/fetch-application-detail.php',
+                    type: "POST",
+                    data: { applicationId: app_id },
+                    success: function (data) {
+                        $('#application-detail-modal-body').html(data);
+                    }
+                });
+            });
+
+            // accept application
+            $(document).on('click', '#accept-application-btn', function () {
+                app_id = $(this).data('id')
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/accept-application.php',
+                    type: "POST",
+                    data: { applicationId: app_id },
+                    beforeSend: function () {
+                        $('#accept-application-btn').html("Please wait").prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response == true) {
+                            loadRoomApplication();
+                            countApplication();
+                            $('#accept-application-btn').html("<i class='fa-solid fa-check'> </i> Accepted");
+                            $('#reject-application-btn').fadeOut();
+                        } else {
+                            $('#error-message').html("Application couln't be accepted.").show();
+                            $('#accept-application-btn').html("<i class='fa-solid fa-check'> </i> Accept").prop('disabled', false);
+                        }
+                    }
+                });
+            });
+
+            // reject application
+            $(document).on('click', '#reject-application-btn', function () {
+                app_id = $(this).data('id')
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/reject-application.php',
+                    type: "POST",
+                    data: { applicationId: app_id },
+                    beforeSend: function () {
+                        $('#reject-application-btn').html("Please wait").prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response == true) {
+                            loadRoomApplication();
+                            countApplication();
+                            $('#reject-application-btn').html("<i class='fa-solid fa-multiply'> </i> Rejected");
+                            $('#make-tenant-btn').fadeOut();
+                            $('#accept-application-btn').fadeOut();
+                        } else {
+                            $('#error-message').html("Application couln't be accepted.").show();
+                            $('#reject-application-btn').html("<i class='fa-solid fa-multiply'> </i> Reject").prop('disabled', false);
+                        }
+                    }
+                });
+            });
+
+            // count application
+            function countApplication() {
+                // total
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-applications.php',
+                    success: function (data) {
+                        $('#total-application-count').html(data);
+                    }
+                });
+
+                // accepted
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-accepted-applications.php',
+                    success: function (data) {
+                        $('#accepted-application-count').html(data);
+                    }
+                });
+
+                // rejected
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-rejected-applications.php',
+                    success: function (data) {
+                        $('#rejected-application-count').html(data);
+                    }
+                });
+            }
         });
     </script>
 </body>

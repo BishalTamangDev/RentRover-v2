@@ -189,6 +189,39 @@ class Room
         return $roomList;
     }
 
+    // fetch all available rooms
+    public function fetchAvaibleRooms()
+    {
+        global $conn;
+        $roomList = [];
+        $query = "SELECT * FROM room_tb WHERE flag = 'verified'";
+        $result = $conn->query($query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $roomList[] = $row;
+            }
+        }
+        return $roomList;
+    }
+
+    // fetch all room of landlord
+    public function fetchAllRoomIdByLandlord($houseList)
+    {
+        global $conn;
+        $roomList = [];
+
+        $arrayString = "'" . implode("','", $houseList) . "'";
+
+        $query = "SELECT room_id FROM room_tb WHERE house_id IN ($arrayString)";
+        $result = $conn->query($query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $roomList[] = $row['room_id'];
+            }
+        }
+        return $roomList;
+    }
+
     // fetch all room of landlord
     public function fetchAllRoomByLandlord($houseList)
     {
@@ -365,5 +398,31 @@ class Room
             }
         }
         return $roomList;
+    }
+
+    // update room flag
+    public function updateFlag($roomId, $flag)
+    {
+        global $conn;
+        $query = "UPDATE room_tb SET flag = '$flag' WHERE room_id = '$roomId'";
+        $result = $conn->query($query);
+        return $query;
+    }
+
+    // fetch tenant's room
+    public function fetchTenantRoom($tenantId)
+    {
+        global $conn;
+        $query = "SELECT room_id FROM room_tb WHERE tenant_id = '$tenantId' LIMIT 1";
+        $result = $conn->query($query);
+
+        // temporary
+        $roomId = 1;
+
+        if ($result->num_rows > 0) {
+            $dbData = $result->fetch_assoc();
+            $roomId = $dbData['room_id'];
+        }
+        return $roomId;
     }
 }

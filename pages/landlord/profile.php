@@ -35,8 +35,10 @@ if (!isset($tab))
     <!-- css files -->
     <link rel="stylesheet" href="/rentrover/css/style.css">
     <link rel="stylesheet" href="/rentrover/css/aside.css">
+    <link rel="stylesheet" href="/rentrover/css/file-input.css">
     <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
     <link rel="stylesheet" href="/rentrover/css/user-detail.css">
+    <link rel="stylesheet" href="/rentrover/css/profile.css">
 
     <!-- prevent resubmission of the form -->
     <script>
@@ -102,6 +104,9 @@ if (!isset($tab))
                     break;
                 case 'password-change':
                     require_once __DIR__ . '/sections/password-change.php';
+                    break;
+                case 'kyc':
+                    require_once __DIR__ . '/sections/kyc.php';
                     break;
                 default:
                     require_once __DIR__ . '/sections/view-profile.php';
@@ -248,6 +253,97 @@ if (!isset($tab))
                     error: function () {
                         $('#update-password-btn').prop('disabled', false).html("Update Password");
                     },
+                });
+            });
+
+            // citizenship photo
+            // front citizensip
+            $('#image-input-1').on('change', function (event) {
+                var file = event.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#image-file-1').attr('src', e.target.result).show();
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    event.preventDefault();
+                    $('#image-file-1').attr('src', '/rentrover/assets/images/blank.jpg').show();
+                }
+            });
+
+            // back citizenship
+            $('#image-input-2').on('change', function (event) {
+                var file = event.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#image-file-2').attr('src', e.target.result).show();
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    event.preventDefault();
+                    $('#image-file-2').attr('src', '/rentrover/assets/images/blank.jpg').show();
+                }
+            });
+
+            // delete front citizenship
+            $('#delete-image-1').click(function () {
+                $('#image-file-1').attr('src', '/rentrover/assets/images/blank.jpg').show();
+                $('#image-input-1').val('');
+            });
+
+            // delete front citizenship
+            $('#delete-image-2').click(function () {
+                $('#image-file-2').attr('src', '/rentrover/assets/images/blank.jpg').show();
+                $('#image-input-2').val('');
+            });
+
+            // upload kyc
+            $(document).on('submit', '#kyc-form', function (e) {
+                e.preventDefault();
+                var formData = new FormData($('#kyc-form')[0]);
+
+                $.ajax({
+                    url: '/rentrover/app/kyc-upload.php',
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function () {
+                        $('#kyc-upload-btn').html('Uploading kyc document...').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response == "true") {
+                            showPopupAlert("Document uploaded successfully.");
+                            setTimeout(function () {
+                                window.location.href = '/rentrover/landlord/profile';
+                            }, 2000);
+                        } else {
+                            $('#error-message').html("An unexpected error occured. Please try again.").show();
+                        }
+                        $('#kyc-upload-btn').html('Upload').prop('disabled', false);
+                    }, error: function () {
+                        $('#kyc-upload-btn').html('Upload').prop('disabled', false);
+                    }
+                });
+            });
+
+            // apply for verification
+            $('#apply-for-verification-trigger').click(function () {
+                $.ajax({
+                    url: '/rentrover/app/apply-for-verification.php',
+                    success: function (response) {
+                        console.log(response);
+                        if (response == true) {
+                            showPopupAlert("Your account has been submitted for the verification process.");
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+                        } else {
+                            showPopupAlert("An error occured.");
+                        }
+                    }
                 });
             });
         });

@@ -40,7 +40,7 @@
 
         <form action="/rentrover/app/app-registration.php" method="POST"
             class="container form p-0 mt-4 d-flex flex-column" id="registration-form">
-            
+
             <!-- error message -->
             <p class="m-0 text-danger small error-message mb-3" id="error-message"> Error message appears here... </p>
 
@@ -160,6 +160,11 @@
                     success: function (response) {
                         if (response == "true") {
                             $('#error-message').html("Registration successful.").fadeIn();
+                            $('#registration-form').trigger("reset");
+                            setTimeout(function () {
+                                window.location.href = '/rentrover/login';
+                            }, 1000);
+
                         } else {
                             $('#error-message').html(response).fadeIn();
                         }

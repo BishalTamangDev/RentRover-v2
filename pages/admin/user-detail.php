@@ -191,23 +191,17 @@ $userExists = $userObj->fetch($userId, "all");
                     <!-- action :: verify || unverify user -->
                     <div class="d-flex flex-row gap-2 mt-3 action">
                         <?php
-                        $eligible = $userObj->checkAccountEligibilityForVerification($userId);
-                        if ($eligible) {
-                            if ($userObj->flag != 'verified') {
-                
-                                ?>
-                                <button class="btn btn-success" id="verify-user-btn"> Verify User </button>
-                                <?php
-                            }
-                        } else {
-                            ?>
-                            <button class="btn btn-outline-danger" disabled> Ineligible for verification </button>
-                            <?php
-                        }
-                
-                        if ($userObj->flag == 'verified') {
+                        if($userObj->flag == 'verified') {
                             ?>
                             <button class="btn btn-danger" id="unverify-user-btn"> Unverify User </button>
+                            <?php
+                        } elseif($userObj->flag == 'on-hold') {
+                            ?>
+                            <button class="btn btn-success" id="verify-user-btn"> Verify User </button>
+                           <?php
+                        } elseif($userObj->flag == 'pending') {
+                            ?>
+                            <p class="text-danger"> This account is not verfied yet. </p>
                             <?php
                         }
                         ?>

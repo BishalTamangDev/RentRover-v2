@@ -86,9 +86,28 @@ class User
         return ucfirst($this->name['first']) . ' ' . ucfirst($this->name['last']);
     }
 
+    // get district && province
     public function getDistrictProvince()
     {
-        return ucfirst($this->address['district']) . ', ' . ucfirst($this->address['province']) . ' Province';
+        if($this->address['district'] != '' && $this->address['province'] != '') {
+            return ucfirst($this->address['district']) . ', ' . ucfirst($this->address['province']) . ' Province';
+        } else {
+            if($this->address['district'] != '') {
+                return ucfirst($this->address['district']);
+            } elseif($this->address['province'] != '') {
+                return ucfirst($this->address['province']) . ' Province';
+            } else {
+                return '-';
+            }
+        }
+    }
+
+    // get full address
+    public function getAddress()
+    {
+        if($this->address['district'] != '' && $this->address['province'] != '') {
+            return  ucfirst($this->address['toleVillage']).', Ward-'.$this->address['ward'].', '.ucfirst($this->address['municipalityRural']).', '.ucfirst($this->address['district']) . ', ' . ucfirst($this->address['province']) . ' Province';
+        } 
     }
 
     // register
@@ -263,7 +282,7 @@ class User
         global $conn;
         $kycFront = $this->kyc['front'];
         $kycBack = $this->kyc['back'];
-        $query = "UPDATE user_tb SET kyc_front = '$kycFront', kyc_back = '$kycBack' WHERE email = '$this->email'";
+        $query = "UPDATE user_tb SET kyc_front = '$kycFront', kyc_back = '$kycBack' WHERE user_id = '$this->userId'";
         $result = mysqli_query($conn, $query);
         return $result;
     }
@@ -285,6 +304,14 @@ class User
         }
 
         return $eligible;
+    }
+
+    // apply for verificaion :: set flag to on-hold
+    public function applyForVerification($userId){
+        global $conn;
+        $query = "UPDATE user_tb SET flag = 'on-hold' WHERE user_id = '$userId'";
+        $result = $conn->query($query);
+        return $result;
     }
 
     // fetch all users

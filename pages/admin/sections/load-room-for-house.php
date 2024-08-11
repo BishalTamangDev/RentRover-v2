@@ -9,6 +9,7 @@ $tempRoom = new Room();
 
 $roomIdList = $tempRoom->fetchRoomIdByHouseId($houseId);
 
+if(sizeof($roomIdList) > 0) {
 foreach ($roomIdList as $roomId) {
     $tempRoom->fetch($roomId);
     $tempRoom->fetchMainPhoto($roomId);
@@ -73,5 +74,10 @@ foreach ($roomIdList as $roomId) {
             </div>
         </div>
     </div>
+    <?php
+}
+} else {
+    ?>
+    <p class="text-danger"> No room has been added in this house. </p>
     <?php
 }

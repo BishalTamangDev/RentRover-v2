@@ -11,7 +11,7 @@ $page = "profile";
 if (!isset($tab))
     $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
 
-    $tempPhotoSrc = '/rentrover/uploads/blank.jpg';
+$tempPhotoSrc = '/rentrover/uploads/blank.jpg';
 ?>
 
 <!DOCTYPE html>
@@ -68,20 +68,16 @@ if (!isset($tab))
                 <li class="<?php if ($tab == 'security')
                     echo "active"; ?>" onclick="window.location.href='/rentrover/tenant/profile/security'"> <i
                         class="fa fa-lock"></i> <span> Password & Security </span> </li>
-                <li class="<?php if ($tab == 'room-notice')
+                <li class="<?php if ($tab == 'room-notices')
                     echo "active"; ?>" onclick="window.location.href='/rentrover/tenant/profile/room-notices'"> <i
                         class="fa-solid fa-bullhorn"></i> <span> Landlord Notices </span> </li>
-                <li class="<?php if ($tab == 'tenancy-history')
+                <li class="<?php if ($tab == 'tenancy-histories')
                     echo "active"; ?>" onclick="window.location.href='/rentrover/tenant/profile/tenancy-histories'"> <i
                         class="fa-solid fa-timeline"></i> <span> Tenancy History </span> </li>
-                <li class="<?php if ($tab == 'applied-room')
+                <li class="<?php if ($tab == 'applied-rooms')
                     echo "active"; ?>" onclick="window.location.href='/rentrover/tenant/profile/applied-rooms'"> <i
                         class="fa-solid fa-file-contract"></i> <span> Applied Rooms </span> </li>
-                <li class="<?php if ($tab == 'custom-application')
-                    echo "active"; ?>" onclick="window.location.href='/rentrover/tenant/profile/custom-applications'">
-                    <i class="fa-solid fa-gears"></i> <span> Custom Application </span>
-                </li>
-                <li class="<?php if ($tab == 'issue')
+                <li class="<?php if ($tab == 'issues')
                     echo "active"; ?>" onclick="window.location.href='/rentrover/tenant/profile/issues'">
                     <i class="fa-solid fa-triangle-exclamation"></i> <span> Issues </span>
                 </li>
@@ -91,6 +87,9 @@ if (!isset($tab))
         <main id="content-container">
             <?php
             switch ($tab) {
+                case 'view':
+                    require_once __DIR__ . '/sections/view-profile.php';
+                    break;
                 case 'security':
                     require_once __DIR__ . '/sections/security.php';
                     break;
@@ -102,9 +101,6 @@ if (!isset($tab))
                     break;
                 case 'applied-rooms':
                     require_once __DIR__ . '/sections/applied-rooms.php';
-                    break;
-                case 'custom-applications':
-                    require_once __DIR__ . '/sections/custom-applications.php';
                     break;
                 case 'issues':
                     require_once __DIR__ . '/sections/issues.php';
@@ -148,6 +144,9 @@ if (!isset($tab))
                     }
                 });
             }
+
+            // load wishlist count
+            $(document, loadWishlistCount());
 
             generateCsrfTokenForPasswordChange();
 
@@ -215,8 +214,8 @@ if (!isset($tab))
                     reader.readAsDataURL(file);
                 } else {
                     e.preventDefault();
-                    
-                    $('#profile-photo-container').attr('src', '<?=$tempPhotoSrc?>').show();
+
+                    $('#profile-photo-container').attr('src', '<?= $tempPhotoSrc ?>').show();
                 }
             });
 
@@ -316,6 +315,31 @@ if (!isset($tab))
             // upload kyc
             $(document).on('submit', '#kyc-form', function (e) {
                 e.preventDefault();
+                var formData = new FormData($('#kyc-form')[0]);
+
+                $.ajax({
+                    url: '/rentrover/app/kyc-upload.php',
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function () {
+                        $('#kyc-upload-btn').html('Uploading kyc document...').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response == "true") {
+                            showPopupAlert("Document uploaded successfully.");
+                            setTimeout(function () {
+                                window.location.href = '/rentrover/tenant/profile';
+                            }, 2000);
+                        } else {
+                            $('#error-message').html("An unexpected error occured. Please try again.").show();
+                        }
+                        $('#kyc-upload-btn').html('Upload').prop('disabled', false);
+                    }, error: function () {
+                        $('#kyc-upload-btn').html('Upload').prop('disabled', false);
+                    }
+                });
             });
 
             // profile update
@@ -378,7 +402,28 @@ if (!isset($tab))
                     },
                 });
             });
-       
+
+            // load applications
+            function loadRoomApplication() {
+
+            };
+
+            // apply for verification
+            $('#apply-for-verification-trigger').click(function () {
+                $.ajax({
+                    url: '/rentrover/app/apply-for-verification.php',
+                    success: function (response) {
+                        if (response == true) {
+                            showPopupAlert("Your account has been submitted for the verification process.");
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+                        } else {
+                            showPopupAlert("An error occured.");
+                        }
+                    }
+                });
+            });
         });
     </script>
 </body>

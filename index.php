@@ -20,15 +20,15 @@ $unsignedUserPages = ['', 'landing', 'index', 'home', 'login', 'registration', '
 
 // // unsigned user
 if (in_array($arr[1], $unsignedUserPages)) {
-    if($r_role != ''){
-        if ($r_role == "admin"){
+    if ($r_role != '') {
+        if ($r_role == "admin") {
             header("Location: /rentrover/admin/dashboard");
             exit;
         } elseif ($r_role == "landlord") {
-            header("Location: /rentrover/landlord/dashboard");        
+            header("Location: /rentrover/landlord/dashboard");
             exit;
         } elseif ($r_role == "tenant") {
-            header("Location: /rentrover/tenant/home");        
+            header("Location: /rentrover/tenant/home");
             exit;
         }
     }
@@ -74,20 +74,19 @@ if (in_array($arr[1], $unsignedUserPages)) {
         }
     }
 } elseif ($arr[1] == "tenant") {
-    if($r_role != 'tenant'){
+    if ($r_role != 'tenant') {
         if ($r_role == "admin") {
             header("Location: /rentrover/admin/dashboard");
             exit;
         } elseif ($r_role == "landlord") {
-            header("Location: /rentrover/landlord/dashbord");        
+            header("Location: /rentrover/landlord/dashbord");
             exit;
         } else {
-            header("Location: /rentrover/");        
+            header("Location: /rentrover/");
             exit;
         }
     }
 
-    $tenantPages = ['', 'home', 'notifications', 'profile', 'room-detail', 'system-notice'];
     if (isset($arr[2])) {
         $page = ($arr[2] != '') ? $arr[2] : "home";
     } else {
@@ -117,6 +116,10 @@ if (in_array($arr[1], $unsignedUserPages)) {
                 }
             }
             break;
+        case 'my-room':
+            require_once __DIR__ . '/pages/tenant/my-room.php';
+            $redirected = true;
+            break;
         case 'profile':
             if (isset($arr[3])) {
                 $tab = $arr[3] != '' ? $arr[3] : "view";
@@ -132,13 +135,13 @@ if (in_array($arr[1], $unsignedUserPages)) {
             $redirected = false;
     }
 } elseif ($arr[1] == "landlord") {
-    if($r_role != 'landlord'){
+    if ($r_role != 'landlord') {
         if ($r_role == "admin")
             header("Location: /rentrover/admin/dashboard");
         elseif ($r_role == "tenant")
-            header("Location: /rentrover/tenant/home");        
+            header("Location: /rentrover/tenant/home");
         else
-            header("Location: /rentrover/");        
+            header("Location: /rentrover/");
     }
 
     if (isset($arr[2])) {
@@ -180,7 +183,7 @@ if (in_array($arr[1], $unsignedUserPages)) {
             $redirected = true;
             break;
         case 'edit-house':
-            if(!isset($arr[3])) {
+            if (!isset($arr[3])) {
                 header("Location: /rentrover/landlord/houses/");
             } else {
                 $houseId = $arr[3];
@@ -197,11 +200,11 @@ if (in_array($arr[1], $unsignedUserPages)) {
             $redirected = true;
             break;
         case 'edit-room':
-            if(!isset($arr[3])) {
+            if (!isset($arr[3])) {
                 header("Location: /rentrover/landlord/rooms/");
             } else {
                 $roomId = $arr[3];
-                if($roomId == '') {
+                if ($roomId == '') {
                     header("Location: /rentrover/landlord/rooms/");
                 }
                 require_once __DIR__ . '/pages/landlord/edit-room.php';
@@ -256,7 +259,7 @@ if (in_array($arr[1], $unsignedUserPages)) {
         case 'profile':
             if (isset($arr[3])) {
                 if ($arr[3] != '') {
-                    if ($arr[3] == "view" || $arr[3] == "edit" || $arr[3] == "password-change") {
+                    if ($arr[3] == "view" || $arr[3] == "kyc" || $arr[3] == "edit" || $arr[3] == "password-change") {
                         $tab = $arr[3];
                         $redirected = true;
                         require_once __DIR__ . '/pages/landlord/profile.php';
@@ -285,7 +288,7 @@ if (in_array($arr[1], $unsignedUserPages)) {
     }
 
 
-    $adminPages = ['dashboard', 'notifications', 'houses', 'house-detail', 'rooms', 'room-detail', 'users', 'user-details', 'feedbacks', 'notices', 'custom-applications', 'profile'];
+    $adminPages = ['dashboard', 'notifications', 'houses', 'house-detail', 'rooms', 'room-detail', 'users', 'user-details', 'feedbacks', 'notices', 'profile'];
 
     if (in_array($page, $adminPages)) {
         if (!isset($_SESSION['rentrover-role'])) {
@@ -368,11 +371,6 @@ if (in_array($arr[1], $unsignedUserPages)) {
 
         case 'notices':
             require_once __DIR__ . '/pages/admin/notices.php';
-            $redirected = true;
-            break;
-
-        case 'custom-applications':
-            require_once __DIR__ . '/pages/admin/custom-applications.php';
             $redirected = true;
             break;
 

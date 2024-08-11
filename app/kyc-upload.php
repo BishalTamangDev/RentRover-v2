@@ -2,6 +2,13 @@
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
+$userId = $_SESSION['rentrover-id'] ?? 0;
+
+if ($userId == 0) {
+    echo "An error occured";
+    exit;
+}
+
 $message = "";
 if (isset($_FILES['image-input-1']) && isset($_FILES['image-input-2'])) {
     if ($_FILES['image-input-1']['error'] != UPLOAD_ERR_NO_FILE && $_FILES['image-input-2']['error'] != UPLOAD_ERR_NO_FILE) {
@@ -16,6 +23,7 @@ if (isset($_FILES['image-input-1']) && isset($_FILES['image-input-2'])) {
 
             $tempUser = new User();
             $tempUser->fetch($_SESSION['rentrover-id'], "all");
+            $tempUser->userId = $userId;
 
             // first upload new kycs
             $kycFrontUploaded = uploadFile("user-kyc-photo", $kycFront);
@@ -28,7 +36,7 @@ if (isset($_FILES['image-input-1']) && isset($_FILES['image-input-2'])) {
                 if ($tempUser->kyc['front'] != '') {
                     $oldKycFront = $tempUser->kyc['front'];
                 }
-                
+
                 if ($tempUser->kyc['back'] != '') {
                     $oldKycBack = $tempUser->kyc['back'];
                 }
@@ -43,9 +51,9 @@ if (isset($_FILES['image-input-1']) && isset($_FILES['image-input-2'])) {
                         unlink("../uploads/kycs/$oldKycFront");
                     if ($oldKycBack != '')
                         unlink("../uploads/kycs/$oldKycBack");
-                    $message = "Your documents has been uploaded.";
+                    $message = "true";
                 } else {
-                    $message = "Documents couln't be submitted.";
+                    $message = "Documents couldn't be submitted.";
                 }
             }
         }

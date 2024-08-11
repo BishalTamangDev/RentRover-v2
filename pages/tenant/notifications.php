@@ -93,6 +93,9 @@ if (!isset($tab))
     <!-- script -->
     <script>
         $(document).ready(function () {
+            // load wishlist count
+            $(document, loadWishlistCount());
+
             // notification filter
             // all
             $('#all-notification-btn').click(function () {

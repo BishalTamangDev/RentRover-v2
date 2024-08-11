@@ -1,3 +1,10 @@
+<?php
+require_once __DIR__ . '/../../../classes/user.php';
+if (!isset($profileUser)) {
+    $profileUser = new User();
+}
+?>
+
 <div class="mb-3 w-100 profile-informations">
     <div class="d-flex">
         <div class="w-50">
@@ -10,7 +17,8 @@
         <div class="w-50">
             <p class="m-0 text-secondary"> Last Name </p>
             <p class="m-0 fw-semibold">
-                <?= ($profileUser->name['last'] != '') ? ucfirst($profileUser->name['last']) : "-" ?> </p>
+                <?= ($profileUser->name['last'] != '') ? ucfirst($profileUser->name['last']) : "-" ?>
+            </p>
         </div>
     </div>
 

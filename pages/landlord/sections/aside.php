@@ -1,4 +1,10 @@
 <?php
+require_once __DIR__ . '/../../../classes/user.php';
+
+if (!isset($profileUser)) {
+    $profileUser = new User();
+}
+
 if (!isset($page))
     $page = "";
 ?>

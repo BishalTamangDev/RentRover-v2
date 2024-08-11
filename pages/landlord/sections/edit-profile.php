@@ -1,4 +1,11 @@
-<?php include_once __DIR__ . '/../../../functions/district-array.php'; ?>
+<?php 
+require_once __DIR__ . '/../../../classes/user.php';
+require_once __DIR__ . '/../../../functions/district-array.php';
+
+if(!isset($profileUser)) {
+    $profileUser =  new User();
+}
+?>
 
 <!-- profile form -->
 <form method="POST" action="/rentrover/app/edit-profile.php" class="d-nones d-flex flex-column"
@@ -8,7 +15,7 @@
             <i class="fa fa-edit fs-5 text-secondary"></i>
             <h5 class="m-0"> Edit Profile </h5>
         </div>
-        <a href="/rentrover/admin/profile/view" class="btn btn-danger p-1 px-2"> Cancel </a>
+        <a href="/rentrover/landlord/profile/view" class="btn btn-danger p-1 px-2"> Cancel </a>
     </div>
 
     <!-- error message -->

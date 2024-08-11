@@ -31,14 +31,12 @@ $validOldPassword = $tempUser->checkPassword($oldPassword);
 if (!$validOldPassword) {
     $message = "Old password didn't match.";
     echo $message;
-    $conn->close();
     exit;
 }
 
 // same old and new password
 if ($oldPassword == $newPassword) {
     $message = "Please enter different new password.";
-    $conn->close();
     echo $message;
     exit;
 }
@@ -46,7 +44,6 @@ if ($oldPassword == $newPassword) {
 // different new passwords
 if ($newPassword != $newPasswordConfirmation) {
     $message = "Please enter the confirmation password same as new password.";
-    $conn->close();
     echo $message;
     exit;
 }
@@ -56,5 +53,3 @@ $response = $tempUser->updatePassword($newPassword);
 $message = $response ? true : "Passoword couldn't be updated.";
 
 echo $message;
-
-$conn->close();

@@ -91,7 +91,7 @@ $page = "houses";
                         </div>
                     </div>
 
-                    <div class="d-flex flex-column-reverse justify-content-between flex-xl-row details">
+                    <div class="d-flex flex-column-reverse justify-content-between mt-4 flex-xl-row details">
                         <!-- requirememnts, amenities and reviews -->
                         <div class="d-flex flex-column gap-3 mt-3 mt-lg-5 requirements-amenities-reviews">
                             <!-- nearest landmark -->
@@ -103,7 +103,7 @@ $page = "houses";
                             </div>
 
                             <!-- Notes -->
-                            <div class="requirements mt-2">
+                            <div class="requirements mt-5">
                                 <h3 class="m-0 fw-semibold"> Important Notes </h3>
                                 <p class="m-0 mt-3">
                                     <?= $houseObj->info != '' ? ucfirst($houseObj->info) : "-"; ?>
@@ -111,7 +111,7 @@ $page = "houses";
                             </div>
 
                             <!-- amenities -->
-                            <h3 class="m-0 fw-semibold mt-3"> Amenities </h3>
+                            <h3 class="m-0 fw-semibold mt-5"> Amenities </h3>
                             <div class="d-flex flex-row flex-wrap gap-2 amenity-container">
                                 <?php
                                 $houseObj->fetchAmenity($houseId);
@@ -136,7 +136,7 @@ $page = "houses";
                         </div>
 
                         <!-- remaining specs -->
-                        <div class="mt-4 mt-lg-5 specifications">
+                        <div class="mt-lg-5 mb-5 specifications">
                             <table class="border table mt-0 specification-table">
                                 <!-- number of rooms -->
                                 <tr>

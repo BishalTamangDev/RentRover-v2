@@ -49,6 +49,22 @@ $page = "houses";
     <?php require_once __DIR__ . '/sections/aside.php'; ?>
 
     <main>
+        <?php
+        if ($profileUser->flag == 'pending') {
+            ?>
+            <div class="alert alert-danger mb-4" role="alert">
+                You account is not verified yet to be able to add house. Update profile and apply for account verification.
+            </div>
+            <?php
+        } elseif ($profileUser->flag == 'on-hold') {
+            ?>
+            <div class="alert alert-danger mb-4" role="alert">
+                You account is being verified. After verification you will be able to add houses.
+            </div>
+            <?php
+        }
+        ?>
+
         <!-- card container -->
         <section class="card-v2-container">
             <!-- total house -->
@@ -59,9 +75,8 @@ $page = "houses";
         </section>
 
         <!-- add house button -->
-        <a href="/rentrover/landlord/add-house"
-            class="d-flex flex-row gap-2 align-items-center btn btn-brand mb-3 mt-4 fit-content"> <i
-                class="fa fa-add"></i> Add New House </a>
+        <button onclick="window.location.href='/rentrover/landlord/add-house'" class="d-flex flex-row gap-2 align-items-center btn btn-brand mb-3 mt-4 fit-content" <?=$profileUser->flag != 'verified'? 'disabled' : "" ?>> <i
+                class="fa fa-add"></i> Add New House </button>
 
         <!-- house table -->
         <section class="table-container user-table-container mt-3">

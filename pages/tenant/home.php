@@ -91,9 +91,9 @@ if (!isset($tab))
                     <select name="filter-district" id="filter-district" class="form-select-sm w-100">
                         <option value="all" selected> All </option>
                         <?php
-                        foreach($districtArray as $district) {
+                        foreach ($districtArray as $district) {
                             ?>
-                            <option value="<?=$district?>"> <?=$district?> </option>
+                            <option value="<?= $district ?>"> <?= $district ?> </option>
                             <?php
                         }
                         ?>
@@ -277,7 +277,7 @@ if (!isset($tab))
                 minRent = $('#filter-min-rent').val() != '' ? parseFloat($('#filter-min-rent').val()) : 0;
                 maxRent = $('#filter-max-rent').val() != '' && $('#filter-max-rent').val() != 0 ? parseFloat($('#filter-max-rent').val()) : Infinity;
                 floor = $('#filter-floor').val() != '' && $('#filter-floor').val() != 0 ? $('#filter-floor').val() : Infinity;
-                
+
                 console.log(district);
                 console.log(roomType);
                 console.log(furnishing);
@@ -366,9 +366,13 @@ if (!isset($tab))
                         if (response != true) {
                             location.reload();
                         }
+                        $(document, loadWishlistCount());
                     }
                 });
             });
+
+            // load wishlist count
+            $(document, loadWishlistCount());
         });
     </script>
 </body>

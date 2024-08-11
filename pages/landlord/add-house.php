@@ -9,6 +9,9 @@ $profileUser = new User();
 
 $profileUser->fetch($r_id, "all");
 
+if($profileUser->flag != 'verified')
+    header('Location: /rentrover/landlord/houses');
+
 if (!isset($tab))
     $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
 

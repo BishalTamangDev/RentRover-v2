@@ -15,7 +15,7 @@ $tempWishlist = new Wishlist();
 $tempWishlist->setUserId($_SESSION['rentrover-id']);
 $wishlist = $tempWishlist->fetchList();
 
-$allRoomList = $tempRoom->fetchAllRoom();
+$allRoomList = $tempRoom->fetchAvaibleRooms();
 
 foreach ($allRoomList as $room) {
     $roomId = $room['room_id'];

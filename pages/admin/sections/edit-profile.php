@@ -1,4 +1,10 @@
-<?php include_once __DIR__ . '/../../../functions/district-array.php'; ?>
+<?php 
+include_once __DIR__ . '/../../../functions/district-array.php';
+include_once __DIR__ . '/../../../classes/user.php';
+if(!isset($profileUser)) {
+    $profileUser = new User();
+}
+?>
 
 <!-- profile form -->
 <form method="POST" action="/rentrover/pages/admin/app/edit-profile.php" class="d-nones d-flex flex-column"

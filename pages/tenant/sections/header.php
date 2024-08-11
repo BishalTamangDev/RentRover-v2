@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../../../classes/user.php';
-if(!isset($profileUser)) {
+if (!isset($profileUser)) {
     $profileUser = new User();
     $profileUser->fetch($r_id, "all");
 }
@@ -20,9 +20,9 @@ if(!isset($profileUser)) {
                     <i class="fa-regular fa-bookmark pt-1"></i>
                 </a>
 
-                <div
-                    class="position-absolute d-flex flex-row align-items-center justify-content-center wishlist-counter">
-                    <p class="m-0 text-danger fw-semibold"> 9<sup>+</sup></p>
+                <div class="position-absolute d-flex flex-row align-items-center justify-content-center wishlist-counter"
+                    id="wishlist-counter">
+                    <p class="m-0 text-danger fw-semibold" id="wishlist-count"> </p>
                 </div>
             </div>
 
@@ -65,18 +65,18 @@ if(!isset($profileUser)) {
             <!-- profile -->
             <div class="position-relative profile-container">
                 <div class="profile" id="profile-image-container">
-                <?php
-                if ($profileUser->profilePhoto != "") {
-                    ?>
-                    <img src="/rentrover/uploads/users/<?= $profileUser->profilePhoto ?>" alt="user profile photo"
-                        class="pointer">
                     <?php
-                } else {
+                    if ($profileUser->profilePhoto != "") {
+                        ?>
+                        <img src="/rentrover/uploads/users/<?= $profileUser->profilePhoto ?>" alt="user profile photo"
+                            class="pointer">
+                        <?php
+                    } else {
+                        ?>
+                        <img src="/rentrover/uploads/blank-profile.jpg" alt="user profile photo" class="pointer">
+                        <?php
+                    }
                     ?>
-                    <img src="/rentrover/uploads/blank-profile.jpg" alt="user profile photo" class="pointer">
-                    <?php
-                }
-                ?>
                 </div>
 
                 <!-- user menu -->
@@ -85,7 +85,7 @@ if(!isset($profileUser)) {
                         <li onclick="window.location.href='/rentrover/tenant/profile'">
                             <i class="fa fa-user"></i> <span> My Profile </span>
                         </li>
-                        <li onclick="window.location.href='/rentrover/tenant/profile/my-room'"> <i
+                        <li onclick="window.location.href='/rentrover/tenant/my-room'"> <i
                                 class="fa-solid fa-person-shelter"></i> <span> My Room </span> </li>
                         <li onclick="window.location.href='/rentrover/app/logout.php'"> <i
                                 class="fa-solid fa-arrow-right-from-bracket"></i> <span> Logout </span> </li>
@@ -95,3 +95,22 @@ if(!isset($profileUser)) {
         </div>
     </div>
 </header>
+
+<!-- jquery -->
+<script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+<script>
+    function loadWishlistCount() {
+        $.ajax({
+            url: '/rentrover/pages/tenant/sections/wishlist-count.php',
+            type: 'POST',
+            data: { userId: <?= $r_id ?> },
+            success: function (data) {
+                $('#wishlist-counter').html(data);
+            },
+            error: function () {
+                $('#wishlist-count').html('0');
+            }
+        })
+    }
+</script>

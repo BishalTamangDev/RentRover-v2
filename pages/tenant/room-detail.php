@@ -6,11 +6,13 @@ require_once __DIR__ . '/../../classes/user.php';
 require_once __DIR__ . '/../../classes/house.php';
 require_once __DIR__ . '/../../classes/room.php';
 require_once __DIR__ . '/../../classes/wishlist.php';
+require_once __DIR__ . '/../../classes/application.php';
 
 $profileUser = new User();
 
 $houseObj = new House();
 $roomObj = new Room();
+$applicationObj = new Application();
 $tempWishlist = new Wishlist();
 
 $profileUser->fetch($r_id, "all");
@@ -65,7 +67,14 @@ if ($roomExists) {
     <link rel="stylesheet" href="/rentrover/css/review.css">
     <link rel="stylesheet" href="/rentrover/css/header.css">
     <link rel="stylesheet" href="/rentrover/css/room.css">
+    <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
     <link rel="stylesheet" href="/rentrover/css/tenant/room-detail.css">
+
+    <!-- prevent resubmission of the form -->
+    <script>
+        if (window.history.replaceState)
+            window.history.replaceState(null, null, window.location.href);
+    </script>
 </head>
 
 <body class="pb-5">
@@ -264,24 +273,85 @@ if ($roomExists) {
                             <!-- room acquired state -->
                             <tr>
                                 <td class="title"> Room state </td>
-                                <td class="data"> <?= $roomObj->flag == 'verified' ? "Available" : 'Nor-available' ?> </td>
+                                <td class="data"> <?= $roomObj->flag == 'verified' ? "Available" : 'Not-available' ?> </td>
                             </tr>
                         </table>
 
                         <div class="room-operations">
                             <?php
-                            if ($roomObj->flag == 'verified') {
-                                ?>
-                                <button type="button" class="btn btn-brand" data-bs-toggle="modal"
-                                    data-bs-target="#room-apply-modal"> Apply Now </button>
-                                <?php
+                            // check if the room is acceptiong application :: flag - on-hold text
+                            if ($roomObj->flag == 'verified') { // accepting application
+                                // check if the user is eligible to applly
+                                if ($profileUser->flag != 'verified') {
+                                    ?>
+                                    <p class="text-danger small"> Please verify your account first to apply for a room. </p>
+                                    <?php
+                                } else {
+                                    $isEligibleToApply = $applicationObj->eligibilityTestForTenantToApply($r_id);
+
+                                    if ($isEligibleToApply) {
+                                        ?>
+                                        <button type="button" class="btn btn-brand" data-bs-toggle="modal"
+                                            data-bs-target="#room-apply-modal" id="apply-form-trigger-btn"> Apply Now </button>
+                                        <?php
+                                    } else {
+                                        // check if another applied room is the current
+                                        // if current room :: show move in button 
+                                        // check if the applied room is the current one 
+                                        $appliedRoomId = $applicationObj->fetchAppliedRoomId($r_id);
+                                        if ($appliedRoomId == $roomId) {
+                                            ?>
+                                            <p class="text-success mb-3"> You have already applied for this room. </p>
+                                            <!-- show application state -->
+                                            <?php
+                                            $status = $applicationObj->fetchApplicationStatus($roomId, $r_id);
+                                            if ($status == 'pending') {
+                                                ?>
+                                                <button class="btn btn-brand"> <i class="fa fa-spinner"></i> Application Pending </button>
+                                                <button class="btn btn-danger" id="cancel-application"> <i class="fa fa-multiply"></i> Cancel
+                                                </button>
+                                                <?php
+                                            } elseif ($status == 'accepted') {
+                                                ?>
+                                                <button class="btn btn-success"> <i class="fa fa-multiply"></i> Application Accepted </button>
+                                                <?php
+                                            } elseif ($status == 'rejected') {
+                                                ?>
+                                                <button class="btn btn-danger"> <i class="fa fa-check"></i> Application Accepted </button>
+                                                <?php
+                                            }
+                                        } else {
+                                            ?>
+                                            <p class="text-danger mb-3 small"> Your another application has been accepted. So you won't be able
+                                                to apply for another room. </p>
+                                            <!-- <button type="button" class="btn btn-danger" disabled> Apply Now </button> -->
+                                            <?php
+                                        }
+                                        ?>
+                                        <?php
+                                    }
+                                }
                             } else {
+                                // if the applicant is the user - show move in button
+                                $isAcceptedApplicant = $applicationObj->checkIfAcceptedApplicant($r_id);
+
+                                if ($isAcceptedApplicant) {
+                                    ?>
+                                    <p class="text-success mb-3"> Your application is already accepted. </p>
+                                    <button class="btn btn-brand mb-3"> Move In </button>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <p class="text-danger mb-3"> This room is not accepting the application at this moment. </p>
+                                    <button type="button" class="btn btn-brand" disabled> Apply Now </button>
+                                    <?php
+                                }
                                 ?>
-                                <button type="button" class="btn btn-brand" data-bs-toggle="modal"
-                                    data-bs-target="#not-available-modal"> Apply Now </button>
                                 <?php
                             }
                             ?>
+                            <button type="button" class="invisible btn btn-success" id="success-btn"> <i
+                                    class="fa fa-check"></i> Application Submitted </button>
                         </div>
                     </div>
                 </div>
@@ -339,50 +409,54 @@ if ($roomExists) {
             <div class="p-3 modal-content">
                 <div class="d-flex flex-row justify-content-between heading pt-2">
                     <h5 class="m-0"> Fill the form below to apply. </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" id="close-application-btn" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
 
-                <form action="" class="form mt-3" id="room-apply-form">
+                <form method="POST" action="/rentrover/pages/tenant/app/apply-for-room.php" class="form mt-3"
+                    id="room-application-form">
                     <p class="text-danger mb-3 small" id="error-message"> Error message appears here.. </p>
 
+                    <!-- room id -->
+                    <input type="hidden" name="room-id" value="<?= $roomId ?>" class="form-control mb-3">
+
+                    <!-- renting type -->
                     <div class="">
                         <select name="renting-type" id="renting-type" class="form-select" required>
                             <option value="" selected hidden> Select renting type </option>
                             <option value="fixed"> Fixed </option>
-                            <option value="not fixed"> Not-Fixed </option>
+                            <option value="not-fixed"> Not-Fixed </option>
                         </select>
                     </div>
 
+                    <!-- move in date -->
                     <div class="mt-2">
                         <label for="move-in-date" class="px-1"> Move in Date </label>
                         <input type="date" name="move-in-date" id="move-in-date" class="mt-2 mb-3 form-control"
                             required>
                     </div>
 
+                    <!-- move out date -->
                     <div class="mt-2 mb-2" id="move-out-date-div">
                         <label for="move-out-date" class="px-1"> Move out Date </label>
                         <input type="date" name="move-out-date" id="move-out-date" class="mt-2 form-control">
                     </div>
 
-                    <button type="submit" class="btn btn-brand mt-2 w-100"> Apply Now </button>
+                    <!-- additional info -->
+                    <textarea name="note" id="note" class="form-control mt-3"
+                        placeholder="some notes if necessary"></textarea>
+
+                    <!-- submit -->
+                    <button type="submit" class="btn btn-brand mt-2 w-100" id="room-application-btn"> Apply Now
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- room not available modal -->
-    <div class="modal fade" id="not-available-modal" tabindex="-1" aria-labelledby="not available modal"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="p-3 modal-content">
-                <div class="d-flex flex-row justify-content-between heading pt-2">
-                    <h5 class="m-0"> Not-available </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <p class="m-0 fs-5 mt-3 text-danger"> This room is not accepting the application at this moment. </p>
-            </div>
-        </div>
+    <!-- popup alert -->
+    <div class="popup-alert-container" id="popup-alert-container">
+        <p id="popup-message"> Popup alert content. </p>
     </div>
 
     <!-- bootstrap js :: cdn -->
@@ -399,10 +473,13 @@ if ($roomExists) {
     <!-- js :: notification & profile menu -->
     <script type="text/javascript" src="/rentrover/js/tenant.js"></script>
 
+    <!-- popup js -->
+    <script src="/rentrover/js/popup-alert.js"></script>
+
     <!-- script -->
     <script>
         // room apply form
-        $('#room-apply-form').submit(function (e) {
+        $('#room-application-form').submit(function (e) {
             e.preventDefault();
 
             // check date
@@ -432,18 +509,50 @@ if ($roomExists) {
                         var timeDiff = move_out_date.getTime() - move_in_date.getTime();
                         var dayDiff = Math.round(timeDiff / (1000 * 60 * 60 * 24));
 
-                        if (dayDiff < 30) {
-                            $('#error-message').html("The minimun days for renting is 30 days.").show();
+                        if (dayDiff < 28) {
+                            $('#error-message').html("The minimun days for renting is 28 days.").show();
                         } else {
                             $('#error-message').html("Valid").hide();
+                            var formData = $(this).serialize();
+                            submitApplication(formData);
                         }
                     }
                 } else {
-                    $('#error-message').html("Valid").hide();
+                    $('#error-message').hide();
+                    $('#move-out-date').val('');
+                    var formData = $(this).serialize();
+                    submitApplication(formData);
                 }
             }
         });
 
+        function submitApplication(formData) {
+            console.clear();
+            $.ajax({
+                url: '/rentrover/pages/tenant/app/apply-for-room.php',
+                type: "POST",
+                data: formData,
+                beforeSend: function () {
+                    $('#room-application-btn').html("Applying..").prop('disabled', true);
+                },
+                success: function (response) {
+                    if (response == true) {
+                        $('#error-message').fadeOut();
+                        $('#close-application-btn').click();
+                        $('#success-btn').removeClass('invisible');
+                        $('#apply-form-trigger-btn').fadeOut();
+                        showPopupAlert("Application has been submitted.");
+                    } else {
+                        $('#error-message').html("Application couldn't be submitted").fadeIn();
+                    }
+                    $('#room-application-btn').html("Apply Now").prop('disabled', false);
+                }, error: function () {
+                    $('#room-application-btn').html("Apply Now").prop('disabled', false);
+                }
+            });
+        }
+
+        // renting type
         $('#renting-type').change(function () {
             if ($('#renting-type').val() == "fixed") {
                 $('#move-out-date-div').show();
@@ -481,50 +590,70 @@ if ($roomExists) {
                 url: '/rentrover/pages/tenant/app/toggle-wishlist.php',
                 type: 'POST',
                 data: { roomId: room_id, toDo: task },
-                beforeSend : function (){
-                    if(task == 'add') {
+                beforeSend: function () {
+                    if (task == 'add') {
                         $('#selected-room-wishlist-icon').data('task', 'remove').addClass('fa-solid').removeClass('fa-regular');
                     } else {
                         $('#selected-room-wishlist-icon').data('task', 'add').addClass('fa-regular').removeClass('fa-solid');
                     }
                 },
                 success: function (response) {
-                    if(response != true) {
+                    if (response != true) {
                         location.reload();
                     }
+                    // load wishlist count
+                    $(document, loadWishlistCount());
                 }
             })
         });
 
         // wishlist for room of same house
         $(document).on('click', '.wish-icon', function (e) {
-                room_id = $(this).data('id');
-                task = $(this).data('task');
+            room_id = $(this).data('id');
+            task = $(this).data('task');
 
-                var targetIcon = $(this).closest("i");
+            var targetIcon = $(this).closest("i");
 
-                $.ajax({
-                    url: '/rentrover/pages/tenant/app/toggle-wishlist.php',
-                    data: { roomId: room_id, toDo: task },
-                    type: 'POST',
-                    beforeSend: function () {
-                        if (task == 'add') {
-                            targetIcon.data('task', 'remove');
-                            targetIcon.addClass('fa-solid');
-                            targetIcon.removeClass('fa-regular');
-                        } else {
-                            targetIcon.data('task', 'add');
-                            targetIcon.addClass('fa-regular');
-                            targetIcon.removeClass('fa-solid');
-                        }
-                    },
-                    success: function (response) {
-                        if (response != true) {
-                            location.reload();
-                        }
+            $.ajax({
+                url: '/rentrover/pages/tenant/app/toggle-wishlist.php',
+                data: { roomId: room_id, toDo: task },
+                type: 'POST',
+                beforeSend: function () {
+                    if (task == 'add') {
+                        targetIcon.data('task', 'remove');
+                        targetIcon.addClass('fa-solid');
+                        targetIcon.removeClass('fa-regular');
+                    } else {
+                        targetIcon.data('task', 'add');
+                        targetIcon.addClass('fa-regular');
+                        targetIcon.removeClass('fa-solid');
                     }
-                });
+                },
+                success: function (response) {
+                    if (response != true) {
+                        location.reload();
+                    }
+                }
             });
+        });
+
+        // cancel application
+        $('#cancel-application').click(function () {
+            const room_id = <?= $roomId ?>;
+            const user_id = <?= $r_id ?? 0 ?>;
+
+            $.ajax({
+                url: '/rentrover/pages/tenant/app/cancel-application.php',
+                type: "POST",
+                data: { userId: user_id, roomId: room_id },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        });
+
+        // load wishlist count
+        $(document, loadWishlistCount());
     </script>
 </body>
 

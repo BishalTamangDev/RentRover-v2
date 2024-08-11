@@ -31,7 +31,6 @@ $validOldPassword = $tempAdmin->checkPassword($oldPassword);
 if (!$validOldPassword) {
     $message = "Old password didn't match.";
     echo $message;
-    $conn->close();
     exit;
 }
 
@@ -46,7 +45,6 @@ if ($oldPassword == $newPassword) {
 if ($newPassword != $newPasswordConfirmation) {
     $message = "Please enter the confirmation password same as new password.";
     echo $message;
-    $conn->close();
     exit;
 }
 
@@ -55,5 +53,3 @@ $response = $tempAdmin->updatePassword($newPassword);
 $message = $response ? true : "Passoword couldn't be updated.";
 
 echo $message;
-
-$conn->close();

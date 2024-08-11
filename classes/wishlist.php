@@ -66,4 +66,17 @@ class Wishlist
                 $list[] = $row['room_id'];
         return $list;
     }
+
+    // count wishlist
+    public function count($userId){
+        global $conn;
+        $count = 0;
+        $query = "SELECT COUNT(*) AS total_rows FROM wishlist_tb WHERE user_id = '$userId'";
+        $result = $conn->query($query);
+        if ($result->num_rows > 0){
+            $row = $result->fetch_assoc();
+            $count = $row['total_rows'];
+        }
+        return $count;
+    }
 }
