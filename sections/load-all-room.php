@@ -2,10 +2,12 @@
 require_once __DIR__ . '/../classes/house.php';
 require_once __DIR__ . '/../classes/room.php';
 require_once __DIR__ . '/../classes/user.php';
+require_once __DIR__ . '/../classes/room-review.php';
 
 $tempUser = new User();
 $tempHouse = new House();
 $tempRoom = new Room();
+$tempReview = new Review();
 
 $allRoomList = $tempRoom->fetchAllRoom();
 
@@ -90,10 +92,11 @@ if (sizeof($allRoomList) > 0) {
                 <!-- rent -->
                 <p class="rent text-success"> <?= "NPR. " . number_format($rent, 2) ?> </p>
 
+                <!-- rating -->
                 <div class="room-bottom">
                     <div class="rating">
                         <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <p class="fw-semibold small"> 2.4 </p>
+                        <p class="fw-semibold small"> <?= $tempReview->calculateRating($roomId) ?> </p>
                     </div>
 
                     <a href="/rentrover/room-detail/<?= $roomId ?>" class="btn btn-outlined-brand show-more-btn">

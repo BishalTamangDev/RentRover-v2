@@ -43,7 +43,7 @@ if (!isset($page))
     <!-- header -->
     <header class="position-fixed w-100 d-flex flex-row gap-3 p-3 justify-content-end align-items-center header">
         <!-- search form -->
-        <form action="" method="POST" class="d-flex flex-row accordion" id="search-form">
+        <form action="" method="POST" class="d-none d-flex flex-row accordion" id="search-form">
             <input type="search" name="content" placeholder="search here" class="form-control" id="">
         </form>
 

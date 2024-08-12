@@ -91,4 +91,24 @@ class Review
         $result = $conn->query($query);
         return $result ? true : false;
     }
+
+    // get rating
+    public function calculateRating($roomId)
+    {
+        global $conn;
+        $rating = 0;
+        $query = "SELECT * FROM review_tb WHERE room_id = '$roomId'";
+        $result = $conn->query($query);
+        if ($result->num_rows > 0) {
+            $total = 0;
+            $count = 0;
+            while ($row = $result->fetch_assoc()) {
+                $total += $row['rating'];
+                $count++;
+            }
+            $rating = $total / $count;
+        }
+
+        return $rating;
+    }
 }

@@ -19,9 +19,11 @@ if (sizeof($list) == 0) {
 } else {
     require_once __DIR__ . '/../../../classes/room.php';
     require_once __DIR__ . '/../../../classes/house.php';
+    require_once __DIR__ . '/../../../classes/room-review.php';
 
     $tempRoom = new Room();
     $tempHouse = new House();
+    $tempReview = new Review();
 
     foreach ($list as $id) {
         $tempRoom->fetch($id);
@@ -86,7 +88,8 @@ if (sizeof($list) == 0) {
                 <div class="room-bottom">
                     <div class="rating">
                         <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <p class="fw-semibold small"> 2.4 </p>
+                        <p class="fw-semibold small"> <?= $tempReview->calculateRating($id) ?>
+                        </p>
                     </div>
 
                     <a href="/rentrover/tenant/room-detail/<?= $id ?>" class="btn btn-outlined-brand show-more-btn">

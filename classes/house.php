@@ -356,4 +356,19 @@ class House
         }
         return $result;
     }
+
+    // search house
+    public function searchForTenant($content)
+    {
+        global $conn;
+        $searchedHouses = [];
+        $query = "SELECT * FROM house_tb WHERE municipality_rural LIKE '%$content%' OR tole_village LIKE '%$content%' OR nearest_landmark LIKE '%$content%'";
+        $result = mysqli_query($conn, $query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $searchedHouses[] = $row;
+            }
+        }
+        return $searchedHouses;
+    }
 }

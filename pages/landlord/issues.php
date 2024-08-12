@@ -259,7 +259,6 @@ $page = "issues";
             $(document).on('click', '#solve-issue-btn', function(){
                 console.clear();
                 var issue_id = $(this).data('issue-id');
-                console.log(issue_id);
 
                 $.ajax({
                     type: "POST",

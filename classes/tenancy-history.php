@@ -32,11 +32,13 @@ class Tenancy
     }
 
     // getters
-    public function getRoomId(){
+    public function getRoomId()
+    {
         return $this->roomId;
     }
 
-    public function getTenantId(){
+    public function getTenantId()
+    {
         return $this->tenantId;
     }
 
@@ -104,5 +106,17 @@ class Tenancy
             }
         }
         return $historyList;
+    }
+
+    // remove tenant
+    public function removeTenant($roomId, $tenantId)
+    {
+        global $conn;
+        date_default_timezone_set('Asia/Kathmandu');
+        $moveOutDate = date('Y-m-d H:i:s');
+
+        $query = "UPDATE tenancy_tb SET move_out_date = '$moveOutDate' WHERE room_id = '$roomId' AND tenant_id = '$tenantId'";
+        $result = $conn->query($query);
+        return $result ? true : false;
     }
 }

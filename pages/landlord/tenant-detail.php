@@ -143,10 +143,12 @@ $histories = $tenancyObj->fetchHistoryForLandlord($roomIdList);
             <hr class="m-0" />
 
             <?php
+            $currentRoom = "";
             foreach ($histories as $history) {
                 $tenancyObj->fetch($history);
                 if ($tenancyObj->getTenantId() == $tenantId) {
                     $moveInDate = $tenancyObj->moveInDate;
+                    $currentRoom = $tenancyObj->getRoomId();
                     $moveOutDate = $tenancyObj->moveOutDate != '0000-00-00 00:00:00' ? $tenancyObj->moveOutDate : 'Still Residing';
                     ?>
                     <!-- tenancy details -->
@@ -171,9 +173,16 @@ $histories = $tenancyObj->fetchHistoryForLandlord($roomIdList);
             }
             ?>
 
-
-            <!-- action -->
-            <button class="btn btn-danger fit-content py-1 mt-3"> Remove Tenant </button>
+            <!-- check if current tenant -->
+            <?php
+            if($moveOutDate == '0000-00-00 00:00:00') {
+                ?>
+                <!-- action -->
+                <button class="btn btn-danger fit-content py-1 mt-3" data-room-id="<?= $currentRoom ?>"
+                    data-tenant-id="<?= $tenantId ?>" id="remove-tenant-btn"> Remove Tenant </button>
+                <?php
+            }
+            ?>
         </section>
     </main>
 
@@ -195,6 +204,28 @@ $histories = $tenancyObj->fetchHistoryForLandlord($roomIdList);
 
     <!-- script -->
     <script src="/rentrover/js/popup-alert.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#remove-tenant-btn').click(function () {
+                room_id = $(this).data('room-id');
+                tenant_id = $(this).data('tenant-id');
+
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/remove-tenant.php',
+                    'data': { tenantId: tenant_id, roomId: room_id },
+                    type: "POST",
+                    success: function (response) {
+                        console.clear();
+                        console.log(response);
+                        if (response == true) {
+                            $('#remove-tenant-btn').html("Tenant Removed").prop('disabled', true);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

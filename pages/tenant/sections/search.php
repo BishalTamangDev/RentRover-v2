@@ -1,26 +1,36 @@
 <?php
+$content = $_POST['content'] ?? '';
+
+if ($content == '') {
+    exit;
+}
+
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
 require_once __DIR__ . '/../../../classes/house.php';
 require_once __DIR__ . '/../../../classes/room.php';
 require_once __DIR__ . '/../../../classes/user.php';
+require_once __DIR__ . '/../../../classes/wishlist.php';
 require_once __DIR__ . '/../../../classes/room-review.php';
 
 $tempUser = new User();
 $tempHouse = new House();
 $tempRoom = new Room();
 $tempReview = new Review();
+$tempWishlist = new Wishlist();
 
-$houseId = $_POST['houseId'];
-$currentRoomId = $_POST['roomId'];
+$tempWishlist->setUserId($_SESSION['rentrover-id']);
+$wishlist = $tempWishlist->fetchList();
 
-$allRoomList = $tempRoom->fetchRoomByHouseId($houseId);
+// fetch house
+$houseList = $tempHouse->searchForTenant($content);
 
-$count = 0;
-foreach ($allRoomList as $room) {
-    if ($room['room_id'] != $currentRoomId) {
-        $count++;
+foreach ($houseList as $house) {
+    // fetch rooms
+    $roomList = $tempRoom->fetchRoomByHouseId($house['house_id']);
+
+    foreach ($roomList as $room) {
         $roomId = $room['room_id'];
         $bhk = $room['bhk'];
         $rent = $room['rent'];
@@ -75,7 +85,17 @@ foreach ($allRoomList as $room) {
                     </div>
 
                     <!-- wishlist -->
-                    <!-- <i class="fa-solid fa-bookmark wish-icon"></i> -->
+                    <?php
+                    if (in_array($roomId, $wishlist)) {
+                        ?>
+                        <i class="fa-solid fa-bookmark wish-icon" data-task="remove" data-id="<?= $roomId ?>"></i>
+                        <?php
+                    } else {
+                        ?>
+                        <i class="fa-regular fa-bookmark wish-icon out" data-task="add" data-id="<?= $roomId ?>"></i>
+                        <?php
+                    }
+                    ?>
                 </div>
 
                 <!-- specs :: number of room & floor -->
@@ -106,20 +126,15 @@ foreach ($allRoomList as $room) {
                 <div class="room-bottom">
                     <div class="rating">
                         <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <p class="fw-semibold small"> <?= $tempReview->calculateRating($roomId) ?> </p>
+                        <p class="fw-semibold small"> <?= $tempReview->calculateRating($roomId) ?>
+                        </p>
                     </div>
 
-                    <a href="/rentrover/room-detail/<?= $roomId ?>" class="btn btn-outlined-brand show-more-btn">
+                    <a href="/rentrover/tenant/room-detail/<?= $roomId ?>" class="btn btn-outlined-brand show-more-btn">
                         Show More </a>
                 </div>
             </div>
         </div>
         <?php
     }
-}
-
-if ($count == 0) {
-    ?>
-    <p class="text-danger"> This is only the room available in this house. </p>
-    <?php
 }

@@ -16,21 +16,33 @@ $houseList = $tempHouse->fetchHouseIdByLandlordId($landlordId);
 
 $roomList = $tempRoom->fetchAllRoomByLandlord($houseList);
 
-
 $serial = 1;
 foreach ($roomList as $room) {
     $roomId = $room['room_id'];
     $houseId = $room['house_id'];
     $tempHouse->fetch($houseId);
     $landlordId = $tempHouse->getLandlordId() ?? '';
+
+    // filter class
+    // room type
+    $typeClass = $room['type'] == 'bhk' ? "bhk-row" : "non-bhk-row";
+
+    // status
+    $statusClass = $room['flag'] == 'on-hold' ? 'acquired-row' : 'unacquired-row';
+
+    // furnishihng
+    switch ($room['furnishing']) {
+        case 'unfurnished':
+            $furnishingClass = "unfurnished-row";
+            break;
+        case 'semi-furnished':
+            $furnishingClass = "semi-furnished-row";
+            break;
+        default:
+            $furnishingClass = "full-furnished-row";
+    }
     ?>
-    <tr class="room-row <?= $room['type'] == 'bhk' ? "bhk-row" : "non-bhk-row" ?> 
-        <?php if ($room['furnishing'] == 'unfurnished')
-            echo "unfurnished-row";
-        elseif ($room['furnishing'] == 'semi-furnished')
-            echo "semi-furnished-row";
-        else
-            echo "full-furnished-row"; ?> <?= $room['flag'] != 'acquired' ? "unacquired-row" : "acquired-row" ?>">
+    <tr class="room-row <?= $typeClass ?> <?= $furnishingClass ?> <?= $statusClass ?>">
         <th scope="row" class="serial"> <?= $serial++ ?> </th>
         <td> <a href="/rentrover/landlord/house-detail/<?= $houseId ?>" class="text-primary"> <?= $houseId ?> </a> </td>
         <td> <?= $tempHouse->getAddress() ?> </td>
@@ -45,7 +57,7 @@ foreach ($roomList as $room) {
             ?>
         </td>
         <td> <?= ucfirst($room['furnishing']) ?> </td>
-        <td> <?= $room['flag'] != 'acquired' ? "Unacquired" : "Acquired" ?> </td>
+        <td> <?= $room['flag'] == 'on-hold' ? "Acquired" : "Uncquired" ?> </td>
         <td class="text-secondary small"> <?= $room['registration_date'] ?> </td>
         <td class="action text-primary">
             <a href="/rentrover/landlord/room-detail/<?= $roomId ?>" class="text-primary small"> Show details

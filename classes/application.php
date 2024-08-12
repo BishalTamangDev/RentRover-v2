@@ -432,7 +432,7 @@ class Application
     public function checkExpired($id)
     {
         global $conn;
-        $query = "SELECT application_date FROM application_tb WHERE application_id = '$id' LIMIT 1";
+        $query = "SELECT application_date FROM application_tb WHERE application_id = '$id' AND flag != 'accepted' LIMIT 1";
         $result = $conn->query($query);
         if ($result->num_rows == 1) {
             $dbData = $result->fetch_assoc();

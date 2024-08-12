@@ -61,8 +61,44 @@ $page = "dashboard";
                 </div>
 
                 <div class="details">
-                    <p class="title"> Impression </p>
-                    <p class="data"> 7,456 </p>
+                    <p class="title"> Houses </p>
+                    <p class="data" id="house-count"> 0 </p>
+                </div>
+            </div>
+
+            <!-- Rooms -->
+            <div class="card-v1">
+                <div class="icon">
+                    <i class="fa-solid fa-person-shelter"></i>
+                </div>
+
+                <div class="details">
+                    <p class="title"> Rooms </p>
+                    <p class="data" id="room-count"> 0 </p>
+                </div>
+            </div>
+
+            <!-- tenant -->
+            <div class="card-v1">
+                <div class="icon">
+                    <i class="fa fa-users"></i>
+                </div>
+
+                <div class="details">
+                    <p class="title"> Tenants </p>
+                    <p class="data" id="tenant-count"> 0 </p>
+                </div>
+            </div>
+
+            <!-- unsolved issues -->
+            <div class="card-v1">
+                <div class="icon">
+                    <i class="fa fa-comments"></i>
+                </div>
+
+                <div class="details">
+                    <p class="title"> Unsolved Issues </p>
+                    <p class="data" id="unsolved-issue-count"> 0 </p>
                 </div>
             </div>
         </div>
@@ -141,6 +177,52 @@ $page = "dashboard";
                     },
                 });
             }
+
+            function updateCountCard() {
+                // count house
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-house.php',
+                    type: "POST",
+                    data: { landlordId: <?= $r_id ?> },
+                    success: function (data) {
+                        $('#house-count').html(data);
+                    }
+                });
+
+                // count rooms
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-room.php',
+                    success: function (data) {
+                        $('#room-count').html(data);
+                    }, error: function () {
+                        $('#room-count').html("0");
+                    }
+                });
+
+                // acquired rooms || current tenant count
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-acquired-room.php',
+                    success: function (data) {
+                        $('#tenant-count').html(data);
+                    }, error: function () {
+                        $('#tenant-count').html("0");
+                    }
+                });
+
+                // count unsolved issues
+                $.ajax({
+                    type: 'POST',
+                    data: { landlordId: <?= $r_id ?> },
+                    url: '/rentrover/pages/landlord/app/count-unsolved-issue.php',
+                    success: function (data) {
+                        $('#unsolved-issue-count').html(data);
+                    }, error: function () {
+                        $('#unsolved-issue-count').html("0");
+                    }
+                });
+            }
+
+            updateCountCard();
 
             fetchLatestIssue();
         });

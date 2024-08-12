@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 12, 2024 at 05:25 PM
+-- Generation Time: Aug 12, 2024 at 10:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -262,7 +262,7 @@ INSERT INTO `issue_tb` (`issue_id`, `room_id`, `tenant_id`, `issue`, `issued_dat
 (1, 2, 2, 'first issue', '2024-08-12 14:01:41', '2024-08-12 14:03:35', 'solved'),
 (2, 2, 2, 'second issue', '2024-08-12 14:01:49', '2024-08-12 14:03:01', 'solved'),
 (3, 2, 2, 'third issue', '2024-08-12 14:01:55', '2024-08-12 14:02:27', 'solved'),
-(4, 2, 2, 'fourth issue', '2024-08-12 14:03:51', '0000-00-00 00:00:00', 'unsolved');
+(4, 2, 2, 'fourth issue', '2024-08-12 14:03:51', '2024-08-13 01:59:01', 'solved');
 
 -- --------------------------------------------------------
 
@@ -276,16 +276,15 @@ CREATE TABLE `leave_application_tb` (
   `room_id` int(11) NOT NULL,
   `note` varchar(255) NOT NULL,
   `move_out_date` date NOT NULL,
-  `submitted_date` datetime NOT NULL,
-  `flag` varchar(9) NOT NULL DEFAULT ''
+  `submitted_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `leave_application_tb`
 --
 
-INSERT INTO `leave_application_tb` (`leave_id`, `tenant_id`, `room_id`, `note`, `move_out_date`, `submitted_date`, `flag`) VALUES
-(5, 2, 2, 'hello rupak', '2024-08-12', '2024-08-12 20:02:40', '');
+INSERT INTO `leave_application_tb` (`leave_id`, `tenant_id`, `room_id`, `note`, `move_out_date`, `submitted_date`) VALUES
+(5, 2, 2, 'hello rupak', '2024-08-12', '2024-08-12 20:02:40');
 
 -- --------------------------------------------------------
 
@@ -332,7 +331,6 @@ CREATE TABLE `review_tb` (
 --
 
 INSERT INTO `review_tb` (`review_id`, `user_id`, `room_id`, `review`, `rating`, `review_date`) VALUES
-(11, 2, 2, 'third review', 3, '2024-08-11 23:47:49'),
 (13, 2, 2, 'fifth review', 5, '2024-08-11 23:48:03'),
 (15, 2, 2, 'seventh rating', 2, '2024-08-12 00:20:32');
 
@@ -398,7 +396,7 @@ CREATE TABLE `room_tb` (
 
 INSERT INTO `room_tb` (`room_id`, `house_id`, `type`, `bhk`, `number_of_room`, `number`, `furnishing`, `floor`, `rent`, `info`, `flag`, `tenant_id`, `registration_date`) VALUES
 (1, 4, 'bhk', 3, 0, 201, 'fully-furnished', 2, 35000, 'This spacious master bedroom exudes comfort and luxury, featuring a king-sized bed with a tufted headboard and plush bedding. Large windows allow natural light to fill the room, while soft, neutral tones create a serene atmosphere. A cozy seating area wit', 'verified', 0, '2024-08-11 10:00:46'),
-(2, 1, 'bhk', 1, 0, 501, 'semi-furnished', 5, 17000, 'The living room is designed for both relaxation and entertaining, with an open layout that flows into the dining area. It features a comfortable sectional sofa, a sleek coffee table, and a fireplace that serves as a focal point. Large windows provide plen', 'on-hold', 2, '2024-08-11 10:02:25'),
+(2, 1, 'bhk', 1, 0, 501, 'semi-furnished', 5, 17000, 'The living room is designed for both relaxation and entertaining, with an open layout that flows into the dining area. It features a comfortable sectional sofa, a sleek coffee table, and a fireplace that serves as a focal point. Large windows provide plen', 'verified', 0, '2024-08-11 10:02:25'),
 (3, 1, 'non-bhk', 0, 3, 301, 'semi-furnished', 3, 19000, 'This modern kitchen is both functional and stylish, boasting quartz countertops, stainless steel appliances, and a large center island with bar seating. White cabinetry offers ample storage, while a subway tile backsplash adds a touch of sophistication. T', 'verified', 0, '2024-08-11 10:03:39'),
 (4, 2, 'bhk', 1, 0, 107, 'unfurnished', 1, 9000, 'The home office is a quiet and productive space, featuring a large desk with plenty of workspace, built-in bookshelves, and a comfortable office chair. The room is bathed in natural light from a large window, which also offers a pleasant view of the garde', 'verified', 0, '2024-08-11 10:04:26');
 
@@ -421,7 +419,7 @@ CREATE TABLE `tenancy_tb` (
 --
 
 INSERT INTO `tenancy_tb` (`tenancy_id`, `tenant_id`, `room_id`, `move_in_date`, `move_out_date`) VALUES
-(1, 2, 2, '2024-08-11 20:08:00', '0000-00-00 00:00:00');
+(1, 2, 2, '2024-08-11 20:08:00', '2024-08-13 01:54:23');
 
 -- --------------------------------------------------------
 
@@ -484,8 +482,7 @@ CREATE TABLE `wishlist_tb` (
 --
 
 INSERT INTO `wishlist_tb` (`wishlist_id`, `user_id`, `room_id`) VALUES
-(37, 8, 3),
-(38, 8, 4);
+(41, 2, 1);
 
 --
 -- Indexes for dumped tables
@@ -673,7 +670,7 @@ ALTER TABLE `user_tb`
 -- AUTO_INCREMENT for table `wishlist_tb`
 --
 ALTER TABLE `wishlist_tb`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

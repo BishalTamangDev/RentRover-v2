@@ -67,6 +67,7 @@ if ($roomExists) {
     <link rel="stylesheet" href="/rentrover/css/review.css">
     <link rel="stylesheet" href="/rentrover/css/header.css">
     <link rel="stylesheet" href="/rentrover/css/room.css">
+    <link rel="stylesheet" href="/rentrover/css/footer.css">
     <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
     <link rel="stylesheet" href="/rentrover/css/tenant/room-detail.css">
 

@@ -35,45 +35,43 @@ if (!$exists) {
         <!-- tenant -->
         <div class="d-flex flex-row gap-2">
             <p class="m-0"> Tenant : </p>
-            <p class="m-0 fw-semibold"> <?=$name?> </p>
+            <p class="m-0 fw-semibold"> <?= $name ?> </p>
         </div>
 
         <!-- house -->
         <div class="d-flex flex-row gap-2 mt-2">
             <p class="m-0"> House : </p>
-            <p class="m-0 fw-semibold"> <?=$location?> </p>
+            <p class="m-0 fw-semibold"> <?= $location ?> </p>
         </div>
 
         <!-- room number -->
         <div class="d-flex flex-row gap-2 mt-2">
             <p class="m-0"> Room : </p>
-            <p class="m-0 fw-semibold"> <?=$tempRoom->number?> </p>
+            <p class="m-0 fw-semibold"> <?= $tempRoom->number ?> </p>
         </div>
 
         <!-- note -->
         <div class="mt-2">
             <p class="m-0"> Note: </p>
-            <p class="m-0"> <?=ucfirst($tempLeave->note)?> </p>
+            <p class="m-0"> <?= ucfirst($tempLeave->note) ?> </p>
         </div>
 
         <!-- move out date -->
         <div class="d-flex flex-row gap-2 mt-2">
             <p class="m-0"> Move out date : </p>
-            <p class="m-0 fw-semibold"> <?=$tempLeave->moveOutDate?> </p>
+            <p class="m-0 fw-semibold"> <?= $tempLeave->moveOutDate ?> </p>
         </div>
 
         <!-- application date -->
         <div class="d-flex flex-row gap-2 mt-2">
             <p class="m-0"> Application date </p>
-            <p class="m-0 fw-semibold"> <?=$tempLeave->submittedDate?> </p>
+            <p class="m-0 fw-semibold"> <?= $tempLeave->submittedDate ?> </p>
         </div>
 
         <!-- action -->
         <div class="action mt-2">
-            <button class="btn btn-success" id="leave-application-acknowledge-btn"> <i class="fa-solid fa-check mr-2"></i>
-                Mark as read </button>
-            <a href="/rentrover/landlord/tenant-detail/1" class="btn btn-outlined-brand" id="show-tenant-detail"> <i
-                    class="fa-solid fa-arrow-up-right-from-square"></i> Show
+            <a href="/rentrover/landlord/tenant-detail/<?= $tenantId ?>" class="btn btn-outlined-brand"
+                id="show-tenant-detail"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Show
                 Tenant Details </a>
         </div>
     </form>

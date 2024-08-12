@@ -78,7 +78,7 @@ class Feedback
     public function fetchAll()
     {
         global $conn;
-        $query = "SELECT * FROM feedback_tb";
+        $query = "SELECT * FROM feedback_tb ORDER BY feedback_id DESC";
         $result = $conn->query($query);
         $list = [];
         if ($result->num_rows > 0) {
@@ -93,7 +93,7 @@ class Feedback
     public function fetchLatest()
     {
         global $conn;
-        $query = "SELECT * FROM feedback_tb ORDER BY feedback_id DESC LIMIT 2";
+        $query = "SELECT * FROM feedback_tb ORDER BY feedback_id DESC LIMIT 3";
         $result = $conn->query($query);
         $list = [];
         if ($result->num_rows > 0) {

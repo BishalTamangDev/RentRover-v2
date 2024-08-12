@@ -2,7 +2,7 @@
 $landlordId = $_POST['landlordId'] ?? 0;
 
 if ($landlordId == 0) {
-    echo false;
+    echo "0";
     exit;
 }
 
@@ -20,33 +20,10 @@ $houseList = $tempHouse->fetchHouseIdByLandlordId($landlordId);
 $roomList = $tempRoom->fetchAllRoomIdByLandlord($houseList);
 $issueList = $tempIssue->fetchIssuesForLanlord($roomList);
 
-$totalIssue = sizeof($issueList);
-$solvedIssue = 0;
 $unsolvedIssue = 0;
 
-foreach ($issueList as $issue) {
-    if ($issue['flag'] == 'unsolved') {
+foreach ($issueList as $issue)
+    if ($issue['flag'] == 'unsolved')
         $unsolvedIssue++;
-    } else {
-        $solvedIssue++;
-    }
-}
-?>
 
-<!-- total issues -->
-<div class="card-v2">
-    <p class="title"> Number of issues </p>
-    <p class="data"> <?= $totalIssue ?> </p>
-</div>
-
-<!-- solved issues -->
-<div class="card-v2">
-    <p class="title"> Solved issues </p>
-    <p class="data"> <?= $solvedIssue ?> </p>
-</div>
-
-<!-- unsolved issues -->
-<div class="card-v2">
-    <p class="title"> Unsolved issues </p>
-    <p class="data"> <?= $unsolvedIssue ?> </p>
-</div>
+echo $unsolvedIssue;

@@ -51,7 +51,8 @@ class Room
     }
 
     // getter
-    public function getTenantId(){
+    public function getTenantId()
+    {
         return $this->tenantId;
     }
 
@@ -187,7 +188,7 @@ class Room
     {
         global $conn;
         $roomList = [];
-        $query = "SELECT * FROM room_tb";
+        $query = "SELECT * FROM room_tb ORDER BY room_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -202,7 +203,7 @@ class Room
     {
         global $conn;
         $roomList = [];
-        $query = "SELECT * FROM room_tb WHERE flag = 'verified'";
+        $query = "SELECT * FROM room_tb WHERE flag = 'verified' ORDER BY room_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -450,5 +451,14 @@ class Room
         $query = "SELECT flag FROM room_tb WHERE tenant_id = '$userId' AND room_id = '$roomId' LIMIT 1";
         $result = $conn->query($query);
         return $result->num_rows == 1 ? true : false;
+    }
+
+    // remove tenant
+    public function removeTenant($roomId)
+    {
+        global $conn;
+        $query = "UPDATE room_tb SET tenant_id = '0' AND flag = 'verified' WHERE room_id = '$roomId'";
+        $result = $conn->query($query);
+        return $result ? true : false;
     }
 }

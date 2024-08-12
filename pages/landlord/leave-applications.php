@@ -182,8 +182,6 @@ $page = "leave-applications";
                     url: "/rentrover/pages/landlord/sections/fetch-leave-application-detail.php",
                     data: { applicationId: id },
                     success: function (response) {
-                        console.clear();
-                        console.log(response);
                         if (response != false) {
                             $('#leave-application-form').replaceWith(response);
                         }

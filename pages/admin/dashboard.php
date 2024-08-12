@@ -60,7 +60,7 @@ $page = "dashboard";
                 </div>
 
                 <div class="details">
-                    <p class="title"> Users </p>
+                    <p class="title"> Tenants </p>
                     <p class="data" id="user-count"> 0 </p>
                 </div>
             </div>
@@ -85,7 +85,7 @@ $page = "dashboard";
 
                 <div class="details">
                     <p class="title"> Rooms </p>
-                    <p class="data" id="room-count"> </p>
+                    <p class="data" id="room-count"> 0 </p>
                 </div>
             </div>
 
@@ -100,13 +100,6 @@ $page = "dashboard";
                     <p class="data" id="feedback-count"> 0 </p>
                 </div>
             </div>
-        </div>
-
-        <!-- pie chart -->
-        <!-- chart container -->
-        <div class="chart-container mt-5">
-            <!-- user pie chart -->
-            <canvas id="room-pie-chart"> </canvas>
         </div>
 
         <!-- latest system notices -->

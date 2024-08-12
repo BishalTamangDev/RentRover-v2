@@ -21,6 +21,11 @@ $wishlistObj->setUserId($r_id);
 $page = "home";
 if (!isset($tab))
     $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
+
+// search
+$searchState = isset($_GET['search']) ? "search" : "no-search";
+
+$searchContent = $searchState == "search" ? $_GET['search'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -55,6 +60,12 @@ if (!isset($tab))
     <link rel="stylesheet" href="/rentrover/css/footer.css">
     <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
     <link rel="stylesheet" href="/rentrover/css/tenant/home.css">
+
+    <!-- prevent resubmission of the form -->
+    <script>
+        if (window.history.replaceState)
+            window.history.replaceState(null, null, window.location.href);
+    </script>
 </head>
 
 <body>
@@ -64,8 +75,9 @@ if (!isset($tab))
     <!-- search -->
     <section class="d-flex flex-column container align-items-center search-container">
         <h1 class="m-0 mb-3 text-light"> Find the best room that suits you. </h1>
-        <form class="d-flex flex-row gap-1 form fit-content mb-5" id="search-form">
-            <input type="search" name="content" placeholder="search by location" id="content" class="form-control">
+        <form class="d-flex flex-row gap-1 form fit-content mb-5" method="GET" id="search-form">
+            <input type="search" name="search" value="<?= $searchState == 'search' ? $searchContent : '' ?>"
+                placeholder="search by location" id="search" class="form-control" required>
             <button type="submit" name="" id="" class="form-control btn btn-brand fit-content m-auto">
                 Search
             </button>
@@ -150,13 +162,23 @@ if (!isset($tab))
         <!-- all room container -->
         <div class="all-room-container">
             <div class="d-flex flex-row justify-content-between">
-                <p class="m-0 mt-1 mb-2 fw-semibold fs-4 px-1"> All Rooms </p>
+                <p class="m-0 mt-1 mb-2 fw-semibold fs-4 px-1">
+                    <?= $searchState == 'search' ? "Search Results" : "All Rooms" ?> </p>
                 <i class="fa fa-filter pointer" id="filter-trigger"></i>
             </div>
 
+            <!-- search result count -->
+            <?php
+            if ($searchState == 'search') {
+                ?>
+                <a href="/rentrover/home" class="btn btn-danger fit-content mt-3 mb-4"> Clear Search </a>
+                <?php
+            }
+            ?>
+
             <section class="room-container" id="all-room-container">
                 <!-- backup -->
-                <div class="d-nones room shadow-sm room-element bhk-element non-bhk-element unfurnished-element semi-furnished-element full-furnished-element district-kathmandu-element"
+                <div class="d-none room shadow-sm room-element bhk-element non-bhk-element unfurnished-element semi-furnished-element full-furnished-element district-kathmandu-element"
                     data-rent="17000" data-floor="4">
                     <!-- image -->
                     <div class="room-image-div">
@@ -197,7 +219,7 @@ if (!isset($tab))
             </section>
 
             <!-- load more -->
-            <div class="mt-4 d-flex flex-row load-more-container">
+            <div class="d-none mt-4 d-flex flex-row load-more-container">
                 <button class="btn btn-brand"> Load More </button>
             </div>
         </div>
@@ -205,15 +227,16 @@ if (!isset($tab))
 
     <!-- feedback trigger -->
     <div class="container">
-        <a class="pointer" data-bs-toggle="modal" data-bs-target="#feedback-modal"> <i class="fa-regular fa-paper-plane"></i> Submit a feeback </a>
+        <a class="pointer" data-bs-toggle="modal" data-bs-target="#feedback-modal"> <i
+                class="fa-regular fa-paper-plane"></i> Submit a feeback </a>
     </div>
 
     <!-- footer -->
-    <?php require_once __DIR__ .  '/../../sections/footer.php';?>
-    
+    <?php require_once __DIR__ . '/../../sections/footer.php'; ?>
+
     <!-- modal :: feedback modal-->
-    <?php require_once __DIR__ .  '/../../sections/feedback.php';?>  
-    
+    <?php require_once __DIR__ . '/../../sections/feedback.php'; ?>
+
     <!-- popup alert -->
     <div class="popup-alert-container" id="popup-alert-container">
         <p id="popup-message"> Popup alert content. </p>
@@ -232,7 +255,7 @@ if (!isset($tab))
 
     <!-- feedback-js -->
     <script src="/rentrover/js/feedback-submit.js"></script>
-                        
+
     <script type="text/javascript" src="/rentrover/js/tenant.js"></script>
 
     <!-- popup js -->
@@ -240,6 +263,31 @@ if (!isset($tab))
 
     <script>
         $(document).ready(function () {
+            var search_state = "<?= $searchState ?>";
+            var search_content = "<?= $searchContent ?>";
+
+            if ($.trim(search_state) == "search") {
+                search(search_content);
+            }
+
+            if ($.trim(search_state) == "no-search") {
+                loadAllRoom();
+            }
+
+            function search(s_content) {
+                console.log("Content : " + s_content);
+                $.ajax({
+                    url: '/rentrover/pages/tenant/sections/search.php',
+                    type: 'POST',
+                    data: { content: search_content },
+                    success: function (data) {
+                        $('#all-room-container').html(data);
+                    }, error: function () {
+                        $('#all-room-container').html("An error occured");
+                    }
+                });
+            }
+
             // load all room
             function loadAllRoom() {
                 $.ajax({
@@ -251,8 +299,6 @@ if (!isset($tab))
                     }
                 });
             }
-
-            loadAllRoom();
 
             // filter open
             $('#filter-trigger').click(function () {

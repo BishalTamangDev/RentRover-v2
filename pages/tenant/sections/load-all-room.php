@@ -6,10 +6,12 @@ require_once __DIR__ . '/../../../classes/house.php';
 require_once __DIR__ . '/../../../classes/room.php';
 require_once __DIR__ . '/../../../classes/user.php';
 require_once __DIR__ . '/../../../classes/wishlist.php';
+require_once __DIR__ . '/../../../classes/room-review.php';
 
 $tempUser = new User();
 $tempHouse = new House();
 $tempRoom = new Room();
+$tempReview = new Review();
 $tempWishlist = new Wishlist();
 
 $tempWishlist->setUserId($_SESSION['rentrover-id']);
@@ -113,7 +115,8 @@ foreach ($allRoomList as $room) {
             <div class="room-bottom">
                 <div class="rating">
                     <img src="/rentrover/assets/icons/full-star.png" alt="">
-                    <p class="fw-semibold small"> 2.4 </p>
+                    <p class="fw-semibold small"> <?= $tempReview->calculateRating($roomId) ?>
+ </p>
                 </div>
 
                 <a href="/rentrover/tenant/room-detail/<?= $roomId ?>" class="btn btn-outlined-brand show-more-btn">

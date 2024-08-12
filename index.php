@@ -87,52 +87,60 @@ if (in_array($arr[1], $unsignedUserPages)) {
         }
     }
 
-    if (isset($arr[2])) {
-        $page = ($arr[2] != '') ? $arr[2] : "home";
+    // search
+    if ($router == '/home' || $router == '/home/' || preg_match('/home\?/i', $router)) {
+        require_once __DIR__ . '/pages/tenant/home.php';
+        $redirected = true;
     } else {
-        $page = "home";
-    }
-
-    switch ($page) {
-        case 'home':
-        case '':
-            require_once __DIR__ . '/pages/tenant/home.php';
-            $redirected = true;
-            break;
-        case 'wishlist':
-            require_once __DIR__ . '/pages/tenant/wishlist.php';
-            $redirected = true;
-            break;
-        case 'notifications':
-            require_once __DIR__ . '/pages/tenant/notifications.php';
-            $redirected = true;
-            break;
-        case 'room-detail':
-            if (isset($arr[3])) {
-                if ($arr[3] != '') {
-                    $roomId = $arr[3];
-                    $redirected = true;
-                    require_once __DIR__ . '/pages/tenant/room-detail.php';
+        if (isset($arr[2])) {
+            $page = ($arr[2] != '') ? $arr[2] : "home";
+        } else {
+            $page = "home";
+        }
+    
+        switch ($page) {
+            case 'home':
+            case '':
+                require_once __DIR__ . '/pages/tenant/home.php';
+                $redirected = true;
+                break;
+            case 'wishlist':
+                require_once __DIR__ . '/pages/tenant/wishlist.php';
+                $redirected = true;
+                break;
+            case 'notifications':
+                require_once __DIR__ . '/pages/tenant/notifications.php';
+                $redirected = true;
+                break;
+            case 'room-detail':
+                if (isset($arr[3])) {
+                    if ($arr[3] != '') {
+                        $roomId = $arr[3];
+                        $redirected = true;
+                        require_once __DIR__ . '/pages/tenant/room-detail.php';
+                    }
                 }
-            }
-            break;
-        case 'my-room':
-            require_once __DIR__ . '/pages/tenant/my-room.php';
-            $redirected = true;
-            break;
-        case 'profile':
-            if (isset($arr[3])) {
-                $tab = $arr[3] != '' ? $arr[3] : "view";
+                break;
+            case 'my-room':
+                require_once __DIR__ . '/pages/tenant/my-room.php';
                 $redirected = true;
-                require_once __DIR__ . '/pages/tenant/profile.php';
-            } else {
-                $tab = "view";
-                $redirected = true;
-                require_once __DIR__ . '/pages/tenant/profile.php';
-            }
-            break;
-        default:
-            $redirected = false;
+                break;
+            case 'profile':
+                if (isset($arr[3])) {
+                    $tab = $arr[3] != '' ? $arr[3] : "view";
+                    $redirected = true;
+                    require_once __DIR__ . '/pages/tenant/profile.php';
+                } else {
+                    $tab = "view";
+                    $redirected = true;
+                    require_once __DIR__ . '/pages/tenant/profile.php';
+                }
+                break;           
+            default:
+                $redirected = false;
+    
+    
+        }
     }
 } elseif ($arr[1] == "landlord") {
     if ($r_role != 'landlord') {
