@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 12, 2024 at 12:57 PM
+-- Generation Time: Aug 12, 2024 at 05:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -267,6 +267,29 @@ INSERT INTO `issue_tb` (`issue_id`, `room_id`, `tenant_id`, `issue`, `issued_dat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `leave_application_tb`
+--
+
+CREATE TABLE `leave_application_tb` (
+  `leave_id` int(11) NOT NULL,
+  `tenant_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `note` varchar(255) NOT NULL,
+  `move_out_date` date NOT NULL,
+  `submitted_date` datetime NOT NULL,
+  `flag` varchar(9) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `leave_application_tb`
+--
+
+INSERT INTO `leave_application_tb` (`leave_id`, `tenant_id`, `room_id`, `note`, `move_out_date`, `submitted_date`, `flag`) VALUES
+(5, 2, 2, 'hello rupak', '2024-08-12', '2024-08-12 20:02:40', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `notice_tb`
 --
 
@@ -310,7 +333,6 @@ CREATE TABLE `review_tb` (
 
 INSERT INTO `review_tb` (`review_id`, `user_id`, `room_id`, `review`, `rating`, `review_date`) VALUES
 (11, 2, 2, 'third review', 3, '2024-08-11 23:47:49'),
-(12, 2, 2, 'fouth review', 4, '2024-08-11 23:47:57'),
 (13, 2, 2, 'fifth review', 5, '2024-08-11 23:48:03'),
 (15, 2, 2, 'seventh rating', 2, '2024-08-12 00:20:32');
 
@@ -462,7 +484,6 @@ CREATE TABLE `wishlist_tb` (
 --
 
 INSERT INTO `wishlist_tb` (`wishlist_id`, `user_id`, `room_id`) VALUES
-(34, 2, 1),
 (37, 8, 3),
 (38, 8, 4);
 
@@ -511,6 +532,12 @@ ALTER TABLE `house_tb`
 --
 ALTER TABLE `issue_tb`
   ADD PRIMARY KEY (`issue_id`);
+
+--
+-- Indexes for table `leave_application_tb`
+--
+ALTER TABLE `leave_application_tb`
+  ADD PRIMARY KEY (`leave_id`);
 
 --
 -- Indexes for table `notice_tb`
@@ -599,6 +626,12 @@ ALTER TABLE `house_tb`
 --
 ALTER TABLE `issue_tb`
   MODIFY `issue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `leave_application_tb`
+--
+ALTER TABLE `leave_application_tb`
+  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `notice_tb`

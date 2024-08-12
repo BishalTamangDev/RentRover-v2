@@ -5,11 +5,13 @@ if (session_status() == PHP_SESSION_NONE)
 require_once __DIR__ . '/../../classes/user.php';
 require_once __DIR__ . '/../../classes/house.php';
 require_once __DIR__ . '/../../classes/room.php';
+require_once __DIR__ . '/../../classes/leave-application.php';
 require_once __DIR__ . '/../../functions/amenity-array.php';
 
 $profileUser = new User();
 $houseObj = new House();
 $roomObj = new Room();
+$leaveObj = new Leave();
 
 $profileUser->fetch($r_id, "all");
 
@@ -276,12 +278,28 @@ if ($roomExists) {
                         </tr>
                     </table>
 
-                    <div class="room-operations">
-                        <!-- leave room -->
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#leave-room-modal"> <i
-                                class="fa-solid fa-arrow-right-from-bracket"></i> Leave room </button>
-                        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#report-an-issue">
-                            <i class="fa-regular fa-comment"></i> Report an Issue </button>
+                    <div class="d-flex gap-2 flex-wrap room-operations">
+                        <!-- check if leave application has been submitted already -->
+                        <?php
+                            $alreadyApplied = $leaveObj->checkApplicantionForTenantAndRoom($r_id, $roomId);
+
+                            if ($alreadyApplied) {
+                                ?>
+                                <p class="text-danger small"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave application already submitted
+                                </p>
+                            <?php
+                            } else {
+                                ?>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#leave-room-modal" id="leave-room-btn"> <i
+                                        class="fa-solid fa-arrow-right-from-bracket"></i> Leave room </button>
+                                        
+                                        <!-- report issue -->
+                                        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#report-an-issue" id="report-issue-btn">
+                                            <i class="fa-regular fa-comment"></i> Report an Issue </button>
+                            <?php
+                            }
+                            ?>
+                        
                     </div>
                 </div>
         </section>
@@ -296,20 +314,27 @@ if ($roomExists) {
             <div class="modal-content">
                 <div class="d-flex flex-row justify-content-between modal-header">
                     <h1 class="modal-title fs-5" id="leave-room-modal-label"> Leave Room Application </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        id="leave-application-modal-close-trigger"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-danger small error-message mb-3" id="error-message-1"> Error message appears here...
+                    <p class="text-danger small error-message mb-3" id="leave-application-error-message"> Error message
+                        appears here...
                     </p>
-                    <form class="lave-room-form" id="leave-application-form">
+                    <form method="POST" class="leave-room-form" id="leave-application-form">
                         <!-- room id -->
-                        <input type="hidden" name="leave-room-id" id="leave-room-id" value="" class="form-control mb-3"
-                            required>
+                        <input type="hidden" name="leave-room-id" id="leave-room-id" value="<?= $roomId ?>"
+                            class="form-control mb-3" required>
+
+                        <!-- tenant id -->
+                        <input type="hidden" name="leave-tenant-id" id="leave-tenant-id" value="<?= $r_id ?>"
+                            class="form-control mb-3" required>
 
                         <!-- move out date -->
                         <div>
-                            <label for="leave-date" class="mb-2"> Move out date </label>
-                            <input type="date" name="leave-date" id="leave-date" class="form-control mb-3" required>
+                            <label for="leave-move-out-date" class="mb-2"> Move out date </label>
+                            <input type="date" name="leave-move-out-date" id="leave-move-out-date"
+                                class="form-control mb-3" required>
                         </div>
 
                         <!-- note -->
@@ -318,7 +343,7 @@ if ($roomExists) {
                             <textarea name="leave-note" id="leave-note" placeholder="write here..."
                                 class="form-control mb-3"></textarea>
                         </div>
-                        <button class="btn btn-brand fit-content"> Submit </button>
+                        <button class="btn btn-brand fit-content" id="leave-application-button"> Submit </button>
                     </form>
                 </div>
             </div>
@@ -340,7 +365,7 @@ if ($roomExists) {
                     <p class="text-danger small error-message mb-3" id="issue-error-message"> Error message appears
                         here...
                     </p>
-                    <form class="lave-room-form" id="issue-application-form">
+                    <form class="leave-room-form" id="issue-application-form">
                         <!-- room id -->
                         <input type="hidden" name="issue-room-id" id="issue-room-id" value="<?= $roomId ?>"
                             class="form-control mb-3" required>
@@ -404,7 +429,7 @@ if ($roomExists) {
                 e.preventDefault();
 
                 // check date
-                var leave_date = new Date($('#leave-date').val());
+                var leave_date = new Date($('#leave-move-out-date').val());
                 leave_date.setHours(0, 0, 0, 0);
 
                 var currentDate = new Date();
@@ -412,14 +437,24 @@ if ($roomExists) {
 
                 if (leave_date < currentDate) {
                     // show error message
-                    $('#error-message-1').html('Please select the valid date').fadeIn();
+                    $('#leave-application-error-message').html('Please select the valid date').fadeIn();
                 } else {
-                    $('#error-message-1').fadeOut();
-                    console.log("Leave application submit...");
-
-                    // $.ajax({
-
-                    // });
+                    $('#leave-application-error-message').fadeOut();
+                    $.ajax({
+                        url: '/rentrover/pages/tenant/app/submit-leave-application.php',
+                        type: 'POST',
+                        data: $(this).serialize(),
+                        success: function (response) {
+                            $('#leave-application-modal-close-trigger').click();
+                            if (response) {
+                                showPopupAlert('Application has been submitted.');
+                                $('#report-issue-btn').fadeOut();
+                                $('#leave-room-btn').html("<i class='fa fa-check'> </i> Leave application submitted").prop('disabled', true);
+                            } else {
+                                $('#leave-application-error-message').html('An error occured').fadeIn();
+                            }
+                        }
+                    });
                 }
             });
 

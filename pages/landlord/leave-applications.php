@@ -62,8 +62,8 @@ $page = "leave-applications";
                         <th scope="col" class="action"> </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="">
+                <tbody id="leave-application-table-body">
+                    <tr class="invisible">
                         <th scope="row" class="serial"> 1 </th>
                         <td> 10256 </td>
                         <td> Rupak Dangi </td>
@@ -84,7 +84,7 @@ $page = "leave-applications";
             </table>
         </div>
 
-        <!-- notice modal -->
+        <!-- leave application modal -->
         <div class="modal fade" id="leaveApplicationModal" tabindex="-1" aria-labelledby="leaveApplicationModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -93,7 +93,7 @@ $page = "leave-applications";
                         <h1 class="modal-title fs-5" id="leaveApplicationModalLabel"> Leave Application </h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="d-flex flex-column gap-2 modal-body">
+                    <form class="d-flex flex-column gap-2 modal-body" id="leave-application-form">
                         <!-- tenant -->
                         <div class="d-flex flex-row gap-2">
                             <p class="m-0"> Tenant : </p>
@@ -140,7 +140,7 @@ $page = "leave-applications";
                                 id="show-tenant-detail"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Show
                                 Tenant Details </a>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -156,6 +156,42 @@ $page = "leave-applications";
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            function loadTable() {
+                $.ajax({
+                    type: "POST",
+                    url: "/rentrover/pages/landlord/sections/leave-application-table.php",
+                    data: { landlordId: <?= $r_id ?> },
+                    success: function (data) {
+                        $('#leave-application-table-body').html(data);
+                    }
+                });
+            }
+
+            loadTable();
+
+            // fetch appliction detail
+            $(document).on('click', '.show-leave-applciation-detail', function () {
+                var id = $(this).data('leave-application-id');
+                console.log(id);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/rentrover/pages/landlord/sections/fetch-leave-application-detail.php",
+                    data: { applicationId: id },
+                    success: function (response) {
+                        console.clear();
+                        console.log(response);
+                        if (response != false) {
+                            $('#leave-application-form').replaceWith(response);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
