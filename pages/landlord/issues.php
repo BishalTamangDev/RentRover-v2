@@ -50,23 +50,23 @@ $page = "issues";
 
     <main>
         <!-- card container -->
-        <section class="card-v2-container">
+        <section class="card-v2-container" id="count-container">
             <!-- total issues -->
             <div class="card-v2">
                 <p class="title"> Number of issues </p>
-                <p class="data"> 120 </p>
+                <p class="data"> - </p>
             </div>
 
             <!-- solved issues -->
             <div class="card-v2">
                 <p class="title"> Solved issues </p>
-                <p class="data"> 12 </p>
+                <p class="data"> - </p>
             </div>
 
             <!-- unsolved issues -->
             <div class="card-v2">
                 <p class="title"> Unsolved issues </p>
-                <p class="data"> 108 </p>
+                <p class="data"> - </p>
             </div>
         </section>
 
@@ -82,36 +82,26 @@ $page = "issues";
                 <thead>
                     <tr>
                         <th scope="col" class="serial"> S.N. </th>
-                        <th scope="col"> Room ID </th>
-                        <th scope="col"> Room No. </th>
+                        <th scope="col"> Room </th>
                         <th scope="col"> Tenant </th>
                         <th scope="col"> Issued Date </th>
                         <th scope="col"> Solved Date </th>
+                        <th scope="col"> Satus </th>
                         <th scope="col" class="action"> </th>
                     </tr>
                 </thead>
 
-                <tbody>
-                    <tr class="issue-row solved-row">
+                <tbody id="issue-table-body">
+                    <tr class="d-none issue-row solved-row unsolved-row">
                         <th scope="row" class="serial"> 1 </th>
-                        <td> 10256 </td>
-                        <td> 4125 </td>
-                        <td> Rupak Dangi </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td> 0000-00-00 00:00:00 </td>
-                        <td class="action">
-                            <p class="text-primary pointer small" data-notice-id="" data-bs-toggle="modal"
-                                data-bs-target="#issueModal"> Show details </p>
+                        <td>
+                            <a href=""> 10256 </a>
                         </td>
-                    </tr>
-
-                    <tr class="issue-row unsolved-row">
-                        <th scope="row" class="serial"> 2 </th>
-                        <td> 7845 </td>
-                        <td> 9562 </td>
-                        <td> Shristi Pradhan </td>
+                        <td>
+                            <a href=""> Rupak Dangi </a>
+                        </td>
                         <td> 0000-00-00 00:00:00 </td>
-                        <td> Unsolved </td>
+                        <td> 0000-00-00 00:00:00 </td>
                         <td class="action">
                             <p class="text-primary pointer small" data-notice-id="" data-bs-toggle="modal"
                                 data-bs-target="#issueModal"> Show details </p>
@@ -128,7 +118,7 @@ $page = "issues";
         </div>
 
         <!-- issue modal -->
-        <div class="modal modal-lg fade issue-modal" id="issueModal" tabindex="-1" aria-labelledby="issueModalLabel"
+        <div class="modal modal fade issue-modal" id="issueModal" tabindex="-1" aria-labelledby="issueModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content ">
@@ -136,36 +126,32 @@ $page = "issues";
                         <h1 class="modal-title fs-5" id="issueModalLabel"> Issue Details </h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="d-flex flex-column modal-body">
+
+                    <div class="d-flex flex-column modal-body" id="issue-detail-container">
                         <!-- issue -->
                         <div class="mb-2">
-                            <p class="m-0 mb-2 fw-semibold"> Issue </p>
+                            <p class="m-0 mb-2 fw-semibold text-success"> Solved Issue </p>
                             <p class="m-0"> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum facilis, at
                                 delectus ex incidunt veritatis. Nobis, eum minima! Dolores delectus exercitationem velit
                                 ratione atque optio! </p>
                         </div>
 
-                        <p class="small"> Issued date : 0000:00:00 </p>
+                        <!-- issued date -->
+                        <div class="d-flex flex-row gap-2">
+                            <p class="small text-secondary"> Issued date </p>
+                            <p class="small"> 0000:00:00 </p>
+                        </div>
 
-                        <hr class="m-0 mb-2">
-
-                        <!-- response -->
-                        <div class="mb-3" id="issue-response-container">
-                            <p class="m-0 mb-2 fw-semibold"> Issue response </p>
-                            <p class="small text-danger error-message mb-2" id="error-message"> Error message appears
-                                here.. </p>
-                            <form action="" class="form" id="issue-response-form">
-                                <textarea name="issue-response" id="issue-response" class="form-control"
-                                    placeholder="Write the issue response here..." required></textarea>
-                            </form>
+                        <!-- solved date -->
+                        <div class="d-flex flex-row gap-2">
+                            <p class="small text-secondary"> Solved date </p>
+                            <p class="small"> 0000:00:00 </p>
                         </div>
 
                         <!-- action -->
                         <div class="action">
                             <button class="btn btn-success" id="solved-issue-btn"> <i class="fa-solid fa-check"></i>
                                 Mark as Solved </button>
-                            <button class="btn btn-outline-warning" id="issue-response-btn"> <i
-                                    class="fa-regular fa-comment"></i> Send a message </button>
                         </div>
                     </div>
                 </div>
@@ -187,18 +173,25 @@ $page = "issues";
     <!-- script -->
     <script>
         $(document).ready(function () {
-            $('#all-simple-card').click(function () {
-                toggleData("all");
-            });
+            // count issues
+            function countIssues() {
+                $.ajax({
+                    type: "POST",
+                    url: "/rentrover/pages/landlord/sections/count-issues.php",
+                    data: {
+                        landlordId: <?= $r_id ?>
+                    },
+                    success: function (response) {
+                        if (response == false) {
 
-            $('#unsolved-simple-card').click(function () {
-                toggleData("unsolved");
-            });
+                        } else {
+                            $('#count-container').html(response);
+                        }
+                    }
+                });
+            }
 
-            $('#solved-simple-card').click(function () {
-                toggleData("solved");
-            });
-
+            // filter data
             function toggleData(type) {
                 $('#all-simple-card').removeClass("active");
                 $('#unsolved-simple-card').removeClass("active");
@@ -227,7 +220,79 @@ $page = "issues";
                 $('.issue-row:visible').length == 0 ? $('#empty-data-foot').show() : $('#empty-data-foot').hide();
             }
 
+            function fetchIssues() {
+                $.ajax({
+                    type: "POST",
+                    url: "/rentrover/pages/landlord/sections/issue-table.php",
+                    data: {
+                        landlordId: <?= $r_id ?>
+                    },
+                    success: function (data) {
+                        $('#issue-table-body').html(data);
+                        toggleEmptyContent();
+                    }, acceptserror: function () {
+                        toggleEmptyContent();
+                    }
+                });
+            }
+
+            countIssues();
+
             toggleEmptyContent();
+
+            fetchIssues();
+
+            // load specific detail
+            $(document).on('click', '.issue-detail-trigger', function (e) {
+                var issue_id = $(this).data('issue-id');
+                $.ajax({
+                    type: "POST",
+                    url: "/rentrover/pages/landlord/sections/fetch-issue-detail.php",
+                    data: {issueId : issue_id},
+                    success: function (data) {
+                        $('#issue-detail-container').html(data);
+                    }
+                });
+            });
+
+            // solve issue
+            $(document).on('click', '#solve-issue-btn', function(){
+                console.clear();
+                var issue_id = $(this).data('issue-id');
+                console.log(issue_id);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/rentrover/pages/landlord/app/solve-issue.php",
+                    data: {issueId :issue_id},
+                    beforeSend: function(){
+                        $('#solve-issue-btn').html("Please wait..").prop('disable', true);
+                    },
+                    success: function (response) {
+                        if(response) {
+                            $('#issue-flag-label').html('Solved Issue').addClass("text-success").removeClass('text-danger');
+                            $('#solve-issue-btn').html("<i class='fa fa-check'> </i>Issue solved").prop('disabled', false).fadeOut('slow');
+                            fetchIssues();
+                            countIssues();
+                        } else {
+                            $('#solve-issue-btn').html("Mark as Solved").prop('disabled', false);
+                        }
+                    }
+                });
+            });
+
+            // filters
+            $('#all-simple-card').click(function () {
+                toggleData("all");
+            });
+
+            $('#unsolved-simple-card').click(function () {
+                toggleData("unsolved");
+            });
+
+            $('#solved-simple-card').click(function () {
+                toggleData("solved");
+            });
         });
     </script>
 </body>

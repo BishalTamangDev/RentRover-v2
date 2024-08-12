@@ -45,6 +45,7 @@ $tempPhotoSrc = '/rentrover/uploads/blank.jpg';
     <link rel="stylesheet" href="/rentrover/css/user-detail.css">
     <link rel="stylesheet" href="/rentrover/css/header.css">
     <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
+    <link rel="stylesheet" href="/rentrover/css/notice.css">
     <link rel="stylesheet" href="/rentrover/css/profile.css">
 
     <!-- prevent resubmission of the form -->
@@ -226,42 +227,6 @@ $tempPhotoSrc = '/rentrover/uploads/blank.jpg';
                 $('#delete-profile-photo').addClass("invisible");
             });
 
-            // issues
-            $('#all-simple-card').click(function () {
-                toggleData("all");
-            });
-
-            $('#unsolved-simple-card').click(function () {
-                toggleData("unsolved");
-            });
-
-            $('#solved-simple-card').click(function () {
-                toggleData("solved");
-            });
-
-            // toggle issues
-            function toggleData(type) {
-                $('#all-simple-card').removeClass("active");
-                $('#unsolved-simple-card').removeClass("active");
-                $('#solved-simple-card').removeClass("active");
-
-                if (type == "all") {
-                    $('#all-simple-card').addClass("active");
-                    $('.issue-row').show();
-                } else {
-                    $('.issue-row').hide();
-
-                    if (type == "unsolved") {
-                        $('.unsolved-row').show();
-                        $('#unsolved-simple-card').addClass("active");
-                    } else if (type == "solved") {
-                        $('.solved-row').show();
-                        $('#solved-simple-card').addClass("active");
-                    }
-                }
-                toggleEmptyContent();
-            }
-
             // toggle empty data
             function toggleEmptyContent() {
                 $('.issue-row:visible').length == 0 ? $('#empty-data-foot').show() : $('#empty-data-foot').hide();
@@ -407,7 +372,6 @@ $tempPhotoSrc = '/rentrover/uploads/blank.jpg';
             function loadRoomApplication() {
 
             };
-
 
             // apply for verification
             $('#apply-for-verification-trigger').click(function () {

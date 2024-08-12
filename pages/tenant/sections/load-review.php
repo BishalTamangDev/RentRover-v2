@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
-$userId = $_SESSION['rentrover-id'];
+$userId = $_SESSION['rentrover-id'] ?? 0;
 
 $roomId = $_POST['roomId'] ?? 0;
 

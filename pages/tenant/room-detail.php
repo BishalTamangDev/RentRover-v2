@@ -77,7 +77,7 @@ if ($roomExists) {
     </script>
 </head>
 
-<body class="pb-5">
+<body>
     <!-- header -->
     <?php require_once __DIR__ . '/sections/header.php'; ?>
 
@@ -453,6 +453,9 @@ if ($roomExists) {
             </div>
         </div>
     </div>
+
+    <!-- footer -->
+    <?php require_once __DIR__ .  '/../../sections/footer.php';?>
 
     <!-- popup alert -->
     <div class="popup-alert-container" id="popup-alert-container">

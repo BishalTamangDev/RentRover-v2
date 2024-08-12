@@ -97,7 +97,7 @@ $page = "dashboard";
 
                 <div class="details">
                     <p class="title"> Feedbacks </p>
-                    <p class="data"> 40K </p>
+                    <p class="data" id="feedback-count"> 0 </p>
                 </div>
             </div>
         </div>
@@ -134,64 +134,12 @@ $page = "dashboard";
 
         <!-- feedbacks -->
         <div class="mt-5 fw-semibold fs-3 heading"> Latest User Feedback </div>
-        <section class="section user-feedback-container mt-3">
+        <section class="section user-feedback-container mt-3" id="feedback-container">
             <!-- feedback -->
-            <div class="user-feedback">
+            <div class="d-none user-feedback">
                 <div class="user-feedback-top">
                     <div class="img-div">
                         <img src="/rentrover/assets/images/bishal.jpg" alt="">
-                    </div>
-                    <div class="user-details">
-                        <p class="feedback-user-name"> Username </p>
-                        <p class="feedback-role"> Role </p>
-                    </div>
-                </div>
-
-                <div class="feedback">
-                    <div class="feedback-detail">
-                        <p> "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos velit sed ea reprehenderit
-                            corporis dolor cupiditate fugiat qui ratione hic, placeat, sint odit earum consequatur."
-                        </p>
-                    </div>
-                    <div class="rating-div">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/half-star.png" alt="">
-                    </div>
-                </div>
-            </div>
-
-            <!-- feedback -->
-            <div class="user-feedback">
-                <div class="user-feedback-top">
-                    <div class="img-div">
-                        <img src="/rentrover/assets/images/shristi.jpg" alt="">
-                    </div>
-                    <div class="user-details">
-                        <p class="feedback-user-name"> Username </p>
-                        <p class="feedback-role"> Role </p>
-                    </div>
-                </div>
-
-                <div class="feedback">
-                    <div class="feedback-detail">
-                        <p> "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos velit sed ea reprehenderit
-                            corporis dolor cupiditate fugiat qui ratione hic, placeat, sint odit earum consequatur."
-                        </p>
-                    </div>
-                    <div class="rating-div">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/half-star.png" alt="">
-                    </div>
-                </div>
-            </div>
-
-            <!-- feedback -->
-            <div class="user-feedback">
-                <div class="user-feedback-top">
-                    <div class="img-div">
-                        <img src="/rentrover/assets/images/rupak.png" alt="">
                     </div>
                     <div class="user-details">
                         <p class="feedback-user-name"> Username </p>
@@ -247,35 +195,48 @@ $page = "dashboard";
             var userCount = 0;
             var houseCount = 0;
             var roomCount = 0;
+            var feedbackCount = 0;
 
             acquired = 0;
             unacquired = 0;
 
-            function updatePieChart(acquired, unacquired){
+            function updatePieChart(acquired, unacquired) {
                 roomChart.data.datasets[0].data[0] = acquired;
                 roomChart.data.datasets[0].data[1] = unacquired;
                 roomChart.update();
             }
 
-            
+            // fetch latest user feedbacks
+            function loadLatestFeedback() {
+                $.ajax({
+                    url: '/rentrover/pages/admin/sections/latest-feedback.php',
+                    success: function (data) {
+                        $('#feedback-container').html(data);
+                    }
+                });
+            }
+
+            loadLatestFeedback();
+
+
             // acquired rooms
             $.ajax({
-                    url: '/rentrover/pages/admin/app/count-acquired-room.php',
-                    success : function (data) {
-                        acquired = data;
-                        updatePieChart(data,unacquired);
-                    }
-                });
+                url: '/rentrover/pages/admin/app/count-acquired-room.php',
+                success: function (data) {
+                    acquired = data;
+                    updatePieChart(data, unacquired);
+                }
+            });
 
-                // unacquired rooms
-                $.ajax({
-                    url: '/rentrover/pages/admin/app/count-unacquired-room.php',
-                    success : function (data) {
-                        unacquired = data;
-                        updatePieChart(acquired, data);
-                    }
-                });
-            
+            // unacquired rooms
+            $.ajax({
+                url: '/rentrover/pages/admin/app/count-unacquired-room.php',
+                success: function (data) {
+                    unacquired = data;
+                    updatePieChart(acquired, data);
+                }
+            });
+
             // animated counting users
             function animatedUserCounting() {
                 var count = 0;
@@ -318,6 +279,20 @@ $page = "dashboard";
                 }, 150);
             }
 
+            // animated feedback count
+            function animatedFeedbackCounting() {
+                var count = 0;
+
+                var interval = setInterval(function () {
+                    if (count <= feedbackCount) {
+                        $('#feedback-count').html(count++);
+                    } else {
+                        clearInterval(interval);
+                    }
+
+                }, 150);
+            }
+
             // count all users
             $.ajax({
                 url: '/rentrover/pages/admin/app/count-user.php',
@@ -346,7 +321,7 @@ $page = "dashboard";
 
             // count all roms
             $.ajax({
-                url:'/rentrover/pages/admin/app/count-room.php',
+                url: '/rentrover/pages/admin/app/count-room.php',
                 type: "POST",
                 success: function (data) {
                     roomCount = data;
@@ -356,6 +331,19 @@ $page = "dashboard";
                     $('#room-count').html('0');
                 },
             });
+
+            function countFeedback() {
+                $.ajax({
+                    url: '/rentrover/pages/admin/app/count-feedback.php',
+                    success: function (data) {
+                        feedbackCount = data;
+                        animatedFeedbackCounting();
+                        $('#feedback-count').html(data);
+                    }
+                });
+            }
+
+            countFeedback();
         });
     </script>
 </body>

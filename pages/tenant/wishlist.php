@@ -39,6 +39,7 @@ if (!isset($tab))
     <link rel="stylesheet" href="/rentrover/css/style.css">
     <link rel="stylesheet" href="/rentrover/css/room.css">
     <link rel="stylesheet" href="/rentrover/css/header.css">
+    <link rel="stylesheet" href="/rentrover/css/footer.css">
     <link rel="stylesheet" href="/rentrover/css/wishlist.css">
 </head>
 
@@ -100,6 +101,9 @@ if (!isset($tab))
             </div>
         </section>
     </main>
+
+    <!-- footer -->
+    <?php require_once __DIR__ .  '/../../sections/footer.php';?>
 
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

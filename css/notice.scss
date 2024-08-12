@@ -1,6 +1,35 @@
-#landlord-notice-form{
-    textarea{
-        max-height: 260px;
-        min-height: 260px;
+#landlord-notice-form {
+    textarea {
+        min-height: 150px;
+        max-height: 150px;
+    }
+}
+
+.room-notice-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.room-notice {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    border-left: 0.3rem solid var(--brand-color);
+    padding: 0.5rem;
+    background-color: whitesmoke;
+
+    p {
+        margin: 0;
+    }
+
+    .title {
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+
+    .date {
+        color: gray;
+        font-size: 0.8rem;
     }
 }

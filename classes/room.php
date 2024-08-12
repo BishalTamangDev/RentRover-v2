@@ -230,7 +230,7 @@ class Room
         return $roomList;
     }
 
-    // fetch all room of landlord
+    // fetch all room of landlord by house id
     public function fetchAllRoomByLandlord($houseList)
     {
         global $conn;

@@ -42,6 +42,7 @@ $page = "system-notices";
     <link rel="stylesheet" href="/rentrover/css/style.css">
     <link rel="stylesheet" href="/rentrover/css/system-notice.css">
     <link rel="stylesheet" href="/rentrover/css/feedback.css">
+    <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
     <link rel="stylesheet" href="/rentrover/css/aside.css">
     <link rel="stylesheet" href="/rentrover/css/filter.css">
     <link rel="stylesheet" href="/rentrover/css/notice.css">
@@ -59,48 +60,22 @@ $page = "system-notices";
         <button class="btn btn-brand fit-content mt-3" data-bs-toggle="modal" data-bs-target="#noticeModal"> Create new
             notice </button>
 
-        <!-- system notice -->
-        <section class="system-notice-container mt-4" id="system-notice-container">
-            <!-- system notice -->
-            <div class="system-notice target-all">
+        <!-- room notice -->
+        <section class="system-notice-container mt-4" id="notice-container">
+            <div class="d-none invisible system-notice">
                 <div class="top">
-                    <div class="title-div">
-                        <p class="title"> Title </p>
-                        <p class="for"> All</p>
-                    </div>
-                    <a id="system-notice-id">
-                        <i class="fa fa-trash"></i>
-                    </a>
+                    <p class="title fw-semibold fs-4"> Title </p>
                 </div>
-                <p class="desciption"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est sint possimus esse
-                    voluptas accusamus nobis expedita cupiditate tempore suscipit perspiciatis, culpa dolores dolorem
-                    reprehenderit amet eos incidunt maiores recusandae doloribus minus quisquam unde nihil quia illum
-                    saepe! Asperiores, illo esse odit nam nisi, dolor quos ullam neque aliquid sint unde? </p>
-                <p class="date"> 0000-00-00 00:00:00 </p>
-                <a href="" class="show-more"> Show More <i class="fa fa-arrow-right"></i> </a>
-            </div>
 
-            <!-- system notice -->
-            <div class="system-notice target-landlord">
-                <div class="top">
-                    <div class="title-div">
-                        <p class="title"> Title </p>
-                        <p class="for"> Landlord</p>
-                    </div>
-                    <a id="system-notice-id">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                </div>
                 <p class="desciption"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est sint possimus esse
                     voluptas accusamus nobis expedita cupiditate tempore suscipit perspiciatis, culpa dolores dolorem
                     reprehenderit amet eos incidunt maiores recusandae doloribus minus quisquam unde nihil quia illum
                     saepe! Asperiores, illo esse odit nam nisi, dolor quos ullam neque aliquid sint unde? </p>
                 <p class="date"> 0000-00-00 00:00:00 </p>
-                <a href="" class="show-more"> Show More <i class="fa fa-arrow-right"></i> </a>
             </div>
         </section>
 
-        <div class="empty-context-container" id="empty-context-container">
+        <div class="d-none empty-context-container" id="empty-context-container">
             <img src="/rentrover/assets/images/empty.png" alt="">
             <p class="m-0 text-danger"> Empty! </p>
         </div>
@@ -112,45 +87,48 @@ $page = "system-notices";
                 <div class="modal-content ">
                     <div class="modal-header">
                         <h1 class="modal-title fs-4 fw-semibold" id="noticeModalLabel"> Notice Form </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" id="notice-form-close-btn"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <!-- erro message -->
-                        <p class="text-danger small mb-2 error-message" id="error-message"> Message appears here... </p>
+                        <p class="text-danger small mb-2 error-message" id="notice-error-message"> Message appears
+                            here... </p>
 
-                        <form action="" class="form d-flex flex-column gap-3" id="landlord-notice-form">
+                        <form action="" class="form d-flex flex-column" id="landlord-notice-form">
                             <!-- house && room selection -->
-                            <div class="d-flex flex-row gap-2">
+                            <div class="d-flex flex-row gap-2 mb-3">
                                 <div class="w-50">
                                     <p class="m-2 small"> Select House </p>
                                     <select name="notice-house" id="notice-house" class="form-select" required>
-                                        <option value=""> Select house </option>
-                                        <option value="all"> All houses </option>
-                                        <option value="1"> House 1 </option>
-                                        <option value="2"> House 2 </option>
+                                        <option value="" selected hidden> Select house </option>
                                     </select>
                                 </div>
 
                                 <div class="w-50">
                                     <p class="m-2 small"> Select Room </p>
                                     <select name="notice-room" id="notice-room" class="form-select" required>
-                                        <option value=""> Select Room </option>
-                                        <option value="all"> All rooms </option>
-                                        <option value="1"> Room 1 </option>
-                                        <option value="2"> Room 2 </option>
+                                        <option value="" selected hidden> Select room </option>
                                     </select>
                                 </div>
                             </div>
 
                             <!-- notice -->
-                            <div>
-                                <p class="m-1 small"> Notice </p>
-                                <textarea name="notice-detail" id="notice-detail" class="form-control"
+                            <div class="mb-3">
+                                <p class="small"> Title </p>
+                                <input type="text" name="notice-title" id="notice-title" class="form-control mb-3"
+                                    required>
+                            </div>
+
+                            <div class="mb-3">
+                                <p class="small"> Description </p>
+                                <textarea name="notice-description" id="notice-description" class="form-control"
                                     placeholder="Enter the notice here..." required></textarea>
                             </div>
 
                             <!-- action -->
-                            <button type="submit" class="btn btn-brand"> <i class="fa fa-bullhorn"></i> Notify Now
+                            <button type="submit" class="btn btn-brand" id="notify-btn"> <i class="fa fa-bullhorn"></i>
+                                Notify Now
                             </button>
                         </form>
                     </div>
@@ -158,6 +136,11 @@ $page = "system-notices";
             </div>
         </div>
     </main>
+
+    <!-- popup alert -->
+    <div class="popup-alert-container" id="popup-alert-container">
+        <p id="popup-message"> Popup alert content. </p>
+    </div>
 
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -170,14 +153,109 @@ $page = "system-notices";
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
 
+    <!-- popup js -->
+    <script src="/rentrover/js/popup-alert.js"></script>
+
     <script>
         $(document).ready(function () {
+            // load notices
+            function loadNotices() {
+                $.ajax({
+                    type: "POST",
+                    url: "/rentrover/pages/landlord/sections/fetch-notice-for-landlord.php",
+                    data: { landlordId: <?= $r_id ?> },
+                    success: function (data) {
+                        $('#notice-container').html(data);
+                        toggleEmptyContent();
+                    }
+                });
+            }
+
+            // load houses for select
+            function loadHouse() {
+                $.ajax({
+                    type: "POST",
+                    url: "/rentrover/pages/landlord/sections/fetch-house-id-for-select.php",
+                    data: { landlordId: <?= $r_id ?> },
+                    success: function (data) {
+                        $('#notice-house').append(data);
+                    },
+                });
+            }
+
+            // load houses for room
+            function loadRoom(house_id) {
+                $.ajax({
+                    type: "POST",
+                    url: "/rentrover/pages/landlord/sections/fetch-acquired-room-for-select.php",
+                    data: { houseId: house_id },
+                    success: function (data) {
+                        $('#notice-room').html(data);
+                    },
+                });
+            }
+
+            loadNotices();
+
+            loadHouse();
+
+            $('#notice-house').on('change', function () {
+                loadRoom($('#notice-house').val());
+            });
+
+            // load tenant after selecting house
+
             // toggle empty data
             function toggleEmptyContent() {
-                $('.system-notice:visible').length == 0 ? $('#empty-context-container').show() : $('#empty-context-container').hide();
+                $('#empty-context-container').addClass('d-none').removeClass('d-flex');
+                var count = $('.system-notice:visible').length;
+                if (count == 0)
+                    $('#empty-context-container').addClass('d-flex').removeClass('d-none');
             }
 
             toggleEmptyContent();
+
+            // notice form submission
+            $('#landlord-notice-form').submit(function (e) {
+                e.preventDefault();
+                var house_id = $('#notice-house').val();
+                var room_id = $('#notice-room').val();
+                var notice_title = $('#notice-title').val();
+                var notice_description = $('#notice-description').val();
+
+                if ($.trim(notice_title) == '') {
+                    $('#notice-error-message').html("Please enter the valid title").fadeIn();
+                    $('#notice-title').focus();
+                } else {
+                    if ($.trim(notice_description) == '') {
+                        $('#notice-error-message').html("Please enter the valid description").fadeIn();
+                        $('#notice-description').focus();
+                    } else {
+                        // valid details
+                        $('#notice-error-message').fadeOut();
+
+                        // register
+                        $.ajax({
+                            type: "POST",
+                            url: "/rentrover/pages/landlord/app/add-notice.php",
+                            data: $(this).serialize(),
+                            beforeSend: function () {
+                                $('#notify-btn').html('<i class="fa fa-bullhorn"></i> Notifying')
+                            },
+                            success: function (response) {
+                                loadNotices();
+                                if (response == true) {
+                                    $('#landlord-notice-form').trigger("reset");
+                                    $('#notice-form-close-btn').click();
+                                    showPopupAlert("Notified.");
+                                } else {
+                                    $('#notice-error-message').html("An error occured").fadeIn();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
         });
     </script>
 </body>

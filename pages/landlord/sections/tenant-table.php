@@ -22,11 +22,7 @@ $houseIdList = $tempHouse->fetchHouseIdByLandlordId($landlordId);
 // fetch rooms
 $roomIdList = $tempRoom->fetchAllRoomIdByLandlord($houseIdList);
 
-print_r($roomIdList);
-
 $tenancyList = $tempTenancy->fetchHistoryForLandlord($roomIdList);
-
-print_r($tenancyList);
 
 $serial = 1;
 foreach ($tenancyList as $tenancyId) {

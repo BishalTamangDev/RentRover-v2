@@ -60,6 +60,7 @@ if ($roomExists) {
     <link rel="stylesheet" href="/rentrover/css/review.css">
     <link rel="stylesheet" href="/rentrover/css/header.css">
     <link rel="stylesheet" href="/rentrover/css/room.css">
+    <link rel="stylesheet" href="/rentrover/css/footer.css">
     <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
     <link rel="stylesheet" href="/rentrover/css/tenant/room-detail.css">
 
@@ -70,7 +71,7 @@ if ($roomExists) {
     </script>
 </head>
 
-<body class="pb-5">
+<body>
     <!-- header -->
     <?php require_once __DIR__ . '/sections/header.php'; ?>
 
@@ -215,73 +216,72 @@ if ($roomExists) {
                             </div>
                         </div>
                     </div>
+                </div>
+                <!-- remaining specs -->
+                <div class="mt-4 mt-lg-5 specifications">
+                    <table class="border table mt-0 specification-table">
+                        <!-- room number -->
+                        <tr>
+                            <td class="title"> Room Number </td>
+                            <td class="data"> <?= $roomObj->number ?> </td>
+                        </tr>
 
-                    <!-- remaining specs -->
-                    <div class="mt-4 mt-lg-5 specifications">
-                        <table class="border table mt-0 specification-table">
-                            <!-- room number -->
-                            <tr>
-                                <td class="title"> Room Number </td>
-                                <td class="data"> <?= $roomObj->number ?> </td>
-                            </tr>
+                        <!-- type -->
+                        <tr>
+                            <td class="title"> Type </td>
+                            <td class="data"> <?= $roomObj->type == 'bhk' ? 'BHK' : "Non-BHK" ?> </td>
+                        </tr>
 
-                            <!-- type -->
-                            <tr>
-                                <td class="title"> Type </td>
-                                <td class="data"> <?= $roomObj->type == 'bhk' ? 'BHK' : "Non-BHK" ?> </td>
-                            </tr>
+                        <!-- furnishing -->
+                        <tr>
+                            <td class="title"> Furnishing </td>
+                            <td class="data"> <?= ucwords($roomObj->furnishing) ?> </td>
+                        </tr>
 
-                            <!-- furnishing -->
-                            <tr>
-                                <td class="title"> Furnishing </td>
-                                <td class="data"> <?= ucwords($roomObj->furnishing) ?> </td>
-                            </tr>
-
-                            <!-- floor -->
-                            <tr>
-                                <td class="title"> Floor </td>
-                                <td class="data">
+                        <!-- floor -->
+                        <tr>
+                            <td class="title"> Floor </td>
+                            <td class="data">
+                                <?php
+                                echo $roomObj->floor;
+                                $x = $roomObj->floor % 10;
+                                ?>
+                                <sup>
                                     <?php
-                                    echo $roomObj->floor;
-                                    $x = $roomObj->floor % 10;
-                                    ?>
-                                    <sup>
-                                        <?php
-                                        if ($x == 1) {
-                                            echo "st";
-                                        } elseif ($x == 2) {
-                                            echo "nd";
-                                        } elseif ($x == 3) {
-                                            echo "rd";
-                                        } else {
-                                            echo "th";
-                                        }
-                                        ?> </sup>
-                                </td>
-                            </tr>
+                                    if ($x == 1) {
+                                        echo "st";
+                                    } elseif ($x == 2) {
+                                        echo "nd";
+                                    } elseif ($x == 3) {
+                                        echo "rd";
+                                    } else {
+                                        echo "th";
+                                    }
+                                    ?> </sup>
+                            </td>
+                        </tr>
 
-                            <!-- type -->
-                            <tr>
-                                <td class="title"> Rent Amount </td>
-                                <td class="data text-success fw-semibold"> <?= "NPR." . number_format($roomObj->rent, 2) ?>
-                                </td>
-                            </tr>
+                        <!-- type -->
+                        <tr>
+                            <td class="title"> Rent Amount </td>
+                            <td class="data text-success fw-semibold"> <?= "NPR." . number_format($roomObj->rent, 2) ?>
+                            </td>
+                        </tr>
 
-                            <!-- tenancy hostory -->
-                            <tr>
-                                <td class="title"> Move in Date </td>
-                                <td class="data text-success fw-semibold"> <?= "-" ?>
-                                </td>
-                            </tr>
-                        </table>
+                        <!-- tenancy hostory -->
+                        <tr>
+                            <td class="title"> Move in Date </td>
+                            <td class="data text-success fw-semibold"> <?= "-" ?>
+                            </td>
+                        </tr>
+                    </table>
 
-                        <div class="room-operations">
-                            <!-- leave room -->
-                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#leave-room-modal"> <i
-                                    class="fa-solid fa-arrow-right-from-bracket"></i> Leave room </button>
-                            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#report-an-issue">
-                                <i class="fa-regular fa-comment"></i> Report an Issue </button>
-                        </div>
+                    <div class="room-operations">
+                        <!-- leave room -->
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#leave-room-modal"> <i
+                                class="fa-solid fa-arrow-right-from-bracket"></i> Leave room </button>
+                        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#report-an-issue">
+                            <i class="fa-regular fa-comment"></i> Report an Issue </button>
                     </div>
                 </div>
         </section>
@@ -332,24 +332,26 @@ if ($roomExists) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="report-an-issue-label"> Report an Issue </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        id="issue-modal-close"></button>
                 </div>
 
                 <div class="modal-body">
-                    <p class="text-danger small error-message mb-3" id="error-message-2"> Error message appears here...
+                    <p class="text-danger small error-message mb-3" id="issue-error-message"> Error message appears
+                        here...
                     </p>
                     <form class="lave-room-form" id="issue-application-form">
                         <!-- room id -->
-                        <input type="hidden" name="issue-room-id" id="issue-room-id" value="" class="form-control mb-3"
-                            required>
+                        <input type="hidden" name="issue-room-id" id="issue-room-id" value="<?= $roomId ?>"
+                            class="form-control mb-3" required>
 
                         <!-- issue -->
                         <div>
                             <label for="issue-note" class="mb-2"> Issue </label>
                             <textarea name="issue-note" id="issue-note" placeholder="write here..."
-                                class="form-control mb-3" required></textarea>
+                                class="form-control mb-3" required style="max-height: 50vh"></textarea>
                         </div>
-                        <button class="btn btn-brand fit-content"> Submit </button>
+                        <button class="btn btn-brand fit-content" id="issue-submit-btn"> Submit </button>
                     </form>
                 </div>
             </div>
@@ -360,6 +362,9 @@ if ($roomExists) {
     <div class="popup-alert-container" id="popup-alert-container">
         <p id="popup-message"> Popup alert content. </p>
     </div>
+
+    <!-- footer -->
+    <?php require_once __DIR__ . '/../../sections/footer.php'; ?>
 
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -380,14 +385,14 @@ if ($roomExists) {
 
     <!-- delete review -->
     <!-- <script src="/rentrover/js/delete-review.js"></script> -->
-    
+
     <!-- top bar rating -->
     <script src="/rentrover/js/load-top-bar-rating.js"></script>
 
     <!-- script -->
     <script>
         $(document).ready(function () {
-            loadTopBarRating(<?=$roomId?>);
+            loadTopBarRating(<?= $roomId ?>);
 
             // load wishlist count
             $(document, loadWishlistCount());
@@ -423,11 +428,40 @@ if ($roomExists) {
                 e.preventDefault();
                 user_id = <?= $r_id ?>;
                 room_id = $('#issue-room-id').val() ?? 0;
-                issue_note = $('#issue-note').val();
+                form_issue = $('#issue-note').val();
 
-                console.log(user_id);
-                console.log(room_id);
-                console.log(issue_note);
+                if (form_issue.trim() === "") {
+                    $('#issue-error-message').html("Please enter about the issue first.").fadeIn();
+                } else if (room_id == '0') {
+                    $('#issue-error-message').html("An error occured.").fadeIn();
+                } else {
+                    $.ajax({
+                        url: '/rentrover/pages/tenant/app/issue-submit.php',
+                        type: 'POST',
+                        data: {
+                            userId: user_id,
+                            roomId: room_id,
+                            issue: form_issue,
+                        },
+                        beforeSend: function () {
+                            $('#issue-submit-btn').html("Submitting...").prop('disabled', true);
+                        },
+                        success: function (response) {
+                            if (response == true) {
+                                $('#issue-modal-close').click();
+                                showPopupAlert("Issue has been submitted.");
+                                $('#issue-error-message').fadeOut();
+                                $('#issue-application-form').trigger("reset");
+                            } else {
+                                $('#issue-error-message').html("An error occured.").fadeIn();
+                            }
+                            $('#issue-submit-btn').html("Submit").prop('disabled', false);
+                        },
+                        error: function () {
+                            $('#issue-submit-btn').html("Submit").prop('disabled', false);
+                        }
+                    });
+                }
             });
 
             // review form

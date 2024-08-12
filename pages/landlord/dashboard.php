@@ -43,6 +43,7 @@ $page = "dashboard";
     <link rel="stylesheet" href="/rentrover/css/system-notice.css">
     <link rel="stylesheet" href="/rentrover/css/feedback.css">
     <link rel="stylesheet" href="/rentrover/css/aside.css">
+    <link rel="stylesheet" href="/rentrover/css/issue-card.css">
     <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
 </head>
 
@@ -60,119 +61,50 @@ $page = "dashboard";
                 </div>
 
                 <div class="details">
-                    <p class="title"> Impression  </p>
+                    <p class="title"> Impression </p>
                     <p class="data"> 7,456 </p>
                 </div>
             </div>
         </div>
 
-        <!-- pie chart -->
-
-        <!-- latest system notices -->
-        <div class="mt-5 fw-semibold fs-3 heading"> Latest System Notice </div>
-        <section class="system-notice-container mt-3" id="system-notice-container">
-            <!-- system notice -->
-            <div class="system-notice">
-                <div class="top">
-                    <div class="title-div">
-                        <p class="title"> Title </p>
-                        <p class="for"> Landlord/ Tenant</p>
-                    </div>
-                    <a id="system-notice-id">
-                        <i class="fa fa-trash"></i>
-                    </a>
+        <!-- issues -->
+        <div class="mt-5 fw-semibold fs-3 heading"> Latest Issues </div>
+        <section class="section mt-3 issue-container" id="issue-container">
+            <!-- issue -->
+            <div class="shadow-sm border issue-div">
+                <div class="img-div">
+                    <img src="/rentrover/uploads/blank.jpg" alt="">
                 </div>
-                <p class="desciption"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est sint possimus esse
-                    voluptas accusamus nobis expedita cupiditate tempore suscipit perspiciatis, culpa dolores dolorem
-                    reprehenderit amet eos incidunt maiores recusandae doloribus minus quisquam unde nihil quia illum
-                    saepe! Asperiores, illo esse odit nam nisi, dolor quos ullam neque aliquid sint unde? </p>
-                <p class="date"> 0000-00-00 00:00:00 </p>
-                <a href="" class="show-more"> Show More <i class="fa fa-arrow-right"></i> </a>
-            </div>
-        </section>
+                <div class="detail-div">
+                    <p class="name"> Name</p>
+                    <p class="house-room"> House, om </p>
+                    <p class="date"> 0000-00-00 </p>
+                    <div class="feedback">
+                        <div class="feedback-detail">
+                            <p> "Issues" </p>
+                        </div>
+                    </div>
 
-        <!-- feedbacks -->
-        <div class="mt-5 fw-semibold fs-3 heading"> Latest User Feedback </div>
-        <section class="section user-feedback-container mt-3">
-            <!-- feedback -->
-            <div class="user-feedback">
-                <div class="user-feedback-top">
-                    <div class="img-div">
-                        <img src="/rentrover/assets/images/bishal.jpg" alt="">
-                    </div>
-                    <div class="user-details">
-                        <p class="feedback-user-name"> Username </p>
-                        <p class="feedback-role"> Role </p>
-                    </div>
-                </div>
-
-                <div class="feedback">
-                    <div class="feedback-detail">
-                        <p> "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos velit sed ea reprehenderit
-                            corporis dolor cupiditate fugiat qui ratione hic, placeat, sint odit earum consequatur."
-                        </p>
-                    </div>
-                    <div class="rating-div">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/half-star.png" alt="">
-                    </div>
-                </div>
-            </div>
-
-            <!-- feedback -->
-            <div class="user-feedback">
-                <div class="user-feedback-top">
-                    <div class="img-div">
-                        <img src="/rentrover/assets/images/shristi.jpg" alt="">
-                    </div>
-                    <div class="user-details">
-                        <p class="feedback-user-name"> Username </p>
-                        <p class="feedback-role"> Role </p>
-                    </div>
-                </div>
-
-                <div class="feedback">
-                    <div class="feedback-detail">
-                        <p> "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos velit sed ea reprehenderit
-                            corporis dolor cupiditate fugiat qui ratione hic, placeat, sint odit earum consequatur."
-                        </p>
-                    </div>
-                    <div class="rating-div">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/half-star.png" alt="">
-                    </div>
-                </div>
-            </div>
-
-            <!-- feedback -->
-            <div class="user-feedback">
-                <div class="user-feedback-top">
-                    <div class="img-div">
-                        <img src="/rentrover/assets/images/rupak.png" alt="">
-                    </div>
-                    <div class="user-details">
-                        <p class="feedback-user-name"> Username </p>
-                        <p class="feedback-role"> Role </p>
-                    </div>
-                </div>
-
-                <div class="feedback">
-                    <div class="feedback-detail">
-                        <p> "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos velit sed ea reprehenderit
-                            corporis dolor cupiditate fugiat qui ratione hic, placeat, sint odit earum consequatur."
-                        </p>
-                    </div>
-                    <div class="rating-div">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/half-star.png" alt="">
+                    <!-- action -->
+                    <div class="action">
+                        <a href="/rentrover/landlord/tenant-detail/" class="btn btn-brand"> <i
+                                class="fa-solid fa-arrow-up-right-from-square"></i> Show tenant detail </a>
+                        <a href="/rentrover/landlord/room-detail/" class="btn btn-outlined-brand"> <i
+                                class="fa-solid fa-arrow-up-right-from-square"></i> Show room detail </a>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- feedback trigger -->
+        <div class="mt-5">
+            <a class="pointer" data-bs-toggle="modal" data-bs-target="#feedback-modal"> <i
+                    class="fa-regular fa-paper-plane"></i> Submit a feeback </a>
+        </div>
+
     </main>
+    <!-- modal :: feedback modal-->
+    <?php require_once __DIR__ . '/../../sections/feedback.php'; ?>
 
     <!-- popup alert -->
     <div class="popup-alert-container" id="popup-alert-container">
@@ -190,8 +122,29 @@ $page = "dashboard";
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
 
-    <!-- script -->
+    <!-- popup script -->
     <script src="/rentrover/js/popup-alert.js"></script>
+
+    <!-- feedback-js -->
+    <script src="/rentrover/js/feedback-submit.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // fetch latest issue
+            function fetchLatestIssue() {
+                $.ajax({
+                    url: '/rentrover/pages/landlord/sections/latest-issue-fetch.php',
+                    type: 'POST',
+                    data: { landlordId: <?= $r_id ?? 0 ?> },
+                    success: function (data) {
+                        $('#issue-container').html(data);
+                    },
+                });
+            }
+
+            fetchLatestIssue();
+        });
+    </script>
 </body>
 
 </html>

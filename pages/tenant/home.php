@@ -52,10 +52,12 @@ if (!isset($tab))
     <link rel="stylesheet" href="/rentrover/css/style.css">
     <link rel="stylesheet" href="/rentrover/css/header.css">
     <link rel="stylesheet" href="/rentrover/css/room.css">
+    <link rel="stylesheet" href="/rentrover/css/footer.css">
+    <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
     <link rel="stylesheet" href="/rentrover/css/tenant/home.css">
 </head>
 
-<body class="pb-5">
+<body>
     <!-- header -->
     <?php require_once __DIR__ . '/sections/header.php'; ?>
 
@@ -201,6 +203,22 @@ if (!isset($tab))
         </div>
     </div>
 
+    <!-- feedback trigger -->
+    <div class="container">
+        <a class="pointer" data-bs-toggle="modal" data-bs-target="#feedback-modal"> <i class="fa-regular fa-paper-plane"></i> Submit a feeback </a>
+    </div>
+
+    <!-- footer -->
+    <?php require_once __DIR__ .  '/../../sections/footer.php';?>
+    
+    <!-- modal :: feedback modal-->
+    <?php require_once __DIR__ .  '/../../sections/feedback.php';?>  
+    
+    <!-- popup alert -->
+    <div class="popup-alert-container" id="popup-alert-container">
+        <p id="popup-message"> Popup alert content. </p>
+    </div>
+
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -212,7 +230,13 @@ if (!isset($tab))
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
 
+    <!-- feedback-js -->
+    <script src="/rentrover/js/feedback-submit.js"></script>
+                        
     <script type="text/javascript" src="/rentrover/js/tenant.js"></script>
+
+    <!-- popup js -->
+    <script src="/rentrover/js/popup-alert.js"></script>
 
     <script>
         $(document).ready(function () {

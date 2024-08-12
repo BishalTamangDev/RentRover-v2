@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 11, 2024 at 12:21 PM
+-- Generation Time: Aug 12, 2024 at 12:57 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -153,11 +153,37 @@ CREATE TABLE `application_tb` (
 --
 
 INSERT INTO `application_tb` (`application_id`, `applicant_id`, `room_id`, `renting_type`, `move_in_date`, `move_out_date`, `note`, `flag`, `application_date`) VALUES
-(2, 8, 2, 'not-fixed', '2024-08-18', '0000-00-00', 'i am rusbina gurung', 'cancelled', '2024-08-11 10:24:50'),
+(2, 8, 2, 'not-fixed', '2024-08-18', '0000-00-00', 'i am rusbina gurung', 'expired', '2024-08-11 10:24:50'),
 (3, 2, 2, 'fixed', '2024-08-13', '2024-08-13', 'i am shristi pradhan', 'expired', '2024-08-10 13:11:00'),
 (4, 8, 2, 'not-fixed', '2024-08-12', '0000-00-00', 'this is rusbina\'s second application', 'expired', '2024-08-11 11:55:59'),
-(5, 2, 2, 'fixed', '2024-08-18', '2024-08-18', 'application after expired', 'accepted', '2024-08-11 13:25:34'),
+(5, 2, 2, 'fixed', '2024-08-18', '2024-08-18', 'application after expired', 'expired', '2024-08-11 13:25:34'),
 (6, 2, 1, 'not-fixed', '2024-09-01', '0000-00-00', 'hello dipen', 'expired', '2024-08-11 13:35:30');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback_tb`
+--
+
+CREATE TABLE `feedback_tb` (
+  `feedback_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `feedback` varchar(255) NOT NULL,
+  `rating` int(11) NOT NULL,
+  `feedback_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `feedback_tb`
+--
+
+INSERT INTO `feedback_tb` (`feedback_id`, `user_id`, `feedback`, `rating`, `feedback_date`) VALUES
+(1, 2, 'first feedback', 1, '2024-08-12 08:46:03'),
+(2, 2, 'second feedback', 2, '2024-08-12 08:46:35'),
+(3, 2, 'third feedback', 3, '2024-08-12 08:46:43'),
+(4, 2, 'fouth feedback', 4, '2024-08-12 08:46:52'),
+(5, 2, 'fifth feedback', 5, '2024-08-12 08:47:00'),
+(6, 1, 'first feedback from rupak', 3, '2024-08-12 09:39:10');
 
 -- --------------------------------------------------------
 
@@ -211,6 +237,82 @@ INSERT INTO `house_tb` (`house_id`, `landlord_id`, `district`, `municipality_rur
 (2, 1, 'Kathmandu', 'lubhu', 'lubhu gaun', 1, 'Kantipur Engineering College', 0, 0, 'This contemporary single-story ranch home is designed for easy living. It includes three bedrooms, with the master suite featuring a private bath and sliding doors leading to a tranquil backyard. The open-concept living area combines the living room, dini', 'verified', '2024-08-11 09:16:53'),
 (3, 3, 'Bhojpur', 'prithivichowk', 'hatbazar', 2, 'bigyan store', 0, 0, 'This elegant Victorian-style home is full of character and charm, featuring ornate woodwork and high ceilings throughout. With five bedrooms and three full bathrooms, it offers ample space for a large family. The gourmet kitchen is equipped with custom ca', 'verified', '2024-08-11 09:57:36'),
 (4, 4, 'Kathmandu', 'maharajgung', 'bansbari', 3, 'pipalboat', 0, 0, 'This sleek, modern townhouse is perfect for urban living. It has three levels, with three bedrooms and two and a half bathrooms. The main floor is open concept, featuring a minimalist kitchen with high-end stainless steel appliances and an island that dou', 'verified', '2024-08-11 09:58:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `issue_tb`
+--
+
+CREATE TABLE `issue_tb` (
+  `issue_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `tenant_id` int(11) NOT NULL,
+  `issue` varchar(255) NOT NULL,
+  `issued_date` datetime NOT NULL,
+  `solved_date` datetime NOT NULL,
+  `flag` varchar(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `issue_tb`
+--
+
+INSERT INTO `issue_tb` (`issue_id`, `room_id`, `tenant_id`, `issue`, `issued_date`, `solved_date`, `flag`) VALUES
+(1, 2, 2, 'first issue', '2024-08-12 14:01:41', '2024-08-12 14:03:35', 'solved'),
+(2, 2, 2, 'second issue', '2024-08-12 14:01:49', '2024-08-12 14:03:01', 'solved'),
+(3, 2, 2, 'third issue', '2024-08-12 14:01:55', '2024-08-12 14:02:27', 'solved'),
+(4, 2, 2, 'fourth issue', '2024-08-12 14:03:51', '0000-00-00 00:00:00', 'unsolved');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notice_tb`
+--
+
+CREATE TABLE `notice_tb` (
+  `notice_id` int(11) NOT NULL,
+  `house_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `tenant_id` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `notice_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notice_tb`
+--
+
+INSERT INTO `notice_tb` (`notice_id`, `house_id`, `room_id`, `tenant_id`, `title`, `description`, `notice_date`) VALUES
+(4, 1, 2, 2, 'first title', 'first description', '2024-08-12 15:28:12'),
+(5, 1, 2, 2, 'second title', 'second description', '2024-08-12 15:30:20'),
+(6, 1, 2, 2, 'third title', 'third description', '2024-08-12 15:59:37');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review_tb`
+--
+
+CREATE TABLE `review_tb` (
+  `review_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `review` varchar(255) NOT NULL,
+  `rating` int(11) NOT NULL,
+  `review_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `review_tb`
+--
+
+INSERT INTO `review_tb` (`review_id`, `user_id`, `room_id`, `review`, `rating`, `review_date`) VALUES
+(11, 2, 2, 'third review', 3, '2024-08-11 23:47:49'),
+(12, 2, 2, 'fouth review', 4, '2024-08-11 23:47:57'),
+(13, 2, 2, 'fifth review', 5, '2024-08-11 23:48:03'),
+(15, 2, 2, 'seventh rating', 2, '2024-08-12 00:20:32');
 
 -- --------------------------------------------------------
 
@@ -274,9 +376,30 @@ CREATE TABLE `room_tb` (
 
 INSERT INTO `room_tb` (`room_id`, `house_id`, `type`, `bhk`, `number_of_room`, `number`, `furnishing`, `floor`, `rent`, `info`, `flag`, `tenant_id`, `registration_date`) VALUES
 (1, 4, 'bhk', 3, 0, 201, 'fully-furnished', 2, 35000, 'This spacious master bedroom exudes comfort and luxury, featuring a king-sized bed with a tufted headboard and plush bedding. Large windows allow natural light to fill the room, while soft, neutral tones create a serene atmosphere. A cozy seating area wit', 'verified', 0, '2024-08-11 10:00:46'),
-(2, 1, 'bhk', 1, 0, 501, 'semi-furnished', 5, 17000, 'The living room is designed for both relaxation and entertaining, with an open layout that flows into the dining area. It features a comfortable sectional sofa, a sleek coffee table, and a fireplace that serves as a focal point. Large windows provide plen', 'on-hold', 0, '2024-08-11 10:02:25'),
+(2, 1, 'bhk', 1, 0, 501, 'semi-furnished', 5, 17000, 'The living room is designed for both relaxation and entertaining, with an open layout that flows into the dining area. It features a comfortable sectional sofa, a sleek coffee table, and a fireplace that serves as a focal point. Large windows provide plen', 'on-hold', 2, '2024-08-11 10:02:25'),
 (3, 1, 'non-bhk', 0, 3, 301, 'semi-furnished', 3, 19000, 'This modern kitchen is both functional and stylish, boasting quartz countertops, stainless steel appliances, and a large center island with bar seating. White cabinetry offers ample storage, while a subway tile backsplash adds a touch of sophistication. T', 'verified', 0, '2024-08-11 10:03:39'),
 (4, 2, 'bhk', 1, 0, 107, 'unfurnished', 1, 9000, 'The home office is a quiet and productive space, featuring a large desk with plenty of workspace, built-in bookshelves, and a comfortable office chair. The room is bathed in natural light from a large window, which also offers a pleasant view of the garde', 'verified', 0, '2024-08-11 10:04:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tenancy_tb`
+--
+
+CREATE TABLE `tenancy_tb` (
+  `tenancy_id` int(11) NOT NULL,
+  `tenant_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `move_in_date` datetime NOT NULL,
+  `move_out_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tenancy_tb`
+--
+
+INSERT INTO `tenancy_tb` (`tenancy_id`, `tenant_id`, `room_id`, `move_in_date`, `move_out_date`) VALUES
+(1, 2, 2, '2024-08-11 20:08:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -335,6 +458,15 @@ CREATE TABLE `wishlist_tb` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `wishlist_tb`
+--
+
+INSERT INTO `wishlist_tb` (`wishlist_id`, `user_id`, `room_id`) VALUES
+(34, 2, 1),
+(37, 8, 3),
+(38, 8, 4);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -357,6 +489,12 @@ ALTER TABLE `application_tb`
   ADD PRIMARY KEY (`application_id`);
 
 --
+-- Indexes for table `feedback_tb`
+--
+ALTER TABLE `feedback_tb`
+  ADD PRIMARY KEY (`feedback_id`);
+
+--
 -- Indexes for table `house_photo_tb`
 --
 ALTER TABLE `house_photo_tb`
@@ -369,6 +507,24 @@ ALTER TABLE `house_tb`
   ADD PRIMARY KEY (`house_id`);
 
 --
+-- Indexes for table `issue_tb`
+--
+ALTER TABLE `issue_tb`
+  ADD PRIMARY KEY (`issue_id`);
+
+--
+-- Indexes for table `notice_tb`
+--
+ALTER TABLE `notice_tb`
+  ADD PRIMARY KEY (`notice_id`);
+
+--
+-- Indexes for table `review_tb`
+--
+ALTER TABLE `review_tb`
+  ADD PRIMARY KEY (`review_id`);
+
+--
 -- Indexes for table `room_photo_tb`
 --
 ALTER TABLE `room_photo_tb`
@@ -379,6 +535,12 @@ ALTER TABLE `room_photo_tb`
 --
 ALTER TABLE `room_tb`
   ADD PRIMARY KEY (`room_id`);
+
+--
+-- Indexes for table `tenancy_tb`
+--
+ALTER TABLE `tenancy_tb`
+  ADD PRIMARY KEY (`tenancy_id`);
 
 --
 -- Indexes for table `user_tb`
@@ -415,6 +577,12 @@ ALTER TABLE `application_tb`
   MODIFY `application_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `feedback_tb`
+--
+ALTER TABLE `feedback_tb`
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `house_photo_tb`
 --
 ALTER TABLE `house_photo_tb`
@@ -425,6 +593,24 @@ ALTER TABLE `house_photo_tb`
 --
 ALTER TABLE `house_tb`
   MODIFY `house_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `issue_tb`
+--
+ALTER TABLE `issue_tb`
+  MODIFY `issue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `notice_tb`
+--
+ALTER TABLE `notice_tb`
+  MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `review_tb`
+--
+ALTER TABLE `review_tb`
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `room_photo_tb`
@@ -439,6 +625,12 @@ ALTER TABLE `room_tb`
   MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `tenancy_tb`
+--
+ALTER TABLE `tenancy_tb`
+  MODIFY `tenancy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `user_tb`
 --
 ALTER TABLE `user_tb`
@@ -448,7 +640,7 @@ ALTER TABLE `user_tb`
 -- AUTO_INCREMENT for table `wishlist_tb`
 --
 ALTER TABLE `wishlist_tb`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

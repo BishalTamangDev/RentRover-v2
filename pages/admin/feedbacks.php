@@ -52,14 +52,14 @@ if (!isset($page))
             <!-- total feedbacks -->
             <div class="card-v2">
                 <p class="title"> Total Feedbacks </p>
-                <p class="data"> 120 </p>
+                <p class="data" id="feedback-count"> 0 </p>
             </div>
         </section>
 
         <!-- feedbacks -->
-        <section class="section user-feedback-container mt-4">
+        <section class="section user-feedback-container mt-4" id="feedback-container">
             <!-- feedback -->
-            <div class="user-feedback">
+            <div class="d-none user-feedback">
                 <div class="user-feedback-top">
                     <div class="img-div">
                         <img src="/rentrover/assets/images/bishal.jpg" alt="">
@@ -83,66 +83,10 @@ if (!isset($page))
                     </div>
                 </div>
             </div>
-
-            <!-- feedback -->
-            <div class="user-feedback">
-                <div class="user-feedback-top">
-                    <div class="img-div">
-                        <img src="/rentrover/assets/images/shristi.jpg" alt="">
-                    </div>
-                    <div class="user-details">
-                        <p class="feedback-user-name"> Username </p>
-                        <p class="feedback-role"> Role </p>
-                    </div>
-                </div>
-
-                <div class="feedback">
-                    <div class="feedback-detail">
-                        <p> "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos velit sed ea reprehenderit
-                            corporis dolor cupiditate fugiat qui ratione hic, placeat, sint odit earum consequatur."
-                        </p>
-                    </div>
-                    <div class="rating-div">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/half-star.png" alt="">
-                    </div>
-                </div>
-
-                <div class="action">
-                    <a href=""> Show user detail </a>
-                </div>
-            </div>
-
-            <!-- feedback -->
-            <div class="user-feedback">
-                <div class="user-feedback-top">
-                    <div class="img-div">
-                        <img src="/rentrover/assets/images/rupak.png" alt="">
-                    </div>
-                    <div class="user-details">
-                        <p class="feedback-user-name"> Username </p>
-                        <p class="feedback-role"> Role </p>
-                    </div>
-                </div>
-
-                <div class="feedback">
-                    <div class="feedback-detail">
-                        <p> "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos velit sed ea reprehenderit
-                            corporis dolor cupiditate fugiat qui ratione hic, placeat, sint odit earum consequatur."
-                        </p>
-                    </div>
-                    <div class="rating-div">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <img src="/rentrover/assets/icons/half-star.png" alt="">
-                    </div>
-                </div>
-            </div>
         </section>
 
         <!-- empty context -->
-        <div class="empty-context-container">
+        <div class="empty-context-container" id="empty-context-container">
             <img src="/rentrover/assets/images/empty.png" alt="">
             <p class="m-0 text-danger"> Empty! </p>
         </div>
@@ -158,6 +102,48 @@ if (!isset($page))
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // fetch user feedbacks
+            function loadLatestFeedback() {
+                $.ajax({
+                    url: '/rentrover/pages/admin/sections/latest-feedback.php',
+                    success: function (data) {
+                        $('#feedback-container').html(data);
+                        toggleEmptySection();
+                    }, error: function () {
+                        toggleEmptySection();
+                    }
+                });
+            }
+
+            // toggle empoty section
+            function toggleEmptySection() {
+                if ($('.user-feedback:visible').length == 0) {
+                    $('#empty-context-container').show();
+                } else {
+                    $('#empty-context-container').hide();
+                }
+            }
+
+            // count feedback
+            function countFeedback(){
+                $.ajax({
+                    url: '/rentrover/pages/admin/app/count-feedback.php',
+                    success: function (data) {
+                        $('#feedback-count').html(data);
+                    }
+                });
+            }
+
+            countFeedback();
+
+            loadLatestFeedback();
+
+            toggleEmptySection();
+        });
+    </script>
 </body>
 
 </html>

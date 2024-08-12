@@ -48,6 +48,7 @@ if ($roomExists) {
     <link rel="stylesheet" href="/rentrover/css/room-detail.css">
     <link rel="stylesheet" href="/rentrover/css/review.css">
     <link rel="stylesheet" href="/rentrover/css/room.css">
+    <link rel="stylesheet" href="/rentrover/css/footer.css">
 </head>
 
 <body>
@@ -83,15 +84,11 @@ if ($roomExists) {
                     <div class="d-flex flex-column gap-1 address-review top-section">
                         <p class="m-0 fw-bold fs-4"> <?= $location ?> </p>
 
-                        <div class="d-flex flex-row gap-2 align-items-center rating-div">
+                        <div class="d-flex flex-row gap-2 align-items-center rating-div" id="rating-div">
                             <div class="rating">
                                 <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                <img src="/rentrover/assets/icons/full-star.png" alt="">
-                                <img src="/rentrover/assets/icons/half-star.png" alt="">
                             </div>
-                            <p class="m-0 text-secondary small pt-1"> (3 Reviews) </p>
+                            <p class="m-0 text-secondary small pt-1"> (0 Review) </p>
                         </div>
                     </div>
                 </div>
@@ -160,7 +157,7 @@ if ($roomExists) {
 
                         <!-- reviews -->
                         <h3 class="m-0 fw-semibold mt-5"> Reviews and Ratings </h3>
-                        <div class="review-container">
+                        <div class="review-container" id="review-container">
                             <div class="review-div">
                                 <div class="image">
                                     <img src="/rentrover/assets/images/rupak.png" alt="">
@@ -307,6 +304,9 @@ if ($roomExists) {
         </div>
     </div>
 
+    <!-- footer -->
+    <?php require_once __DIR__ . '/sections/footer.php'; ?>
+
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -318,8 +318,13 @@ if ($roomExists) {
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
 
+    <!-- top bar rating -->
+    <script src="/rentrover/js/load-top-bar-rating.js"></script>
+
     <script>
         $(document).ready(function () {
+            loadTopBarRating(<?= $roomId ?>);
+
             // loading the rooms of the same
             function loadSameHouseRooms() {
                 house_id = <?= $roomObj->houseId ?? 0 ?>;
@@ -338,6 +343,20 @@ if ($roomExists) {
             }
 
             loadSameHouseRooms();
+
+            // load reviews
+            function loadReviews() {
+                $.ajax({
+                    url: '/rentrover/pages/tenant/sections/load-review.php',
+                    type: 'POST',
+                    data: { roomId: <?= $roomId ?> },
+                    success: function (data) {
+                        $('#review-container').html(data);
+                    }
+                });
+            }
+
+            loadReviews();
         });
     </script>
 </body>

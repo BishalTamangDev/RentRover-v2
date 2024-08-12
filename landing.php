@@ -44,11 +44,11 @@ if (session_status() == PHP_SESSION_NONE)
 
     <!-- landing-container -->
     <section class="container position-relative landing-container">
-        <div class="position-absolute d-flex flex-column gap-2 p-3 landing-info">
-            <h5 class="m-0">
-                Unlock the Door to Seamless Room Renting and Finding: Your Space, Digitized for Easy, Hassle-Free
-                Accommodation Solutions.
-            </h5>
+        <div class="position-absolute d-flex flex-column gap-4 p-3 landing-info">
+            <h1 class="m-0  fw-semibold"> Stop Roaming Around; Go Digital
+                <!-- Unlock the Door to Seamless Room Renting and Finding: Your Space, Digitized for Easy, Hassle-Free
+                Accommodation Solutions. -->
+            </h1>
 
             <a href="/rentrover/registration" class="btn btn-brand fit-content" id="register-btn"> Register&nbsp;Now
             </a>
@@ -124,62 +124,12 @@ if (session_status() == PHP_SESSION_NONE)
 
     <!-- feedback -->
     <p class="container heading fw-semibold mt-5 fs-2"> What our happy members says about us? </p>
-    <section class="container section user-feedback-container">
+    <section class="container section user-feedback-container" id="feedback-container">
         <!-- feedback -->
-        <div class="user-feedback">
+        <div class="d-none user-feedback">
             <div class="user-feedback-top">
                 <div class="img-div">
                     <img src="/rentrover/assets/images/bishal.jpg" alt="">
-                </div>
-                <div class="user-details">
-                    <p class="feedback-user-name"> Username </p>
-                    <p class="feedback-role"> Role </p>
-                </div>
-            </div>
-
-            <div class="feedback">
-                <div class="feedback-detail">
-                    <p> "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos velit sed ea reprehenderit
-                        corporis dolor cupiditate fugiat qui ratione hic, placeat, sint odit earum consequatur." </p>
-                </div>
-                <div class="rating-div">
-                    <img src="/rentrover/assets/icons/full-star.png" alt="">
-                    <img src="/rentrover/assets/icons/full-star.png" alt="">
-                    <img src="/rentrover/assets/icons/half-star.png" alt="">
-                </div>
-            </div>
-        </div>
-
-        <!-- feedback -->
-        <div class="user-feedback">
-            <div class="user-feedback-top">
-                <div class="img-div">
-                    <img src="/rentrover/assets/images/shristi.jpg" alt="">
-                </div>
-                <div class="user-details">
-                    <p class="feedback-user-name"> Username </p>
-                    <p class="feedback-role"> Role </p>
-                </div>
-            </div>
-
-            <div class="feedback">
-                <div class="feedback-detail">
-                    <p> "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos velit sed ea reprehenderit
-                        corporis dolor cupiditate fugiat qui ratione hic, placeat, sint odit earum consequatur." </p>
-                </div>
-                <div class="rating-div">
-                    <img src="/rentrover/assets/icons/full-star.png" alt="">
-                    <img src="/rentrover/assets/icons/full-star.png" alt="">
-                    <img src="/rentrover/assets/icons/half-star.png" alt="">
-                </div>
-            </div>
-        </div>
-
-        <!-- feedback -->
-        <div class="user-feedback">
-            <div class="user-feedback-top">
-                <div class="img-div">
-                    <img src="/rentrover/assets/images/rupak.png" alt="">
                 </div>
                 <div class="user-details">
                     <p class="feedback-user-name"> Username </p>
@@ -227,60 +177,11 @@ if (session_status() == PHP_SESSION_NONE)
     </section>
 
     <!-- footer -->
-    <footer class="bg-dark text-light mt-5">
-        <div class="container d-flex flex-row flex-wrap w-100 gap-2 py-4 footer-container">
-            <!-- website -->
-            <div class="website footer-section">
-                <p class="heading"> Website </p>
-                <ul>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> About Us </span> </li>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> FAQ </span> </li>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Blog </span> </li>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Policy </span> </li>
-                </ul>
-            </div>
-
-            <!-- shortcuts -->
-            <div class="shortcut footer-section">
-                <p class="heading"> Shortcuts </p>
-                <ul>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Popular rooms </span> </li>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Newply added Rooms </span> </li>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Be a tenant </span> </li>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Be a landlord </span> </li>
-                </ul>
-            </div>
-
-            <!-- related links -->
-            <div class="related-links footer-section">
-                <p class="heading"> Heading </p>
-                <ul>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Popular rooms </span> </li>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Newply added Rooms </span> </li>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Be a tenant </span> </li>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Be a landlord </span> </li>
-                </ul>
-            </div>
-
-            <!-- contact -->
-            <div class="contact footer-section">
-                <p class="heading"> Contact </p>
-                <ul>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Phone Number </span> </li>
-                    <li> <i class="fa-solid fa-angles-right"></i> <span> Email address </span> </li>
-                </ul>
-            </div>
-        </div>
-    </footer>
+    <?php include 'sections/footer.php'; ?>
 
     <!-- popup alert -->
     <div class="popup-alert-container" id="popup-alert-container">
         <p id="popup-message"> Popup alert content. </p>
-    </div>
-
-    <!-- copyright -->
-    <div class="py-2 section bg-primary text-light d-flex flex-row justify-content-around copyright">
-        <p class="m-0 small"> Copyright © 2024 RentRover.com - All rights reserved</p>
     </div>
 
     <!-- bootstrap js :: cdn -->
@@ -313,6 +214,17 @@ if (session_status() == PHP_SESSION_NONE)
 
             loadAllRoom();
         });
+
+        function loadFeedback() {
+            $.ajax({
+                url: '/rentrover/sections/feedback-for-user.php',
+                success: function (data) {
+                    $('#feedback-container').html(data);
+                }
+            });
+        }
+
+        loadFeedback();
     </script>
 </body>
 
