@@ -41,7 +41,14 @@ header {
                     display: none;
                     margin-top: 6px;
                     right: 0;
+                    min-width: 300px;
                     background-color: white;
+
+                    .notification-box{
+                        display: flex;
+                        overflow-y: scroll;
+                        height: 70vh;
+                    }
 
                     .notification {
                         padding: 0.4rem;

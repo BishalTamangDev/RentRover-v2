@@ -26,7 +26,13 @@ header .header-container .wishlist-notification-profile .notification-section .n
   display: none;
   margin-top: 6px;
   right: 0;
+  min-width: 300px;
   background-color: white;
+}
+header .header-container .wishlist-notification-profile .notification-section .notification-container .notification-box {
+  display: flex;
+  overflow-y: scroll;
+  height: 70vh;
 }
 header .header-container .wishlist-notification-profile .notification-section .notification-container .notification {
   padding: 0.4rem;

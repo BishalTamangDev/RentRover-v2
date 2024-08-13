@@ -164,6 +164,9 @@ $page = "dashboard";
     <!-- feedback-js -->
     <script src="/rentrover/js/feedback-submit.js"></script>
 
+    <!-- notification js -->
+    <script src="/rentrover/js/user-notification.js"></script>
+
     <script>
         $(document).ready(function () {
             // fetch latest issue

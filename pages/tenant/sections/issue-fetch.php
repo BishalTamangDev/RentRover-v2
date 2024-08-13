@@ -17,13 +17,14 @@ if (sizeof($list) == 0) {
 } else {
     $serial = 1;
     foreach ($list as $issue) {
+        $roomId = $issue['room_id'];
         $solvedDate = $issue['solved_date'] != '0000-00-00 00:00:00' ? $issue['solved_date'] : '-';
-        $flagClass = $issue['flag'] == "solved" ? "usolved-row" : "unsolved-row"; 
+        $flagClass = $issue['solved_date'] == '0000-00-00 00:00:00' ? "unsolved-row" : "solved-row"; 
         ?>
         <tr class="issue-row <?=$flagClass?>">
             <td scope="row"> <?=$serial++?> </td>
             <td>
-                <a href="" class="text-primary">
+                <a href="/rentrover/tenant/room-detail/<?=$roomId?>" class="text-primary">
                     <?=$issue['room_id']?>
                 </a>
             </td>

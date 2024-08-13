@@ -13,7 +13,8 @@
             <thead>
                 <tr>
                     <th scope="col"> S.N. </th>
-                    <th scope="col"> Room ID </th>
+                    <th scope="col"> Room </th>
+                    <th scope="col"> Issue </th>
                     <th scope="col"> Issues Date </th>
                     <th scope="col"> Solved Date </th>
                     <th scope="col"> State </th>

@@ -273,7 +273,7 @@ class User
         global $conn;
         $query = "UPDATE user_tb SET password = '$encNewPassword' WHERE email = '$this->email'";
         $result = mysqli_query($conn, $query);
-        return $result;
+        return $result ? true : false;
     }
 
     // update kyc
@@ -284,8 +284,8 @@ class User
         $kycBack = $this->kyc['back'];
         $query = "UPDATE user_tb SET kyc_front = '$kycFront', kyc_back = '$kycBack' WHERE user_id = '$this->userId'";
         $result = mysqli_query($conn, $query);
-        return $result;
-    }
+        return $result ? true : false;
+    } 
 
     // check if the account is eligible to apply for verification
     public function checkAccountEligibilityForVerification($userId)
@@ -311,7 +311,7 @@ class User
         global $conn;
         $query = "UPDATE user_tb SET flag = 'on-hold' WHERE user_id = '$userId'";
         $result = $conn->query($query);
-        return $result;
+        return $result ? true : false;
     }
 
     // fetch all users

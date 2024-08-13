@@ -261,6 +261,9 @@ $searchContent = $searchState == "search" ? $_GET['search'] : '';
     <!-- popup js -->
     <script src="/rentrover/js/popup-alert.js"></script>
 
+    <!-- notification script -->
+    <script src="/rentrover/js/count-user-notification.js"></script>
+
     <script>
         $(document).ready(function () {
             var search_state = "<?= $searchState ?>";
