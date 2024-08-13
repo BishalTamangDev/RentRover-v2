@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 12, 2024 at 10:22 PM
+-- Generation Time: Aug 13, 2024 at 10:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -157,7 +157,8 @@ INSERT INTO `application_tb` (`application_id`, `applicant_id`, `room_id`, `rent
 (3, 2, 2, 'fixed', '2024-08-13', '2024-08-13', 'i am shristi pradhan', 'expired', '2024-08-10 13:11:00'),
 (4, 8, 2, 'not-fixed', '2024-08-12', '0000-00-00', 'this is rusbina\'s second application', 'expired', '2024-08-11 11:55:59'),
 (5, 2, 2, 'fixed', '2024-08-18', '2024-08-18', 'application after expired', 'expired', '2024-08-11 13:25:34'),
-(6, 2, 1, 'not-fixed', '2024-09-01', '0000-00-00', 'hello dipen', 'expired', '2024-08-11 13:35:30');
+(6, 2, 1, 'not-fixed', '2024-09-01', '0000-00-00', 'hello dipen', 'expired', '2024-08-11 13:35:30'),
+(7, 7, 4, 'fixed', '2024-08-13', '2024-08-13', '', 'accepted', '2024-08-13 13:23:43');
 
 -- --------------------------------------------------------
 
@@ -183,7 +184,8 @@ INSERT INTO `feedback_tb` (`feedback_id`, `user_id`, `feedback`, `rating`, `feed
 (3, 2, 'third feedback', 3, '2024-08-12 08:46:43'),
 (4, 2, 'fouth feedback', 4, '2024-08-12 08:46:52'),
 (5, 2, 'fifth feedback', 5, '2024-08-12 08:47:00'),
-(6, 1, 'first feedback from rupak', 3, '2024-08-12 09:39:10');
+(6, 1, 'first feedback from rupak', 3, '2024-08-12 09:39:10'),
+(7, 11, 'Easy to find suitable rooms', 3, '2024-08-13 13:39:47');
 
 -- --------------------------------------------------------
 
@@ -262,7 +264,8 @@ INSERT INTO `issue_tb` (`issue_id`, `room_id`, `tenant_id`, `issue`, `issued_dat
 (1, 2, 2, 'first issue', '2024-08-12 14:01:41', '2024-08-12 14:03:35', 'solved'),
 (2, 2, 2, 'second issue', '2024-08-12 14:01:49', '2024-08-12 14:03:01', 'solved'),
 (3, 2, 2, 'third issue', '2024-08-12 14:01:55', '2024-08-12 14:02:27', 'solved'),
-(4, 2, 2, 'fourth issue', '2024-08-12 14:03:51', '2024-08-13 01:59:01', 'solved');
+(4, 2, 2, 'fourth issue', '2024-08-12 14:03:51', '2024-08-13 01:59:01', 'solved'),
+(5, 4, 7, 'No water filtering system', '2024-08-13 13:27:18', '2024-08-13 13:27:46', 'solved');
 
 -- --------------------------------------------------------
 
@@ -284,7 +287,8 @@ CREATE TABLE `leave_application_tb` (
 --
 
 INSERT INTO `leave_application_tb` (`leave_id`, `tenant_id`, `room_id`, `note`, `move_out_date`, `submitted_date`) VALUES
-(5, 2, 2, 'hello rupak', '2024-08-12', '2024-08-12 20:02:40');
+(5, 2, 2, 'hello rupak', '2024-08-12', '2024-08-12 20:02:40'),
+(6, 7, 4, 'Bye ', '2024-08-22', '2024-08-13 13:29:33');
 
 -- --------------------------------------------------------
 
@@ -309,7 +313,38 @@ CREATE TABLE `notice_tb` (
 INSERT INTO `notice_tb` (`notice_id`, `house_id`, `room_id`, `tenant_id`, `title`, `description`, `notice_date`) VALUES
 (4, 1, 2, 2, 'first title', 'first description', '2024-08-12 15:28:12'),
 (5, 1, 2, 2, 'second title', 'second description', '2024-08-12 15:30:20'),
-(6, 1, 2, 2, 'third title', 'third description', '2024-08-12 15:59:37');
+(6, 1, 2, 2, 'third title', 'third description', '2024-08-12 15:59:37'),
+(7, 2, 4, 7, 'hello melina', 'this is the first notice!', '2024-08-13 13:28:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notification_tb`
+--
+
+CREATE TABLE `notification_tb` (
+  `notification_id` int(11) NOT NULL,
+  `whose` varchar(7) NOT NULL,
+  `type` varchar(30) NOT NULL,
+  `date` datetime NOT NULL,
+  `status` varchar(7) NOT NULL DEFAULT 'unseen',
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `tenant_id` int(11) NOT NULL DEFAULT 0,
+  `room_id` int(11) NOT NULL DEFAULT 0,
+  `house_id` int(11) NOT NULL DEFAULT 0,
+  `application_id` int(11) NOT NULL DEFAULT 0,
+  `leave_application_id` int(11) NOT NULL DEFAULT 0,
+  `issue_id` int(11) NOT NULL DEFAULT 0,
+  `notice_id` int(11) NOT NULL DEFAULT 0,
+  `feedback_id` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notification_tb`
+--
+
+INSERT INTO `notification_tb` (`notification_id`, `whose`, `type`, `date`, `status`, `user_id`, `tenant_id`, `room_id`, `house_id`, `application_id`, `leave_application_id`, `issue_id`, `notice_id`, `feedback_id`) VALUES
+(1, 'user', '', '2024-08-13 10:12:10', 'unseen', 2, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -332,7 +367,8 @@ CREATE TABLE `review_tb` (
 
 INSERT INTO `review_tb` (`review_id`, `user_id`, `room_id`, `review`, `rating`, `review_date`) VALUES
 (13, 2, 2, 'fifth review', 5, '2024-08-11 23:48:03'),
-(15, 2, 2, 'seventh rating', 2, '2024-08-12 00:20:32');
+(15, 2, 2, 'seventh rating', 2, '2024-08-12 00:20:32'),
+(16, 7, 4, 'Internet  speed slow ', 2, '2024-08-13 13:25:45');
 
 -- --------------------------------------------------------
 
@@ -398,7 +434,7 @@ INSERT INTO `room_tb` (`room_id`, `house_id`, `type`, `bhk`, `number_of_room`, `
 (1, 4, 'bhk', 3, 0, 201, 'fully-furnished', 2, 35000, 'This spacious master bedroom exudes comfort and luxury, featuring a king-sized bed with a tufted headboard and plush bedding. Large windows allow natural light to fill the room, while soft, neutral tones create a serene atmosphere. A cozy seating area wit', 'verified', 0, '2024-08-11 10:00:46'),
 (2, 1, 'bhk', 1, 0, 501, 'semi-furnished', 5, 17000, 'The living room is designed for both relaxation and entertaining, with an open layout that flows into the dining area. It features a comfortable sectional sofa, a sleek coffee table, and a fireplace that serves as a focal point. Large windows provide plen', 'verified', 0, '2024-08-11 10:02:25'),
 (3, 1, 'non-bhk', 0, 3, 301, 'semi-furnished', 3, 19000, 'This modern kitchen is both functional and stylish, boasting quartz countertops, stainless steel appliances, and a large center island with bar seating. White cabinetry offers ample storage, while a subway tile backsplash adds a touch of sophistication. T', 'verified', 0, '2024-08-11 10:03:39'),
-(4, 2, 'bhk', 1, 0, 107, 'unfurnished', 1, 9000, 'The home office is a quiet and productive space, featuring a large desk with plenty of workspace, built-in bookshelves, and a comfortable office chair. The room is bathed in natural light from a large window, which also offers a pleasant view of the garde', 'verified', 0, '2024-08-11 10:04:26');
+(4, 2, 'bhk', 1, 0, 107, 'unfurnished', 1, 9000, 'The home office is a quiet and productive space, featuring a large desk with plenty of workspace, built-in bookshelves, and a comfortable office chair. The room is bathed in natural light from a large window, which also offers a pleasant view of the garde', 'on-hold', 7, '2024-08-11 10:04:26');
 
 -- --------------------------------------------------------
 
@@ -419,7 +455,8 @@ CREATE TABLE `tenancy_tb` (
 --
 
 INSERT INTO `tenancy_tb` (`tenancy_id`, `tenant_id`, `room_id`, `move_in_date`, `move_out_date`) VALUES
-(1, 2, 2, '2024-08-11 20:08:00', '2024-08-13 01:54:23');
+(1, 2, 2, '2024-08-11 20:08:00', '2024-08-13 01:54:23'),
+(4, 7, 4, '2024-08-13 13:25:06', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -463,7 +500,8 @@ INSERT INTO `user_tb` (`user_id`, `first_name`, `last_name`, `gender`, `dob`, `e
 (7, 'melina', 'rayamajhi', 'female', '2003-10-05', 'melina@gmail.com', '$2y$10$eAe1.FzOgzW122MY0GxAj.1YEro0H4HDVkb4JNkl2PIbbVfqDNZI6', '9816372908', 'bagmati', 'Bhojpur', 'icchyakamana', 3, 'roshikhola', 'tenant', '66b8375d437032.92776389.jpeg', '66b8376dc7ae70.05322827.jpg', '66b8376dc7d241.07832272.jpg', '2024-08-11 09:31:36', 'verified'),
 (8, 'rusbina', 'gurung', 'female', '2003-03-03', 'rusbina@gmail.com', '$2y$10$Ob474Y6eI3wJIlSeQtCWc.DTEv25MmYZ/jlG2UeZftfBRyk3uE3SO', '9860866729', 'bagmati', 'Lamjung', 'besisahar', 9, 'ghalegaun', 'tenant', '66b837d8e013f9.68217391.jpg', '66b837e5ec1fb5.07982441.jpg', '66b837e5ec4787.68501883.jpg', '2024-08-11 09:31:52', 'verified'),
 (9, 'prajita', 'bhattarai', 'female', '2004-01-09', 'prajita@gmail.com', '$2y$10$xGKBA7b6jhUvFxpgPvaMLO.sPCCQymwrngBiO4dXIqamFhM9BrTye', '9843844741', 'koshi', 'Sunsari', 'itahari', 1, 'indrenichowk', 'tenant', '66b839b3aa6963.07167825.jpg', '', '', '2024-08-11 09:32:26', 'pending'),
-(10, 'samiksha', 'khadka', 'female', '2003-07-07', 'samiksha@gmail.com', '$2y$10$9jd0A.dub4zl.Eoa/QviMOv9tnTAX3jsLd1Dg0pbxhDCbv5a2DpAG', '9840744366', 'koshi', 'Jhapa', 'badegaun nagarpalika', 8, 'halesichowk', 'tenant', '66b8391028ea00.72814111.png', '', '', '2024-08-11 09:32:40', 'pending');
+(10, 'samiksha', 'khadka', 'female', '2003-07-07', 'samiksha@gmail.com', '$2y$10$9jd0A.dub4zl.Eoa/QviMOv9tnTAX3jsLd1Dg0pbxhDCbv5a2DpAG', '9840744366', 'koshi', 'Jhapa', 'badegaun nagarpalika', 8, 'halesichowk', 'tenant', '66b8391028ea00.72814111.png', '', '', '2024-08-11 09:32:40', 'pending'),
+(11, 'Sita', 'Shrestha', 'female', '1880-06-09', 'sita@gmail.com', '$2y$10$/VYRhjw6pO2bXx3LR0Op5.IvZsWO997YACy2fK4dOEKI.NSfxg8ry', '9584859450', 'koshi', 'Sankhuwasabha', 'khadbari', 4, 'Dholbajay', 'tenant', '66bb102724de63.50795217.jpg', '66bb1082a6cd20.21642622.jpg', '66bb1082a7b315.25809065.jpg', '2024-08-13 13:31:52', 'verified');
 
 -- --------------------------------------------------------
 
@@ -482,7 +520,8 @@ CREATE TABLE `wishlist_tb` (
 --
 
 INSERT INTO `wishlist_tb` (`wishlist_id`, `user_id`, `room_id`) VALUES
-(41, 2, 1);
+(41, 2, 1),
+(46, 7, 4);
 
 --
 -- Indexes for dumped tables
@@ -543,6 +582,12 @@ ALTER TABLE `notice_tb`
   ADD PRIMARY KEY (`notice_id`);
 
 --
+-- Indexes for table `notification_tb`
+--
+ALTER TABLE `notification_tb`
+  ADD PRIMARY KEY (`notification_id`);
+
+--
 -- Indexes for table `review_tb`
 --
 ALTER TABLE `review_tb`
@@ -598,13 +643,13 @@ ALTER TABLE `amenity_tb`
 -- AUTO_INCREMENT for table `application_tb`
 --
 ALTER TABLE `application_tb`
-  MODIFY `application_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `application_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `feedback_tb`
 --
 ALTER TABLE `feedback_tb`
-  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `house_photo_tb`
@@ -622,25 +667,31 @@ ALTER TABLE `house_tb`
 -- AUTO_INCREMENT for table `issue_tb`
 --
 ALTER TABLE `issue_tb`
-  MODIFY `issue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `issue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `leave_application_tb`
 --
 ALTER TABLE `leave_application_tb`
-  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `notice_tb`
 --
 ALTER TABLE `notice_tb`
-  MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `notification_tb`
+--
+ALTER TABLE `notification_tb`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `review_tb`
 --
 ALTER TABLE `review_tb`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `room_photo_tb`
@@ -658,19 +709,19 @@ ALTER TABLE `room_tb`
 -- AUTO_INCREMENT for table `tenancy_tb`
 --
 ALTER TABLE `tenancy_tb`
-  MODIFY `tenancy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `tenancy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_tb`
 --
 ALTER TABLE `user_tb`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `wishlist_tb`
 --
 ALTER TABLE `wishlist_tb`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

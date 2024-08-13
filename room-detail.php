@@ -217,7 +217,7 @@ if ($roomExists) {
                                         } else {
                                             echo "th";
                                         }
-                                        ?> </sup>
+                                        ?> </sup> Floor
                                 </td>
                             </tr>
 

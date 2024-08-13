@@ -16,7 +16,7 @@
             <p class="heading"> Shortcuts </p>
             <ul>
                 <li> <i class="fa-solid fa-angles-right"></i> <span> Popular rooms </span> </li>
-                <li> <i class="fa-solid fa-angles-right"></i> <span> Newply added Rooms </span> </li>
+                <li> <i class="fa-solid fa-angles-right"></i> <span> Newly added Rooms </span> </li>
                 <li> <i class="fa-solid fa-angles-right"></i> <span> Be a tenant </span> </li>
                 <li> <i class="fa-solid fa-angles-right"></i> <span> Be a landlord </span> </li>
             </ul>
@@ -27,7 +27,7 @@
             <p class="heading"> Heading </p>
             <ul>
                 <li> <i class="fa-solid fa-angles-right"></i> <span> Popular rooms </span> </li>
-                <li> <i class="fa-solid fa-angles-right"></i> <span> Newply added Rooms </span> </li>
+                <li> <i class="fa-solid fa-angles-right"></i> <span> Newly added Rooms </span> </li>
                 <li> <i class="fa-solid fa-angles-right"></i> <span> Be a tenant </span> </li>
                 <li> <i class="fa-solid fa-angles-right"></i> <span> Be a landlord </span> </li>
             </ul>

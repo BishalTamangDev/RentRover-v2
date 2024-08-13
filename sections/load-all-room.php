@@ -86,7 +86,7 @@ if (sizeof($allRoomList) > 0) {
                         <sup> rd </sup>
                         <?php
                     }
-                    $floor . " Floor"; ?>
+                    echo " Floor"; ?>
                 </p>
 
                 <!-- rent -->
