@@ -175,7 +175,7 @@ $histories = $tenancyObj->fetchHistoryForLandlord($roomIdList);
 
             <!-- check if current tenant -->
             <?php
-            if($moveOutDate == '0000-00-00 00:00:00') {
+            if($moveOutDate == 'Still Residing') {
                 ?>
                 <!-- action -->
                 <button class="btn btn-danger fit-content py-1 mt-3" data-room-id="<?= $currentRoom ?>"
@@ -216,8 +216,6 @@ $histories = $tenancyObj->fetchHistoryForLandlord($roomIdList);
                     'data': { tenantId: tenant_id, roomId: room_id },
                     type: "POST",
                     success: function (response) {
-                        console.clear();
-                        console.log(response);
                         if (response == true) {
                             $('#remove-tenant-btn').html("Tenant Removed").prop('disabled', true);
                         }

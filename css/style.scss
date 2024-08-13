@@ -6,7 +6,7 @@
     box-sizing: border-box;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     background-color: rgb(245, 245, 245);
     width: 8px;
 }
@@ -39,7 +39,7 @@ html {
 
 a,
 abbr {
-    text-decoration: none;   
+    text-decoration: none;
 }
 
 body {
@@ -48,12 +48,12 @@ body {
     box-sizing: inherit;
 }
 
-// .main {
-//     min-height: 80vh;
-//     display: flex;
-//     margin-top: 7rem;
-//     flex-direction: column;
-// }
+.main {
+    min-height: 40vh;
+    display: flex;
+    // margin-top: 7rem;
+    flex-direction: column;
+}
 
 .btn-brand {
     color: white;
@@ -75,7 +75,7 @@ body {
     }
 }
 
-.bg-brand{
+.bg-brand {
     background-color: var(--brand-color);
 }
 
@@ -108,7 +108,7 @@ img {
     width: fit-content;
 }
 
-.error-message{
+.error-message {
     display: none;
     padding: 0px;
     margin: 0px;
@@ -152,6 +152,7 @@ img {
 
     tfoot {
         display: none;
+
         tr {
             td {
                 color: red;
@@ -243,24 +244,25 @@ img {
 }
 
 // simple card
-.simple-card-container{
+.simple-card-container {
     display: flex;
     flex-direction: row;
     gap: 1rem;
     flex-wrap: wrap;
-    p{
+
+    p {
         margin: 0;
         font-size: 0.8rem;
     }
 
-    .simple-card{
+    .simple-card {
         border-radius: 6px;
         padding: 0.3rem 1rem;
         cursor: pointer;
         border: 1px solid rgb(235, 232, 232);
     }
 
-    .active{
+    .active {
         background-color: black;
         color: white;
     }

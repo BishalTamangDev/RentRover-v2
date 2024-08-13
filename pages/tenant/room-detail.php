@@ -28,6 +28,9 @@ $tempPhotoSrc = '/rentrover/uploads/blank.jpg';
 $roomExists = $roomObj->fetch($roomId);
 
 if ($roomExists) {
+    if ($roomObj->getTenantId() == $r_id) {
+        header("Location: /rentrover/tenant/my-room/$roomId");
+    }
     $houseObj->fetch($roomObj->houseId);
     $location = $houseObj->getAddress();
 
@@ -242,21 +245,22 @@ if ($roomExists) {
                                 <td class="title"> Floor </td>
                                 <td class="data">
                                     <?php
-                                    echo $roomObj->floor;
-                                    $x = $roomObj->floor % 10;
+                                    $floor = $roomObj->floor;
+                                    $x = $floor % 10;
+                                    switch ($x) {
+                                        case 1:
+                                            echo '1<sup>st</sup>';
+                                            break;
+                                        case 2:
+                                            echo '2<sup>nd</sup>';
+                                            break;
+                                        case 3:
+                                            echo '3<sup>rd</sup>';
+                                            break;
+                                        default:
+                                            echo "$floor<sup>th</sup>";
+                                    }
                                     ?>
-                                    <sup>
-                                        <?php
-                                        if ($x == 1) {
-                                            echo "st";
-                                        } elseif ($x == 2) {
-                                            echo "nd";
-                                        } elseif ($x == 3) {
-                                            echo "rd";
-                                        } else {
-                                            echo "th";
-                                        }
-                                        ?> </sup>
                                 </td>
                             </tr>
 
@@ -276,71 +280,76 @@ if ($roomExists) {
 
                         <div class="room-operations">
                             <?php
-                            // check if the room is acceptiong application :: flag - on-hold text
-                            if ($roomObj->flag == 'verified') { // accepting application
-                                // check if the user is eligible to applly
-                                if ($profileUser->flag != 'verified') {
-                                    ?>
-                                    <p class="text-danger small"> Please verify your account first to apply for a room. </p>
-                                    <?php
-                                } else {
-                                    $isEligibleToApply = $applicationObj->eligibilityTestForTenantToApply($r_id);
+                            // check if the user is verified
+                            if ($profileUser->flag != 'verified') {
+                                ?>
+                                <p class="text-danger small"> Please verify your account first to apply for a room. </p>
+                                <button class="btn btn-secondary" disabled> Apply Now </button>
+                                <?php
+                            } else {
+                                // check if the room is acceptiong application :: flag - on-hold text
+                                if ($roomObj->flag == 'verified') { // accepting application
+                                    // check for the user's application status
+                                    // already applied :: pending || rejected || cancelled
 
-                                    if ($isEligibleToApply) {
+                                    $applicationList = $applicationObj->checkApplication($r_id, $roomObj->roomId);
+
+                                    if(sizeof($applicationList) == 0) {
+                                        // just apply
                                         ?>
-                                        <button type="button" class="btn btn-brand" data-bs-toggle="modal"
-                                            data-bs-target="#room-apply-modal" id="apply-form-trigger-btn"> Apply Now </button>
+                                        <button type="button" class="btn btn-brand" data-bs-toggle="modal" data-bs-target="#room-apply-modal" id="apply-form-trigger-btn"> Apply Now </button>
                                         <?php
                                     } else {
-                                        // check if another applied room is the current
-                                        // if current room :: show move in button 
-                                        // check if the applied room is the current one 
-                                        $appliedRoomId = $applicationObj->fetchAppliedRoomId($r_id);
-                                        if ($appliedRoomId == $roomId) {
+                                        $alreadyRejected = false;
+                                        $pending = false;
+                                        // check if already applied
+                                        foreach($applicationList as $application) {
+                                            if($application['flag'] == 'rejected') {
+                                                $alreadyRejected = true;
+                                            }
+                                            
+                                            if($application['flag'] == 'pending') {
+                                                $pending = true;
+                                            }
+                                        }
+
+                                        if($alreadyRejected) {
                                             ?>
-                                            <p class="text-success mb-3"> You have already applied for this room. </p>
-                                            <!-- show application state -->
+                                            <p class="text-danger">You won't be able to apply for this room as the landlord had previously rejected your application.</p>
+                                            <button class="btn btn-secondary" disabled> Apply Now </button>
                                             <?php
-                                            $status = $applicationObj->fetchApplicationStatus($roomId, $r_id);
-                                            if ($status == 'pending') {
+                                        } else {
+                                            if($pending) {
                                                 ?>
-                                                <button class="btn btn-brand"> <i class="fa fa-spinner"></i> Application Pending </button>
-                                                <button class="btn btn-danger" id="cancel-application"> <i class="fa fa-multiply"></i> Cancel
-                                                </button>
+                                                <p class="text-danger"> You have already applied for this room. Please wait for landlord's response. </p>
+                                                <div class="d-flex flex-row flex-wrap gap-2 action">
+                                                    <button class="btn btn-brand" id="application-pending-btn"> <i class="fa fa-spinner"></i> Application Pending </button>
+                                                    <button class="btn btn-danger" id="cancel-application"> Cancel Application </button>
+                                                </div>
                                                 <?php
-                                            } elseif ($status == 'accepted') {
+                                            } else {
                                                 ?>
-                                                <button class="btn btn-success"> <i class="fa fa-multiply"></i> Application Accepted </button>
-                                                <?php
-                                            } elseif ($status == 'rejected') {
-                                                ?>
-                                                <button class="btn btn-danger"> <i class="fa fa-check"></i> Application Accepted </button>
+                                                <button type="button" class="btn btn-brand" data-bs-toggle="modal" data-bs-target="#room-apply-modal" id="apply-form-trigger-btn"> Apply Now </button>
                                                 <?php
                                             }
-                                        } else {
-                                            ?>
-                                            <p class="text-danger mb-3 small"> Your another application has been accepted. So you won't be able
-                                                to apply for another room. </p>
-                                            <button type="button" class="btn btn-brand"> Apply Now </button>
-                                            <?php
                                         }
-                                        ?>
-                                        <?php
                                     }
-                                }
-                            } else {
-                                // if the applicant is the user - show move in button
-                                $isAcceptedApplicant = $applicationObj->checkIfAcceptedApplicant($r_id);
-
-                                if ($isAcceptedApplicant) {
                                     ?>
-                                    <p class="text-success mb-3 small"> Your application is already accepted. </p>
-                                    <button class="btn btn-brand mb-3"> Apply Now </button>
                                     <?php
                                 } else {
+                                    // if the applicant is the user - show move in button
+                                    $isAcceptedApplicant = $applicationObj->checkIfAcceptedApplicant($r_id);
+
+                                    if ($isAcceptedApplicant) {
+                                        ?>
+                                        <p class="text-success mb-3 small"> Your application is already accepted. </p>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <p class="text-danger mb-3"> This room is not accepting the application at this moment. </p>
+                                        <?php
+                                    }
                                     ?>
-                                    <p class="text-danger mb-3"> This room is not accepting the application at this moment. </p>
-                                    <button type="button" class="btn btn-brand" disabled> Apply Now </button>
                                     <?php
                                 }
                                 ?>
@@ -456,7 +465,7 @@ if ($roomExists) {
     </div>
 
     <!-- footer -->
-    <?php require_once __DIR__ .  '/../../sections/footer.php';?>
+    <?php require_once __DIR__ . '/../../sections/footer.php'; ?>
 
     <!-- popup alert -->
     <div class="popup-alert-container" id="popup-alert-container">
@@ -662,9 +671,15 @@ if ($roomExists) {
                 $.ajax({
                     url: '/rentrover/pages/tenant/app/cancel-application.php',
                     type: "POST",
+                    beforeSend : function (){
+                        $('#application-pending-btn').fadeOut();
+                        $('#cancel-application').html('Application cancelled').prop('disabled', true);
+                    },
                     data: { userId: user_id, roomId: room_id },
                     success: function (data) {
-                        location.reload();
+                        if(data == false) {
+                            location.reload();
+                        }
                     }
                 });
             });

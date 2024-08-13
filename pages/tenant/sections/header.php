@@ -47,8 +47,8 @@ if (!isset($profileUser)) {
                         <i class="fa fa-multiply fs-5 pointer" id="notification-close"></i>
                     </div>
                     
-                    <!-- notification 1 -->
                     <div class="notification-box" id="notification-box">
+                    <!-- notification 1 -->
                         <div class="d-flex flex-row gap-2 notification">
                             <!-- icon -->
                             <div class="notification-icon">
@@ -105,6 +105,9 @@ if (!isset($profileUser)) {
 
 <!-- jquery -->
 <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+<!-- notification js -->
+<script src="/rentrover/js/count-unseen-user-notification.js"></script>
 
 <script>
     function loadWishlistCount() {

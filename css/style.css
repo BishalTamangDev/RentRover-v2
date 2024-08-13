@@ -43,6 +43,12 @@ body {
   box-sizing: inherit;
 }
 
+.main {
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .btn-brand {
   color: white;
   background-color: var(--brand-color);

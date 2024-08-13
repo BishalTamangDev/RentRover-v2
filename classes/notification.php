@@ -57,14 +57,35 @@ class Notification
         $this->feedbackId = $feedbackId;
     }
 
-    // set
+    // account verification
     public function applyForVerification($userId)
     {
         $this->userId = $userId;
         $this->whose = "admin";
         $this->type = "account-verification-apply";
+        $res = $this->register();
+        return $res;
     }
 
+    // account verify
+    public function verifyAccount($userId)
+    {
+        $this->userId = $userId;
+        $this->whose = "user";
+        $this->type = "account-verified";
+        $res = $this->register();
+        return $res;
+    }
+
+    // account unverify
+    public function unverifyAccount($userId)
+    {
+        $this->userId = $userId;
+        $this->whose = "user";
+        $this->type = "account-unverified";
+        $res = $this->register();
+        return $res;
+    }
 
 
     // register
@@ -106,7 +127,7 @@ class Notification
     {
         $list = [];
         global $conn;
-        $query = "SELECT * FROM notification_tb WHERE whose = 'admin'";
+        $query = "SELECT * FROM notification_tb WHERE whose = 'admin' ORDER BY notification_id DESC";
         $result = $conn->query($query);
         while ($row = $result->fetch_assoc()) {
             $list[] = $row;
@@ -119,7 +140,7 @@ class Notification
     {
         $list = [];
         global $conn;
-        $query = "SELECT * FROM notification_tb WHERE user_id = '$userId' AND whose = 'user'";
+        $query = "SELECT * FROM notification_tb WHERE user_id = '$userId' AND whose = 'user' ORDER BY notification_id DESC";
         $result = $conn->query($query);
         while ($row = $result->fetch_assoc()) {
             $list[] = $row;

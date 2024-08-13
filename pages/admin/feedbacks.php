@@ -108,7 +108,7 @@ if (!isset($page))
             // fetch user feedbacks
             function loadLatestFeedback() {
                 $.ajax({
-                    url: '/rentrover/pages/admin/sections/latest-feedback.php',
+                    url: '/rentrover/pages/admin/sections/load-all-feedbacks.php',
                     success: function (data) {
                         $('#feedback-container').html(data);
                         toggleEmptySection();

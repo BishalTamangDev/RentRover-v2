@@ -113,7 +113,7 @@ $page = "dashboard";
                 </div>
                 <div class="detail-div">
                     <p class="name"> Name</p>
-                    <p class="house-room"> House, om </p>
+                    <p class="house-room"> House Room </p>
                     <p class="date"> 0000-00-00 </p>
                     <div class="feedback">
                         <div class="feedback-detail">
@@ -139,6 +139,7 @@ $page = "dashboard";
         </div>
 
     </main>
+
     <!-- modal :: feedback modal-->
     <?php require_once __DIR__ . '/../../sections/feedback.php'; ?>
 
@@ -163,9 +164,6 @@ $page = "dashboard";
 
     <!-- feedback-js -->
     <script src="/rentrover/js/feedback-submit.js"></script>
-
-    <!-- notification js -->
-    <script src="/rentrover/js/user-notification.js"></script>
 
     <script>
         $(document).ready(function () {

@@ -1,10 +1,10 @@
 <?php
-if(session_status() == PHP_SESSION_NONE)
+if (session_status() == PHP_SESSION_NONE)
     session_start();
 
 $userId = $_SESSION['rentrover-id'] ?? 0;
 
-if($userId == 0) {
+if ($userId == 0) {
     echo 0;
     exit;
 }
@@ -15,4 +15,4 @@ $tempNotification = new Notification();
 
 $count = $tempNotification->countUserUnseenNotification($userId);
 
-echo $count;
+echo $count > 9 ? "9<sup>+</sup>" : ($count == 0 ? '' : $count);

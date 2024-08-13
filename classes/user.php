@@ -320,7 +320,7 @@ class User
         global $conn;
         $userIdList = [];
         $query = "SELECT user_id FROM user_tb";
-        $result = mysqli_query($conn, $query);
+        $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $userIdList[] = $row['user_id'];
@@ -334,17 +334,17 @@ class User
     {
         global $conn;
         $query = "UPDATE user_tb SET flag = 'verified' WHERE user_id = '$userId'";
-        $response = mysqli_query($conn, $query);
+        $response = $conn->query($query);
         return $response;
     }
 
     // inverify user
-    public function unVerifyUser($userId)
+    public function unverifyUser($userId)
     {
         global $conn;
-        $query = "UPDATE user_tb SET flag = 'pending' WHERE user_id = '$userId'";
-        $response = mysqli_query($conn, $query);
-        return $response;
+        $query = "UPDATE user_tb SET flag = 'unverified' WHERE user_id = '$userId'";
+        $result = $conn->query($query);
+        return $result ? true : false;
     }
 
     // count users

@@ -3,9 +3,11 @@ $houseId = $_POST['houseId'];
 
 require_once __DIR__ . '/../../../classes/room.php';
 require_once __DIR__ . '/../../../classes/house.php';
+require_once __DIR__ . '/../../../classes/room-review.php';
 
 $tempHouse = new House();
 $tempRoom = new Room();
+$tempReview = new Review();
 
 $roomIdList = $tempRoom->fetchRoomIdByHouseId($houseId);
 
@@ -38,26 +40,22 @@ if (sizeof($roomIdList) > 0) {
                 <p class="spec">
                     <?= $tempRoom->type == 'bhk' ? $tempRoom->bhk . " BHK, " : "Non-BHK, " . $tempRoom->numberOfRoom . ' Rooms, '; ?>
                     <?php
-                    $x = $tempRoom->floor % 10;
-                    echo $tempRoom->floor;
-                    if ($x == 1) {
-                        ?>
-                        <sup>st</sup>
-                        <?php
-                    } elseif ($x == 2) {
-                        ?>
-                        <sup>nd</sup>
-                        <?php
-                    } elseif ($x == 3) {
-                        ?>
-                        <sup>rd</sup>
-                        <?php
-                    } else {
-                        ?>
-                        <sup>th</sup>
-                        <?php
+                    $floor = $tempRoom->floor;
+                    $x = $floor % 10;
+                    switch ($x) {
+                        case 1:
+                            echo '1<sup>st</sup> Floor';
+                            break;
+                        case 2:
+                            echo '2<sup>nd</sup> Floor';
+                            break;
+                        case 3:
+                            echo '3<sup>rd</sup> Floor';
+                            break;
+                        default:
+                            echo "$floor<sup>th</sup> Floor";
                     }
-                    echo " Floor"; ?>
+                    ?>
                 </p>
 
                 <!-- rent -->
@@ -66,7 +64,7 @@ if (sizeof($roomIdList) > 0) {
                 <div class="room-bottom">
                     <div class="rating">
                         <img src="/rentrover/assets/icons/full-star.png" alt="">
-                        <p class="fw-semibold small"> 2.4 </p>
+                        <p class="fw-semibold small"><?= $tempReview->calculateRating($roomId) ?></p>
                     </div>
 
                     <a href="/rentrover/landlord/room-detail/<?= $roomId ?>" class="btn btn-outlined-brand show-more-btn">

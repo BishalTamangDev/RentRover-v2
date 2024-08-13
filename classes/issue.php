@@ -119,7 +119,7 @@ class Issue
         global $conn;
         $list = [];
         $arrayString = "'" . implode("','", $roomIdList) . "'";
-        $query = "SELECT * FROM issue_tb WHERE room_id IN ($arrayString) ORDER BY issue_id DESC";
+        $query = "SELECT * FROM issue_tb WHERE room_id IN ($arrayString) ORDER BY issue_id DESC LIMIT 3";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {

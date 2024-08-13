@@ -72,21 +72,20 @@ if (sizeof($allRoomList) > 0) {
                     <?= $type == 'bhk' ? $bhk . " BHK, " : "Non-BHK" . $numberOfRoom . ' Rooms, '; ?>
                     <?php
                     $x = $floor % 10;
-                    echo $floor;
-                    if ($x == 1) {
-                        ?>
-                        <sup> st </sup>
-                        <?php
-                    } elseif ($x == 2) {
-                        ?>
-                        <sup> nd </sup>
-                        <?php
-                    } elseif ($x == 3) {
-                        ?>
-                        <sup> rd </sup>
-                        <?php
+                    switch ($x) {
+                        case 1:
+                            echo '1<sup>st</sup> Floor';
+                            break;
+                        case 2:
+                            echo '2<sup>nd</sup> Floor';
+                            break;
+                        case 3:
+                            echo '3<sup>rd</sup> Floor';
+                            break;
+                        default:
+                            echo "$floor<sup>th</sup> Floor";
                     }
-                    echo " Floor"; ?>
+                    ?>
                 </p>
 
                 <!-- rent -->

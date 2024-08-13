@@ -51,7 +51,7 @@ if (!isset($page))
         <div class="position-relative notification-section">
             <div class="position-relative notification-icon pointer" id="notification-icon">
                 <i class="fa-regular fa-bell fs-5 pt-1 text-secondary pointer"></i>
-                <div class="position-absolute text-danger fw-semibold notification-counter"> 9<sup>+</sup></div>
+                <div class="position-absolute text-danger fw-semibold notification-counter" id="notification-count">  </div>
             </div>
 
             <!-- container -->
@@ -63,23 +63,26 @@ if (!isset($page))
                     </div>
                     <i class="fa fa-multiply fs-5 pointer pt-1" id="notification-close"></i>
                 </div>
-                <!-- notification 1 -->
-                <div class="d-flex flex-row gap-2 notification">
-                    <!-- icon -->
-                    <div class="notification-icon">
-                        <img src="/rentrover/assets/icons/verified.png" alt="">
-                    </div>
 
-                    <!-- details -->
-                    <div class="notification-details">
-                        <!-- detail -->
-                        <p class="m-0 small"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus,
-                            numquam? </p>
-
-                        <!-- date -->
-                        <p class="m-0 small text-secondary"> 0000-00-00 00:00:00 </p>
+                <div class="notification-box" id="notification-box">
+                    <!-- notification 1 -->
+                    <div class="d-flex flex-row gap-2 notification">
+                        <!-- icon -->
+                        <div class="notification-icon">
+                            <img src="/rentrover/assets/icons/verified.png" alt="">
+                        </div>
+                        
+                        <!-- details -->
+                        <div class="notification-details">
+                            <!-- detail -->
+                            <p class="m-0 small"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus,
+                                numquam? </p>
+                                
+                                <!-- date -->
+                                <p class="m-0 small text-secondary"> 0000-00-00 00:00:00 </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
 
@@ -189,6 +192,9 @@ if (!isset($page))
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
 
+    <!-- notification js -->
+    <script src="/rentrover/js/count-unseen-user-notification.js"></script>
+
     <script>
         $(document).ready(function () {
             $('#notification-container').hide();
@@ -196,6 +202,15 @@ if (!isset($page))
 
             // notification
             $('#notification-icon').click(function () {
+                // load notification
+                $.ajax({
+                    url: '/rentrover/app/fetch-user-notification.php',
+                    success: function (data) {
+                            console.log("1");
+                            $('#notification-box').html(data);
+                        }
+                    });
+
                 if ($('#notification-container:visible').length) {
                     $('#notification-container').hide();
                 } else {

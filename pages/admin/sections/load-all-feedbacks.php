@@ -6,12 +6,10 @@ require_once __DIR__ . '/../../../classes/user.php';
 $tempFeedback = new Feedback();
 $tempUser = new User();
 
-$list = $tempFeedback->fetchLatest();
+$list = $tempFeedback->fetchAll();
 
 if (sizeof($list) == 0) {
-    ?>
-    <p class="text-danger"> Users haven't submitted feedback yet! </p>
-    <?php
+    echo false;
 } else {
     foreach ($list as $feedback) {
         // fetch user detail

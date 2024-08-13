@@ -204,7 +204,23 @@ if (!isset($page))
                                 <!-- floor -->
                                 <tr>
                                     <td class="title"> Floor </td>
-                                    <td class="data"> <?= $roomObj->floor ?> </td>
+                                    <td class="data"> <?php
+                                    $floor = $roomObj->floor;
+                                    $x = $floor % 10;
+                                    switch ($x) {
+                                        case 1:
+                                            echo '1<sup>st</sup>';
+                                            break;
+                                        case 2:
+                                            echo '2<sup>nd</sup>';
+                                            break;
+                                        case 3:
+                                            echo '3<sup>rd</sup>';
+                                            break;
+                                        default:
+                                            echo "$floor<sup>th</sup>";
+                                    }
+                                    ?> </td>
                                 </tr>
 
                                 <!-- type -->

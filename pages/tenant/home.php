@@ -163,7 +163,8 @@ $searchContent = $searchState == "search" ? $_GET['search'] : '';
         <div class="all-room-container">
             <div class="d-flex flex-row justify-content-between">
                 <p class="m-0 mt-1 mb-2 fw-semibold fs-4 px-1">
-                    <?= $searchState == 'search' ? "Search Results" : "All Rooms" ?> </p>
+                    <?= $searchState == 'search' ? "Search Results" : "All Rooms" ?>
+                </p>
                 <i class="fa fa-filter pointer" id="filter-trigger"></i>
             </div>
 
@@ -260,9 +261,6 @@ $searchContent = $searchState == "search" ? $_GET['search'] : '';
 
     <!-- popup js -->
     <script src="/rentrover/js/popup-alert.js"></script>
-
-    <!-- notification script -->
-    <script src="/rentrover/js/count-user-notification.js"></script>
 
     <script>
         $(document).ready(function () {

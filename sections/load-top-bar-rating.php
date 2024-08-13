@@ -25,18 +25,21 @@ if (sizeof($list) == 0) {
         $totalRating += $review['rating'];
         $count++;
     }
+
     $finalRating = $totalRating / $count;
-    $remaining = $finalRating;
+
+    $fullStar = intval($finalRating);
+
+    $halfStar = $finalRating - floor($finalRating);
     ?>
     <div class="rating">
         <?php
-        for ($i = 1; $i < $finalRating; $i++) {
-            $remaining--;
+        for ($i = 0; $i < $fullStar; $i++) {
             ?>
             <img src="/rentrover/assets/icons/full-star.png" alt="">
             <?php
         }
-        if ($remaining > 0) {
+        if ($halfStar != 0) {
             ?>
             <img src="/rentrover/assets/icons/half-star.png" alt="">
             <?php

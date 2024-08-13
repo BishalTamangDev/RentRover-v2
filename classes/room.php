@@ -422,7 +422,7 @@ class Room
     public function fetchTenantRoom($tenantId)
     {
         global $conn;
-        $query = "SELECT room_id FROM room_tb WHERE tenant_id = '$tenantId' LIMIT 1";
+        $query = "SELECT room_id FROM room_tb WHERE tenant_id = '$tenantId' ORDER BY room_id DESC LIMIT 1";
         $result = $conn->query($query);
 
         // temporary

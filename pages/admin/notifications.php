@@ -65,7 +65,7 @@ $page = "notifications";
         </div>
 
         <!-- notification container -->
-        <div class="notification-container mt-4">
+        <div class="notification-container mt-4" id="notification-container">
             <!-- notification :: new user -->
             <div class="notification seen-notification">
                 <div class="icon">
@@ -154,6 +154,19 @@ $page = "notifications";
     <!-- script -->
     <script>
         $(document).ready(function () {
+            // fetch notification
+            function loadNotificationPage(){
+                $.ajax({
+                    url : '/rentrover/pages/admin/app/fetch-page-notification.php',
+                    success : function(data) {
+                        console.log(data);
+                        // $('#notification-container').html(data);
+                    }
+                });
+            }
+
+            loadNotificationPage();
+
             // notification filter
             // all
             $('#all-notification-btn').click(function () {

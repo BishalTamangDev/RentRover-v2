@@ -27,15 +27,15 @@ $userExists = $userObj->fetch($userId, "all");
     <!-- title -->
     <title>
         <?php
-        if($userExists) {
-            if($userObj->getFullName() != '') {
-                echo "User Detail : ".$userObj->getFullName();
+        if ($userExists) {
+            if ($userObj->getFullName() != '') {
+                echo "User Detail : " . $userObj->getFullName();
             }
         } else {
             echo "User Not Found!";
         }
-        ?>    
-     </title>
+        ?>
+    </title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/rentrover/assets/brands/rentrover-circular-logo.png">
@@ -65,7 +65,7 @@ $userExists = $userObj->fetch($userId, "all");
         <!-- my profile -->
         <section class="d-nones d-flex flex-column user-profile-container profile-content">
             <?php
-            if($userExists) {
+            if ($userExists) {
                 ?>
                 <p class="m-0 fs-4 fw-semibold"> User Information </p>
 
@@ -82,82 +82,89 @@ $userExists = $userObj->fetch($userId, "all");
                         <p class="m-0 text-secondary small"> <?= $userObj->email ?> </p>
                     </div>
                 </div>
-                
+
                 <hr class="mt-4 text-secondary" />
-                
+
                 <div class="d-nones mb-3 profile-informations">
-                    <div class="d-flex">
-                        <div class="w-50">
+                    <div class="d-flex flex-column flex-md-row gap-2">
+                        <div class="w-100 w-md-50">
                             <p class="m-0 text-secondary"> First Name </p>
                             <p class="m-0 fw-semibold"> <?= ucfirst($userObj->name['first']) ?> </p>
                         </div>
-                
-                        <div class="w-50">
+
+                        <div class="w-100 w-md-50">
                             <p class="m-0 text-secondary"> Last Name </p>
-                            <p class="m-0 fw-semibold"> <?= ucfirst($userObj->name['first']) ?> </p>
+                            <p class="m-0 fw-semibold"> <?= ucfirst($userObj->name['last']) ?> </p>
                         </div>
                     </div>
-                
-                    <div class="mt-3 d-flex">
-                        <div class="w-50">
+
+                    <div class="mt-3 d-flex flex-column flex-md-row gap-2">
+                        <div class="w-100 w-md-50">
                             <p class="m-0 text-secondary"> Gender </p>
                             <p class="m-0 fw-semibold"> <?= ucfirst($userObj->gender) ?> </p>
                         </div>
-                
-                        <div class="w-50">
+
+                        <div class="w-100 w-md-50">
                             <p class="m-0 text-secondary"> DoB </p>
                             <p class="m-0 fw-semibold"> <?= $userObj->dob ?> </p>
                         </div>
                     </div>
-                
-                    <div class="mt-3 d-flex">
-                        <div class="w-50">
+
+                    <div class="mt-3 d-flex flex-column flex-md-row gap-2">
+                        <div class="w-100 w-md-50">
                             <p class="m-0 text-secondary"> Email </p>
                             <p class="m-0 fw-semibold"> <?= $userObj->email ?> </p>
                         </div>
-                
-                        <div class="w-50">
+
+                        <div class="w-100 w-md-50">
                             <p class="m-0 text-secondary"> Phone Number </p>
                             <p class="m-0 fw-semibold"> <?= $userObj->getPhoneNumber() ?> </p>
                         </div>
                     </div>
-                
+
                     <p class="m-0 mt-3 text-secondary"> Address </p>
                     <div class="d-flex flex-column">
-                        <div class="d-flex">
-                            <div class="w-50">
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <div class="w-100 w-md-50">
                                 <p class="m-0 mt-2 text-secondary"> Province </p>
                                 <p class="m-0 fw-semibold"> <?= ucfirst($userObj->address['province']) ?> </p>
                             </div>
-                            <div class="w-50">
+                            <div class="w-100 w-md-50">
                                 <p class="m-0 mt-2 text-secondary"> District </p>
                                 <p class="m-0 fw-semibold"> <?= ucfirst($userObj->address['district']) ?> </p>
                             </div>
                         </div>
-                
-                        <div class="d-flex">
-                            <div class="w-50">
+
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <div class="w-100 w-md-50">
                                 <p class="m-0 mt-3 text-secondary"> Municipality/ Rupal Municipality </p>
                                 <p class="m-0 fw-semibold"> <?= ucfirst($userObj->address['municipalityRural']) ?> </p>
                             </div>
-                
-                            <div class="w-50">
+
+                            <div class="w-100 w-md-50">
                                 <p class="m-0 mt-3 text-secondary"> Ward </p>
                                 <p class="m-0 fw-semibold"> <?= $userObj->address['ward'] ?> </p>
                             </div>
                         </div>
-                
+
                         <div class="w-100">
                             <p class="m-0 mt-3 text-secondary"> Tole/ Village </p>
                             <p class="m-0 fw-semibold"> <?= ucfirst($userObj->address['toleVillage']) ?> </p>
                         </div>
 
-                        <div class="w-100">
-                            <p class="m-0 mt-3 text-secondary"> Joined on </p>
-                            <p class="m-0 fw-semibold"> <?= ucfirst($userObj->registrationDate) ?> </p>
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <div class="w-100 w-md-50">
+                                <p class="m-0 mt-3 text-secondary"> Joined on </p>
+                                <p class="m-0 fw-semibold"> <?= ucfirst($userObj->registrationDate) ?> </p>
+                            </div>
+
+                            <div class="w-100 w-md-50">
+                                <p class="m-0 mt-3 text-secondary"> Account Status </p>
+                                <p class="m-0 fw-semibold"> <?= ucfirst($userObj->flag) ?> </p>
+                            </div>
                         </div>
                     </div>
-                
+
                     <!-- documents -->
                     <p class="m-0 mt-3 text-secondary"> Documents </p>
                     <?php
@@ -175,7 +182,7 @@ $userExists = $userObj->fetch($userId, "all");
                                 ?>
                                 <img src="<?= $frontKycSrc; ?>" class="pointer" alt="" id="document-1">
                             </div>
-                
+
                             <div class="document">
                                 <?php
                                 $backKyc = $userObj->kyc['back'];
@@ -187,19 +194,28 @@ $userExists = $userObj->fetch($userId, "all");
                         <?php
                     }
                     ?>
-                
+
                     <!-- action :: verify || unverify user -->
                     <div class="d-flex flex-row gap-2 mt-3 action">
                         <?php
-                        if($userObj->flag == 'verified') {
+                        if ($userObj->flag == 'verified') {
                             ?>
-                            <button class="btn btn-danger" id="unverify-user-btn"> Unverify User </button>
+                            <button class="btn btn-danger" id="unverify-user-btn"> <i class="fa fa-multiply"></i> Unverify User
+                            </button>
                             <?php
-                        } elseif($userObj->flag == 'on-hold') {
+                        } elseif ($userObj->flag == 'unverified') {
                             ?>
-                            <button class="btn btn-success" id="verify-user-btn"> Verify User </button>
-                           <?php
-                        } elseif($userObj->flag == 'pending') {
+                            <button class="btn btn-success" id="verify-user-btn"> <i class="fa fa-check"></i> Verify User
+                            </button>
+                            <?php
+                        } elseif ($userObj->flag == 'on-hold') {
+                            ?>
+                            <button class="btn btn-success" id="verify-user-btn"> <i class="fa fa-check"></i> Verify User
+                            </button>
+                            <button class="btn btn-danger" id="unverify-user-btn"> <i class="fa fa-multiply"></i> Unverify User
+                            </button>
+                            <?php
+                        } elseif ($userObj->flag == 'pending') {
                             ?>
                             <p class="text-danger"> This account is not verfied yet. </p>
                             <?php
@@ -243,7 +259,7 @@ $userExists = $userObj->fetch($userId, "all");
         $(document).ready(function () {
             // verify user
             $('#verify-user-btn').click(function () {
-                const user_id = <?= $userId ?>;
+                var user_id = <?= $userId ?>;
                 $.ajax({
                     url: '/rentrover/pages/admin/app/verify-user.php',
                     type: "POST",
@@ -256,6 +272,8 @@ $userExists = $userObj->fetch($userId, "all");
                         if (response) {
                             showPopupAlert("Account verified.");
                             setTimeout(() => { location.reload(); }, 2000);
+                            $('#verify-user-btn').html("Account verified").prop('disabled', true);
+                            $('#unverify-user-btn').fadeOut();
                         }
                         else {
                             showPopupAlert("Account couldn't be verified.");
@@ -269,7 +287,7 @@ $userExists = $userObj->fetch($userId, "all");
 
             // unverify user
             $('#unverify-user-btn').click(function () {
-                const user_id = <?= $userId ?>;
+                var user_id = <?= $userId ?>;
                 $.ajax({
                     url: '/rentrover/pages/admin/app/unverify-user.php',
                     type: "POST",
@@ -281,7 +299,12 @@ $userExists = $userObj->fetch($userId, "all");
                         // show alert
                         if (response) {
                             showPopupAlert("Account unverified.");
-                            setTimeout(() => { location.reload() }, 2000);
+                            $('#unverify-user-btn').html("Unverified").prop('disabled', true);
+                            $('#verify-user-btn').fadeOut();
+                            setTimeout(() => {
+                                location.reload()
+                            }, 2000
+                            );
                         }
                         else {
                             showPopupAlert("Account couldn't be unverified.");

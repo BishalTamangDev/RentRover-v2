@@ -94,13 +94,15 @@ class Application
     public function checkApplication($applicantId, $roomId)
     {
         global $conn;
-        $query = "SELECT application_id FROM application_tb WHERE room_id = '$roomId' AND applicant_id = '$applicantId' LIMIT 1";
+        $list = [];
+        $query = "SELECT * FROM application_tb WHERE room_id = '$roomId' AND applicant_id = '$applicantId'";
         $result = $conn->query($query);
-        if ($result->num_rows == 1) {
-            $row = $result->fetch_assoc();
-            $this->applicationId = $row['application_id'];
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $list[] = $row;;
+            }
         }
-        return $result->num_rows > 0 ? true : false;
+        return $list;
     }
 
     // fetch application for a room
@@ -203,22 +205,6 @@ class Application
         }
 
         return $state;
-    }
-
-    // check if the tenant is eligible to apply for a room
-    public function eligibilityTestForTenantToApply($applicantId)
-    {
-        global $conn;
-        $eligible = true;
-        $query = "SELECT * FROM application_tb WHERE applicant_id = '$applicantId'";
-        $result = $conn->query($query);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                if ($row['flag'] == 'accepted')
-                    $eligible = false;
-            }
-        }
-        return $eligible;
     }
 
     // check if the applicant is the accepted one
@@ -432,7 +418,7 @@ class Application
     public function checkExpired($id)
     {
         global $conn;
-        $query = "SELECT application_date FROM application_tb WHERE application_id = '$id' AND flag != 'accepted' LIMIT 1";
+        $query = "SELECT application_date FROM application_tb WHERE application_id = '$id' AND flag = 'pending' LIMIT 1";
         $result = $conn->query($query);
         if ($result->num_rows == 1) {
             $dbData = $result->fetch_assoc();

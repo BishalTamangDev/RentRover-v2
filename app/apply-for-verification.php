@@ -15,4 +15,12 @@ $tempUser = new User();
 
 $status = $tempUser->applyForVerification($userId);
 
+if($status) {
+    // notification
+    // for admin
+    require_once __DIR__ . '/../classes/notification.php';
+    $notificationObj = new Notification();
+    $res = $notificationObj->applyForVerification($userId);
+}
+
 echo $status;

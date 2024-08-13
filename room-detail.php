@@ -59,7 +59,7 @@ if ($roomExists) {
     <?php
     if (!$roomExists) {
         ?>
-        <section class="container room-detail-container pb-5" style="margin-top: 5rem;">
+        <section class="container room-detail-container pb-5 main" style="margin-top: 5rem;">
             <p class="m-0 fs-1 fw-bold"> Room not found! </p>
         </section>
         <?php
@@ -203,21 +203,21 @@ if ($roomExists) {
                                 <td class="title"> Floor </td>
                                 <td class="data">
                                     <?php
-                                    echo $roomObj->floor;
                                     $x = $roomObj->floor % 10;
+                                    switch ($x) {
+                                        case 1:
+                                            echo '1<sup>st</sup>';
+                                            break;
+                                        case 2:
+                                            echo '2<sup>nd</sup>';
+                                            break;
+                                        case 3:
+                                            echo '3<sup>rd</sup>';
+                                            break;
+                                        default:
+                                            echo "$floor<sup>th</sup>";
+                                    }
                                     ?>
-                                    <sup>
-                                        <?php
-                                        if ($x == 1) {
-                                            echo "st";
-                                        } elseif ($x == 2) {
-                                            echo "nd";
-                                        } elseif ($x == 3) {
-                                            echo "rd";
-                                        } else {
-                                            echo "th";
-                                        }
-                                        ?> </sup> Floor
                                 </td>
                             </tr>
 

@@ -40,6 +40,7 @@ $page = "dashboard";
     <link rel="stylesheet" href="/rentrover/css/system-notice.css">
     <link rel="stylesheet" href="/rentrover/css/feedback.css">
     <link rel="stylesheet" href="/rentrover/css/aside.css">
+    <link rel="stylesheet" href="/rentrover/css/popup-alert.css">
     <link rel="stylesheet" href="/rentrover/css/dashboard.css">
 
     <!-- script -->
@@ -102,9 +103,16 @@ $page = "dashboard";
             </div>
         </div>
 
+        <!-- pie chart -->
+        <!-- chart container -->
+        <div class="chart-container mt-5">
+            <!-- user pie chart -->
+            <canvas id="room-pie-chart"> </canvas>
+        </div>
+
         <!-- latest system notices -->
-        <p class="mt-5 fw-semibold fs-3 heading"> Latest System Notice </p>
-        <section class="system-notice-container mt-3" id="system-notice-container">
+        <p class="d-none mt-5 fw-semibold fs-3 heading"> Latest System Notice </p>
+        <section class="d-none system-notice-container mt-3" id="system-notice-container">
             <!-- system notice -->
             <div class="system-notice">
                 <div class="top">
@@ -156,6 +164,11 @@ $page = "dashboard";
         </section>
     </main>
 
+    <!-- popup alert -->
+    <div class="popup-alert-container" id="popup-alert-container">
+        <p id="popup-message"> Popup alert content. </p>
+    </div>
+
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -166,6 +179,12 @@ $page = "dashboard";
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+    <!-- popup js -->
+    <script src="/rentrover/js/popup-alert.js"></script>
+
+    <!-- notification script -->
+    <script src="/rentrover/js/count-unseen-admin-notification.js"></script>
 
     <script>
         // room pie chart
@@ -210,7 +229,6 @@ $page = "dashboard";
             }
 
             loadLatestFeedback();
-
 
             // acquired rooms
             $.ajax({
