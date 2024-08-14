@@ -1,11 +1,18 @@
 <?php
 $applicationId = $_POST['applicationId'] ?? 0;
 
+if ($applicationId == 0) {
+    echo false;
+    exit;
+}
+
 require_once __DIR__ . '/../../../classes/application.php';
 require_once __DIR__ . '/../../../classes/room.php';
+require_once __DIR__ . '/../../../classes/notification.php';
 
-$tempApplication = new Application();
 $tempRoom = new Room();
+$tempApplication = new Application();
+$tempNotification = new Notification();
 
 $status = $tempApplication->accept($applicationId);
 
@@ -25,5 +32,12 @@ $tempApplication->fetch($applicationId);
 
 // set the other applications of applicant as expired
 $res3 = $tempApplication->expireApplicationOfApplicant($tempApplication->getApplicantId());
+
+$applicantId = $tempApplication->getApplicantId();
+
+// notification :: for accepted applicant
+if ($status) {
+    $res = $tempNotification->acceptApplication($applicantId, $roomId);
+}
 
 echo $status;

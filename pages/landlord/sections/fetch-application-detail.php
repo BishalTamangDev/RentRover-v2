@@ -63,12 +63,12 @@ $tempUser->fetch($tempApplication->getApplicantId(), "all");
                     <?php
                     if ($tempApplication->rentingType == 'fixed') {
                         ?>
-                                                    [Move In Date : <?= $tempApplication->date['moveIn'] ?> to Move out Date : <?= $tempApplication->date['moveOut'] ?>]
-                                                    <?php
+                                                            [Move In Date : <?= $tempApplication->date['moveIn'] ?> to Move out Date : <?= $tempApplication->date['moveOut'] ?>]
+                                                            <?php
                     } else {
                         ?>
-                                                    [Move In Date : <?= $tempApplication->date['moveIn'] ?>]
-                                                    <?php
+                                                            [Move In Date : <?= $tempApplication->date['moveIn'] ?>]
+                                                            <?php
                     }
                     ?>
                 </code>
@@ -109,9 +109,8 @@ if ($tempApplication->flag == 'pending') {
     <div class="action mt-2 d-flex flex-row flex-wrap row-gap-2 column-gap-2">
         <!-- check if already added as a tenant -->
         <?php
-        $isTenant = $tempRoom->checkIfTenant($tempApplication->roomId, $tempApplication->getApplicantId());
+        $isTenant = $tempRoom->checkIfTenant($tempApplication->getApplicantId(), $tempApplication->roomId);
         if ($isTenant) {
-
             ?>
             <button type="button" class="btn btn-success"> <i class="fa fa-check"></i> Accepted as Tenant </button>
             <?php
@@ -119,8 +118,8 @@ if ($tempApplication->flag == 'pending') {
             ?>
             <button type="button" class="btn btn-success" id="make-tenant-btn" data-room-id="<?= $tempApplication->roomId ?>"
                 data-applicant-id="<?= $tempApplication->getApplicantId() ?>"> Make Tenant </button>
-            <button type="button" class="btn btn-outline-danger" id="reject-application-btn" data-id="<?= $applicationId ?>"> <i
-                    class="fa fa-multiply"></i> Cancel Application </button>
+            <!-- <button type="button" class="btn btn-outline-danger" id="reject-application-btn" data-id="<?= $applicationId ?>"> <i
+                    class="fa fa-multiply"></i> Cancel Application </button> -->
             <?php
         }
         ?>

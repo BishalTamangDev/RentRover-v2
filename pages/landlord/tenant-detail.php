@@ -175,7 +175,7 @@ $histories = $tenancyObj->fetchHistoryForLandlord($roomIdList);
 
             <!-- check if current tenant -->
             <?php
-            if($moveOutDate == 'Still Residing') {
+            if ($moveOutDate == 'Still Residing') {
                 ?>
                 <!-- action -->
                 <button class="btn btn-danger fit-content py-1 mt-3" data-room-id="<?= $currentRoom ?>"
@@ -208,14 +208,18 @@ $histories = $tenancyObj->fetchHistoryForLandlord($roomIdList);
     <script>
         $(document).ready(function () {
             $('#remove-tenant-btn').click(function () {
-                room_id = $(this).data('room-id');
-                tenant_id = $(this).data('tenant-id');
+                var room_id = $(this).data('room-id');
+                var tenant_id = $(this).data('tenant-id');
 
                 $.ajax({
                     url: '/rentrover/pages/landlord/app/remove-tenant.php',
-                    'data': { tenantId: tenant_id, roomId: room_id },
+                    data: { tenantId: tenant_id, roomId: room_id },
                     type: "POST",
+                    beforeSend: function () {
+                        $('#remove-tenant-btn').html("Removing...").prop('disabled', true);
+                    },
                     success: function (response) {
+                        console.log(response);
                         if (response == true) {
                             $('#remove-tenant-btn').html("Tenant Removed").prop('disabled', true);
                         }

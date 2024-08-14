@@ -51,6 +51,9 @@ foreach ($applicationList as $application) {
         case 'expired':
             $statusClass = "expired-row";
             break;
+        case 'accepted-expired':
+            $statusClass = "accepted-expired-row";
+            break;
         default:
             $statusClass = "pending-row";
     }

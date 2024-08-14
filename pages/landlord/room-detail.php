@@ -250,8 +250,10 @@ $page = "rooms";
                                 <a href="/rentrover/landlord/edit-room/<?= $roomId ?>" type="button"
                                     class="btn btn-outlined-brand"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Edit
                                 </a>
+                                
                                 <button class="btn btn-danger" data-leave-application-id="" data-bs-toggle="modal"
                                     data-bs-target="#deleteRoomModal"> <i class="fa fa-trash"></i> Delete Room </button>
+
                             </div>
                         </div>
                     </div>

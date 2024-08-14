@@ -34,7 +34,11 @@ if (sizeof($list) == 0) {
         $specs = "";
         if ($tempRoom->type == 'bhk') {
             $specs = "$tempRoom->bhk BHK";
+        } else {
+            $specs = "$tempRoom->numberOfRoom Rooms";
         }
+
+        $specs .= ", ".$tempRoom->floor;
 
         $moveInDate = $history['move_in_date'];
         $moveOutDate = $history['move_out_date'] != '0000-00-00 00:00:00' ? $history['move_out_date'] : "Still Residing";
@@ -48,7 +52,7 @@ if (sizeof($list) == 0) {
                 </a>
             </td>
             <td> <?= $specs ?> </td>
-            <td class="text-success"> <?= "NRP. " . number_format($tempRoom->rent, 2) ?> </td>
+            <td class="text-success"> <?= "NPR. " . number_format($tempRoom->rent, 2) ?> </td>
             <td class="small text-secondary"> <?= $moveInDate ?> </td>
             <td class="small text-secondary"> <?= $moveOutDate ?> </td>
         </tr>

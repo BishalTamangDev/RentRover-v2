@@ -57,7 +57,7 @@ class Notification
         $this->feedbackId = $feedbackId;
     }
 
-    // account verification
+    // account :: verification
     public function applyForVerification($userId)
     {
         $this->userId = $userId;
@@ -67,7 +67,7 @@ class Notification
         return $res;
     }
 
-    // account verify
+    // account :: verify
     public function verifyAccount($userId)
     {
         $this->userId = $userId;
@@ -77,7 +77,7 @@ class Notification
         return $res;
     }
 
-    // account unverify
+    // account :: unverify
     public function unverifyAccount($userId)
     {
         $this->userId = $userId;
@@ -87,6 +87,57 @@ class Notification
         return $res;
     }
 
+
+    // room application :: apply
+    public function applyForRoom($applicantId, $roomId, $landlordId) {
+        $this->userId = $landlordId;
+        $this->tenantId = $applicantId;
+        $this->roomId = $roomId;
+        $this->whose = "user";
+        $this->type = "room-application-apply";
+        $res = $this->register();
+        return $res;
+    }
+
+    // room application :: accept
+    public function acceptApplication($userId, $roomId) {
+        $this->userId = $userId;
+        $this->roomId = $roomId;
+        $this->whose = "user";
+        $this->type = "room-application-accept";
+        $res = $this->register();
+        return $res;
+    }
+
+    // room application :: reject
+    public function rejectApplication($userId, $roomId) {
+        $this->userId = $userId;
+        $this->roomId = $roomId;
+        $this->whose = "user";
+        $this->type = "room-application-reject";
+        $res = $this->register();
+        return $res;
+    }
+
+    // room aplication :: make tenant
+    public function acceptAsTenant($userId, $roomId) {
+        $this->userId = $userId;
+        $this->roomId = $roomId;
+        $this->whose = "user";
+        $this->type = "accept-as-tenant";
+        $res = $this->register();
+        return $res;
+    }
+
+    // room aplication :: make tenant
+    public function removeTenant($userId, $roomId) {
+        $this->userId = $userId;
+        $this->roomId = $roomId;
+        $this->whose = "user";
+        $this->type = "remove-tenant";
+        $res = $this->register();
+        return $res;
+    }
 
     // register
     public function register()

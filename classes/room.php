@@ -448,7 +448,7 @@ class Room
     public function checkIfTenant($userId, $roomId)
     {
         global $conn;
-        $query = "SELECT flag FROM room_tb WHERE tenant_id = '$userId' AND room_id = '$roomId' LIMIT 1";
+        $query = "SELECT room_id FROM room_tb WHERE tenant_id = '$userId' AND room_id = '$roomId' LIMIT 1";
         $result = $conn->query($query);
         return $result->num_rows == 1 ? true : false;
     }
@@ -457,7 +457,7 @@ class Room
     public function removeTenant($roomId)
     {
         global $conn;
-        $query = "UPDATE room_tb SET tenant_id = '0' AND flag = 'verified' WHERE room_id = '$roomId'";
+        $query = "UPDATE room_tb SET tenant_id = '0', flag = 'verified' WHERE room_id = '$roomId'";
         $result = $conn->query($query);
         return $result ? true : false;
     }

@@ -5,4 +5,8 @@ $tempNotification = new Notification();
 
 $count = $tempNotification->countAdminUnseenNotification();
 
-echo $count > 9 ? "9<sup>+</sup>" : $count;
+if($count == 0) {
+    echo "";
+} else {
+    echo $count > 9 ? "9<sup>+</sup>" : $count;
+}

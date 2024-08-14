@@ -528,8 +528,8 @@ if ($roomExists) {
                             var timeDiff = move_out_date.getTime() - move_in_date.getTime();
                             var dayDiff = Math.round(timeDiff / (1000 * 60 * 60 * 24));
 
-                            if (dayDiff < 28) {
-                                $('#error-message').html("The minimun days for renting is 28 days.").show();
+                            if (dayDiff < 7) {
+                                $('#error-message').html("The minimun days for renting is 7 days.").show();
                             } else {
                                 $('#error-message').html("Valid").hide();
                                 var formData = $(this).serialize();
@@ -547,7 +547,7 @@ if ($roomExists) {
 
 
             function submitApplication(formData) {
-                console.clear();
+                // console.clear();
                 $.ajax({
                     url: '/rentrover/pages/tenant/app/apply-for-room.php',
                     type: "POST",
@@ -556,6 +556,7 @@ if ($roomExists) {
                         $('#room-application-btn').html("Applying..").prop('disabled', true);
                     },
                     success: function (response) {
+                        console.log(response);
                         if (response == true) {
                             $('#error-message').fadeOut();
                             $('#close-application-btn').click();

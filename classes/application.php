@@ -105,6 +105,20 @@ class Application
         return $list;
     }
 
+    // fetch application id by room and user
+    public function fetchLatestIdByRoomUser($roomId, $tenantId)
+    {
+        global $conn;
+        $id = 0;
+        $query = "SELECT application_id FROM application_tb WHERE room_id = '$roomId' AND applicant_id = '$tenantId' ORDER BY application_id DESC LIMIT 1";
+        $result = $conn->query($query);
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $id =$row['application_id'];
+        }
+        return $id;
+    }
+
     // fetch application for a room
     public function fetchForRoom($roomId)
     {
@@ -141,6 +155,16 @@ class Application
     {
         global $conn;
         $query = "UPDATE application_tb SET flag = 'accepted' WHERE application_id = '$applicationId'";
+        $result = $conn->query($query);
+        return $result;
+    }
+
+
+    // accepted expired
+    public function acceptedExpired($applicationId)
+    {
+        global $conn;
+        $query = "UPDATE application_tb SET flag = 'accepted-expired' WHERE application_id = '$applicationId'";
         $result = $conn->query($query);
         return $result;
     }
@@ -307,6 +331,24 @@ class Application
         $arrayString = "'" . implode("','", $roomIdList) . "'";
 
         $query = "SELECT application_id FROM application_tb WHERE room_id IN ($arrayString) AND flag = 'accepted'";
+        $result = $conn->query($query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $applicationList[] = $row;
+            }
+        }
+        return $applicationList;
+    }
+
+    // fetch all accepted expired application my room list
+    public function fetchAcceptedExpiredApplicationIdByRoomList($roomIdList)
+    {
+        global $conn;
+        $applicationList = [];
+
+        $arrayString = "'" . implode("','", $roomIdList) . "'";
+
+        $query = "SELECT application_id FROM application_tb WHERE room_id IN ($arrayString) AND flag = 'accepted-expired'";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {

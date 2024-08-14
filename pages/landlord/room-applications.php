@@ -90,6 +90,13 @@ $page = "room-applications";
                 <p class="title"> Cancelled </p>
                 <p class="data" id="cancelled-application-count"> 0 </p>
             </div>
+
+            <!-- cancelled -->
+            <div class="card-v2">
+                <p class="title"> Ex-tenant </p>
+                <p class="data" id="accepted-expired-application-count"> 0 </p>
+            </div>
+
         </section>
 
         <!-- filter -->
@@ -114,6 +121,7 @@ $page = "room-applications";
                     <option value="rejected"> Rejected </option>
                     <option value="cancelled"> Cancelled </option>
                     <option value="expired"> Expired </option>
+                    <option value="accepted-expired"> Ex-tenant </option>
                 </select>
             </div>
 
@@ -308,26 +316,37 @@ $page = "room-applications";
                         $('.rejected-row').hide();
                         $('.cancelled-row').hide();
                         $('.expired-row').hide();
+                        $('.accepted-expired-row').hide();
                     } else if (status == "accepted") {
                         $('.pending-row').hide();
                         $('.rejected-row').hide();
                         $('.cancelled-row').hide();
                         $('.expired-row').hide();
+                        $('.accepted-expired-row').hide();
                     } else if (status == "rejected") {
                         $('.pending-row').hide();
                         $('.accepted-row').hide();
                         $('.cancelled-row').hide();
                         $('.expired-row').hide();
+                        $('.accepted-expired-row').hide();
                     } else if (status == "cancelled") {
                         $('.pending-row').hide();
                         $('.accepted-row').hide();
                         $('.rejected-row').hide();
                         $('.expired-row').hide();
+                        $('.accepted-expired-row').hide();
                     } else if (status == "expired") {
                         $('.pending-row').hide();
                         $('.accepted-row').hide();
                         $('.rejected-row').hide();
                         $('.cancelled-row').hide();
+                        $('.accepted-expired-row').hide();
+                    } else if (status == "accepted-expired") {
+                        $('.pending-row').hide();
+                        $('.accepted-row').hide();
+                        $('.rejected-row').hide();
+                        $('.cancelled-row').hide();
+                        $('.expired-row').hide();
                     }
                 }
 
@@ -466,6 +485,14 @@ $page = "room-applications";
                         $('#cancelled-application-count').html(data);
                     }
                 });
+
+                // accepted expired || ex-tenant
+                $.ajax({
+                    url: '/rentrover/pages/landlord/app/count-accepted-expired-applications.php',
+                    success: function (data) {
+                        $('#accepted-expired-application-count').html(data);
+                    }
+                });
             }
 
             // make tenant btn
@@ -479,7 +506,7 @@ $page = "room-applications";
                     beforeSend: function () { },
                     success: function (response) {
                         console.log(response);
-                        if(response == true) {
+                        if (response == true) {
                             $('#make-tenant-btn').html("<i class='fa fa-check'> </i> Added as Tenant");
                             $('#reject-application-btn').fadeOut();
                         }
