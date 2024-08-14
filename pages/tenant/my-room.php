@@ -479,6 +479,8 @@ if ($roomExists) {
                             $('#issue-submit-btn').html("Submitting...").prop('disabled', true);
                         },
                         success: function (response) {
+                            console.log(response);
+                            
                             if (response == true) {
                                 $('#issue-modal-close').click();
                                 showPopupAlert("Issue has been submitted.");

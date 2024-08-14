@@ -244,6 +244,60 @@ if (sizeof($list) == 0) {
                     </div>
                 </div>
                 <?php
+            } elseif ($type == 'issue-submit') {
+                // submit issue
+                $tempUser->fetch($tenantId, "mandatory");
+                $tenantName = $tempUser->getFullName();
+
+                $link = "/rentrover/landlord/issues/";
+                
+                $tempRoom->fetch($roomId);
+
+                $location = $tempHouse->getAddress();
+                ?>
+                <!-- account unverified -->
+                <div class="notification <?=$statusClass?>" onclick="window.location.href='<?=$link?>'">
+                    <!-- icon -->
+                    <div class="notification-icon">
+                        <img src="/rentrover/assets/icons/notifications/issue-submit.png" alt="">
+                    </div>
+
+                    <!-- details -->
+                    <div class="notification-details">
+                        <!-- detail -->
+                        <p class="note"> <?=$tenantName?> reported an issue in the room number <span class="text-danger">
+                                <?=$tempRoom->number?>
+                            </span>
+                        </p>
+
+                        <!-- date -->
+                        <p class="date"> <?=$date?> </p>
+                    </div>
+                </div>
+                <?php
+            } elseif ($type == 'issue-solved') {
+                // issue solved
+                $link = "/rentrover/tenant/profile/issues";                
+                $tempRoom->fetch($roomId);
+                ?>
+                <!-- account unverified -->
+                <div class="notification <?=$statusClass?>" onclick="window.location.href='<?=$link?>'">
+                    <!-- icon -->
+                    <div class="notification-icon">
+                        <img src="/rentrover/assets/icons/notifications/issue-submit.png" alt="">
+                    </div>
+
+                    <!-- details -->
+                    <div class="notification-details">
+                        <!-- detail -->
+                        <p class="note"> Issue for the room number <span class="text-danger"> <?=$tempRoom->number?> </span> has been solved.
+                        </p>
+
+                        <!-- date -->
+                        <p class="date"> <?=$date?> </p>
+                    </div>
+                </div>
+                <?php
             }
             ?>
             

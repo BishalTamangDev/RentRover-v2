@@ -111,7 +111,7 @@ $page = "issues";
 
                 <tfoot id="empty-data-foot">
                     <tr>
-                        <td colspan="9"> No data found! </td>
+                        <td colspan="9"> No issues recorded! </td>
                     </tr>
                 </tfoot>
             </table>

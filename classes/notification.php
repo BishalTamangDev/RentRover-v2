@@ -129,7 +129,7 @@ class Notification
         return $res;
     }
 
-    // room aplication :: make tenant
+    // room aplication :: remove tenant
     public function removeTenant($userId, $roomId) {
         $this->userId = $userId;
         $this->roomId = $roomId;
@@ -139,6 +139,27 @@ class Notification
         return $res;
     }
 
+    // issue :: submit
+    public function issueSubmit($landlordId, $roomId, $tenantId) {
+        $this->userId = $landlordId;
+        $this->roomId = $roomId;
+        $this->tenantId = $tenantId;
+        $this->whose = "user";
+        $this->type = "issue-submit";
+        $res = $this->register();
+        return $res;
+    }
+
+    // issue :: solve
+    public function issueSolved($roomId, $tenantId) {
+        $this->userId = $tenantId;
+        $this->roomId = $roomId;
+        $this->tenantId = $tenantId;
+        $this->whose = "user";
+        $this->type = "issue-solved";
+        $res = $this->register();
+        return $res;
+    }
     // register
     public function register()
     {

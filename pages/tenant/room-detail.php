@@ -547,7 +547,6 @@ if ($roomExists) {
 
 
             function submitApplication(formData) {
-                // console.clear();
                 $.ajax({
                     url: '/rentrover/pages/tenant/app/apply-for-room.php',
                     type: "POST",
