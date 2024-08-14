@@ -182,6 +182,15 @@ class Notification
         return $res;
     }
 
+    // room notice
+    public function feedbackSubmit($userId){
+        $this->userId = $userId;
+        $this->whose = "admin";
+        $this->type = "feedback-submit";
+        $res = $this->register();
+        return $res;
+    }
+
     // register
     public function register()
     {

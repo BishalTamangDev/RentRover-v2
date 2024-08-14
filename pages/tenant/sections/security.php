@@ -2,7 +2,6 @@
 <div class="d-flex flex-column border rounded user-profile-container profile-content">
     <div class="d-flex flex-row justify-content-between align-items-center">
         <p class="m-0 fs-4 fw-semibold"> Change Password </p>
-        <a href="/rentrover/tenant/profile/" class="btn btn-danger"> Cancel </a>
     </div>
 
     <!-- password change form -->

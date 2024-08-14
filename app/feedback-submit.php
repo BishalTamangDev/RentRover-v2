@@ -10,8 +10,10 @@ if ($userId == 0) {
 }
 
 require_once __DIR__ . '/../classes/feedback.php';
+require_once __DIR__ . '/../classes/notification.php';
 
 $tempFeedback = new Feedback();
+$tempNotification = new Notification();
 
 global $conn;
 
@@ -20,5 +22,9 @@ $tempFeedback->feedback = mysqli_real_escape_string($conn, $_POST['feedback-feed
 $tempFeedback->rating = $_POST['feedback-rating'];
 
 $status = $tempFeedback->register();
+
+if($status) {
+    $res = $tempNotification->feedbackSubmit($userId);
+}
 
 echo $status;

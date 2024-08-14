@@ -60,7 +60,7 @@ if (!isset($page))
             </div>
 
             <!-- container -->
-            <div class="position-absolute flex-column shadow notification-container" id="notification-container">
+            <div class="position-absolute flex-column shadow-lg rounded notification-container" id="notification-container">
                 <div class="d-flex flex-row justify-content-between p-3 border-bottom notification-heading">
                     <div class="d-flex flex-column gap-1 title">
                         <h5 class="m-0"> Notifications </h5>

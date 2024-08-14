@@ -19,7 +19,7 @@ if (sizeof($list) == 0) {
         $photo = $tempUser->profilePhoto;
         $rating = $feedback['rating'];
         ?>
-        <div class="user-feedback">
+        <div class="user-feedback w-100 w-md-50">
             <div class="user-feedback-top">
                 <div class="img-div">
                     <img src="/rentrover/uploads/users/<?= $photo ?>" alt="">
