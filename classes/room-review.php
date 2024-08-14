@@ -73,7 +73,7 @@ class Review
     {
         global $conn;
         $list = [];
-        $query = "SELECT * FROM review_tb WHERE room_id = '$roomId' ORDER BY review_id DESC ";
+        $query = "SELECT * FROM review_tb WHERE room_id = '$roomId' ORDER BY review_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {

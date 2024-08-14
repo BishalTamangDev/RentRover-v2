@@ -1,5 +1,3 @@
-var notification_count = 0;
-
 function countAdminNotification() {
     $.ajax({
         url: '/rentrover/pages/admin/app/count-admin-unseen-notification.php',

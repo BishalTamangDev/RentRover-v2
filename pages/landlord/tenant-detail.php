@@ -157,12 +157,12 @@ $histories = $tenancyObj->fetchHistoryForLandlord($roomIdList);
                         <div class="mt-2">
                             <table>
                                 <tr>
-                                    <th> Move in Date </th>
+                                    <td> Move in Date </td>
                                     <td class="px-3 fw-semibold"> <?= $moveInDate ?> </td>
                                 </tr>
 
                                 <tr>
-                                    <th> Move out Date </th>
+                                    <td> Move out Date </td>
                                     <td class="px-3 fw-semibold"> <?= $moveOutDate ?> </td>
                                 </tr>
                             </table>

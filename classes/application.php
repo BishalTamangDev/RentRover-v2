@@ -124,7 +124,7 @@ class Application
     {
         global $conn;
         $applicationList = [];
-        $query = "SELECT * FROM application_tb WHERE room_id = '$roomId'";
+        $query = "SELECT * FROM application_tb WHERE room_id = '$roomId' ORDER BY application_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -294,7 +294,7 @@ class Application
 
         $arrayString = "'" . implode("','", $roomIdList) . "'";
 
-        $query = "SELECT application_id FROM application_tb WHERE room_id IN ($arrayString)";
+        $query = "SELECT application_id FROM application_tb WHERE room_id IN ($arrayString) ORDER BY application_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -312,7 +312,7 @@ class Application
 
         $arrayString = "'" . implode("','", $roomIdList) . "'";
 
-        $query = "SELECT application_id FROM application_tb WHERE room_id IN ($arrayString) AND flag = 'pending'";
+        $query = "SELECT application_id FROM application_tb WHERE room_id IN ($arrayString) AND flag = 'pending' ORDER BY application_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {

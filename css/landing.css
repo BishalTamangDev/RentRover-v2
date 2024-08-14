@@ -16,16 +16,43 @@
   background-color: rgba(255, 255, 255, 0.8);
 }
 
-.service-container .service img {
-  height: 100px;
-  width: 100px;
+.service-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.service-container .service {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 3rem 2rem;
+}
+.service-container .service i {
+  font-size: 7rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.service-container .service p {
+  margin: 0;
+}
+.service-container .service .service-title {
+  font-weight: 600;
+}
+.service-container .service .service-title {
+  font-size: 2rem;
+  justify-content: justify;
+}
+.service-container .odd-service {
+  background-color: black;
+  color: white;
+}
+.service-container .even-service {
+  background-color: white;
+  color: black;
 }
 
 @media (min-width: 768px) {
   .service {
-    width: 30%;
-  }
-  .service img {
-    width: 80px;
+    width: 50%;
   }
 }/*# sourceMappingURL=landing.css.map */

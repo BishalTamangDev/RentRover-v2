@@ -50,24 +50,19 @@ if (sizeof($list) == 0) {
         $link = '/rentrover/tenant/';
         ?>
             <?php
-            // account verified
             if ($type == 'account-verified') {
+                // account verified
                 $tempUser->fetch($userId, "mandatory");
                 $link = $tempUser->role == 'tenant' ? "/rentrover/tenant/profile" : "/rentrover/landlord/profile";
                 ?>
-                <!-- account verified -->
-                <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                    <!-- icon -->
+                <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                    data-notification-id="<?= $id ?>">
                     <div class="notification-icon">
                         <img src="/rentrover/assets/icons/notifications/verified.png" alt="">
                     </div>
 
-                    <!-- details -->
                     <div class="notification-details">
-                        <!-- detail -->
                         <p class="note"> Your account has been verified. Now you can apply for any room you like. </p>
-
-                        <!-- date -->
                         <p class="date"> <?= $date ?> </p>
                     </div>
                 </div>
@@ -77,17 +72,14 @@ if (sizeof($list) == 0) {
                 $tempUser->fetch($userId, "mandatory");
                 $link = $tempUser->role == 'tenant' ? "/rentrover/tenant/profile" : "/rentrover/landlord/profile";
                 ?>
-                <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                    <!-- icon -->
+                <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                    data-notification-id="<?= $id ?>">
                     <div class="notification-icon">
                         <img src="/rentrover/assets/icons/notifications/unverified.png" alt="">
                     </div>
 
                     <div class="notification-details">
-                        <!-- detail -->
                         <p class="note"> Your account is unverified. Please update your profile detail. </p>
-
-                        <!-- date -->
                         <p class="date"> <?= $date ?> </p>
                     </div>
                 </div>
@@ -98,18 +90,13 @@ if (sizeof($list) == 0) {
                 $applicantName = $tempUser->getFullName();
                 $link = "/rentrover/landlord/room-applications";
                 ?>
-                <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                    <!-- icon -->
+                <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                    data-notification-id="<?= $id ?>">
                     <div class="notification-icon">
                         <img src="/rentrover/assets/icons/notifications/room-application-apply.png" alt="">
                     </div>
-
-                    <!-- details -->
                     <div class="notification-details">
-                        <!-- detail -->
                         <p class="note"> <?= $applicantName ?> applied for your room. </p>
-
-                        <!-- date -->
                         <p class="date"> <?= $date ?> </p>
                     </div>
                 </div>
@@ -127,23 +114,18 @@ if (sizeof($list) == 0) {
 
                 $location = $tempHouse->getAddress();
                 ?>
-                <!-- account unverified -->
-                <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                    <!-- icon -->
+                <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                    data-notification-id="<?= $id ?>">
                     <div class="notification-icon">
                         <img src="/rentrover/assets/icons/notifications/room-application-accept.png" alt="">
                     </div>
 
-                    <!-- details -->
                     <div class="notification-details">
-                        <!-- detail -->
                         <p class="note"> Your application for
                             <span class="text-secondary">
                                 <?= $location ?> has been accepted.
                             </span>
                         </p>
-
-                        <!-- date -->
                         <p class="date"> <?= $date ?> </p>
                     </div>
                 </div>
@@ -159,23 +141,17 @@ if (sizeof($list) == 0) {
 
                 $location = $tempHouse->getAddress();
                 ?>
-                <!-- account unverified -->
-                <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                    <!-- icon -->
+                <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                    data-notification-id="<?= $id ?>">
                     <div class="notification-icon">
                         <img src="/rentrover/assets/icons/notifications/room-application-reject.png" alt="">
                     </div>
-
-                    <!-- details -->
                     <div class="notification-details">
-                        <!-- detail -->
                         <p class="note"> Your application for
                             <span class="text-secondary">
                                 <?= $location ?> has been rejected.
                             </span>
                         </p>
-
-                        <!-- date -->
                         <p class="date"> <?= $date ?> </p>
                     </div>
                 </div>
@@ -191,29 +167,23 @@ if (sizeof($list) == 0) {
 
                 $location = $tempHouse->getAddress();
                 ?>
-                <!-- account unverified -->
-                <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                    <!-- icon -->
+                <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                    data-notification-id="<?= $id ?>">
                     <div class="notification-icon">
                         <img src="/rentrover/assets/icons/notifications/accept-as-tenant.png" alt="">
                     </div>
-
-                    <!-- details -->
                     <div class="notification-details">
-                        <!-- detail -->
                         <p class="note"> You have been added as a tenant for
                             <span class="text-secondary">
                                 <?= $location ?> has been rejected.
                             </span>
                         </p>
-
-                        <!-- date -->
                         <p class="date"> <?= $date ?> </p>
                     </div>
                 </div>
                 <?php
             } elseif ($type == 'remove-tenant') {
-                // accept as tenant
+                // remove tenant
     
                 $link = "/rentrover/tenant/room-detail/$roomId";
 
@@ -223,23 +193,17 @@ if (sizeof($list) == 0) {
 
                 $location = $tempHouse->getAddress();
                 ?>
-                <!-- account unverified -->
-                <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                    <!-- icon -->
+                <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                    data-notification-id="<?= $id ?>">
                     <div class="notification-icon">
                         <img src="/rentrover/assets/icons/notifications/remove-tenant.png" alt="">
                     </div>
-
-                    <!-- details -->
                     <div class="notification-details">
-                        <!-- detail -->
                         <p class="note"> You have been removed as a tenant from
                             <span class="text-secondary">
                                 <?= $location ?> room.
                             </span>
                         </p>
-
-                        <!-- date -->
                         <p class="date"> <?= $date ?> </p>
                     </div>
                 </div>
@@ -255,22 +219,16 @@ if (sizeof($list) == 0) {
 
                 $location = $tempHouse->getAddress();
                 ?>
-                <!-- account unverified -->
-                <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                    <!-- icon -->
+                <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                    data-notification-id="<?= $id ?>">
                     <div class="notification-icon">
                         <img src="/rentrover/assets/icons/notifications/issue-submit.png" alt="">
                     </div>
-
-                    <!-- details -->
                     <div class="notification-details">
-                        <!-- detail -->
                         <p class="note"> <?= $tenantName ?> reported an issue in the room number <span class="text-danger">
                                 <?= $tempRoom->number ?>
                             </span>
                         </p>
-
-                        <!-- date -->
                         <p class="date"> <?= $date ?> </p>
                     </div>
                 </div>
@@ -280,27 +238,21 @@ if (sizeof($list) == 0) {
                 $link = "/rentrover/tenant/profile/issues";
                 $tempRoom->fetch($roomId);
                 ?>
-                <!-- account unverified -->
-                <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                    <!-- icon -->
+                <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                    data-notification-id="<?= $id ?>">
                     <div class="notification-icon">
                         <img src="/rentrover/assets/icons/notifications/issue-submit.png" alt="">
                     </div>
-
-                    <!-- details -->
                     <div class="notification-details">
-                        <!-- detail -->
                         <p class="note"> Issue for the room number <span class="text-danger"> <?= $tempRoom->number ?> </span> has
                             been solved.
                         </p>
-
-                        <!-- date -->
                         <p class="date"> <?= $date ?> </p>
                     </div>
                 </div>
                 <?php
             } elseif ($type == 'leave-application-submit') {
-                // issue solved
+                // leave application submit
                 $link = "/rentrover/landlord/leave-applications";
                 $tempUser->fetch($tenantId, "mandatory");
 
@@ -308,41 +260,31 @@ if (sizeof($list) == 0) {
 
                 $tempRoom->fetch($roomId);
                 ?>
-                <!-- account unverified -->
-                <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                    <!-- icon -->
+                <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                    data-notification-id="<?= $id ?>">
                     <div class="notification-icon">
                         <img src="/rentrover/assets/icons/notifications/leave-application-submit.png" alt="">
                     </div>
-
-                    <!-- details -->
                     <div class="notification-details">
-                        <!-- detail -->
-                        <p class="note"> <span class="text-danger"> <?= $tenantName ?> </span> submitted the leave application for the
+                        <p class="note"> <span class="text-danger"> <?= $tenantName ?> </span> submitted the leave application for
+                            the
                             room number <span class="text-danger"> <?= $tempRoom->number ?> </span>.
                         </p>
-
-                        <!-- date -->
                         <p class="date"> <?= $date ?> </p>
                     </div>
                 </div>
                 <?php
             } elseif ($type == 'room-notice') {
-                // issue solved
+                // room notice
                 $link = "/rentrover/tenant/profile/room-notices";
                 ?>
-                <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                    <!-- icon -->
+                <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                    data-notification-id="<?= $id ?>">
                     <div class="notification-icon">
                         <img src="/rentrover/assets/icons/notifications/room-notice.png" alt="">
                     </div>
-
-                    <!-- details -->
                     <div class="notification-details">
-                        <!-- detail -->
                         <p class="note"> Your landlord has a notice. </p>
-
-                        <!-- date -->
                         <p class="date"> <?= $date ?> </p>
                     </div>
                 </div>
@@ -351,7 +293,7 @@ if (sizeof($list) == 0) {
             ?>
 
             <!-- backup notification -->
-            <div class="d-none d-flex flex-row gap-2 notification">
+            <div class="d-none notification notification-card" data-notification-id="">
                 <!-- icon -->
                 <div class="notification-icon">
                     <img src="/rentrover/assets/icons/notifications/verified.png" alt="">

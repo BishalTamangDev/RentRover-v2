@@ -1,4 +1,4 @@
-<div class="d-flex flex-column border rounded tenancy-history-container profile-content">
+<div class="d-flex flex-column tenancy-history-container profile-content">
     <p class="m-0 fs-4 fw-semibold"> Tenancy History </p>
     <div class="table-container">
         <table class="mt-4 table-striped table">

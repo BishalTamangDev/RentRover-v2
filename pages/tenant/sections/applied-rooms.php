@@ -1,4 +1,4 @@
-<div class="d-flex flex-column border rounded applied-room-container profile-content">
+<div class="d-flex flex-column applied-room-container profile-content">
     <p class="m-0 fs-4 fw-semibold text-secondary"> Applied Rooms </p>
     <div class="table-container">
         <table class="mt-4 table-striped table">

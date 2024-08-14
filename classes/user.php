@@ -89,12 +89,12 @@ class User
     // get district && province
     public function getDistrictProvince()
     {
-        if($this->address['district'] != '' && $this->address['province'] != '') {
+        if ($this->address['district'] != '' && $this->address['province'] != '') {
             return ucfirst($this->address['district']) . ', ' . ucfirst($this->address['province']) . ' Province';
         } else {
-            if($this->address['district'] != '') {
+            if ($this->address['district'] != '') {
                 return ucfirst($this->address['district']);
-            } elseif($this->address['province'] != '') {
+            } elseif ($this->address['province'] != '') {
                 return ucfirst($this->address['province']) . ' Province';
             } else {
                 return '-';
@@ -105,9 +105,9 @@ class User
     // get full address
     public function getAddress()
     {
-        if($this->address['district'] != '' && $this->address['province'] != '') {
-            return  ucfirst($this->address['toleVillage']).', Ward-'.$this->address['ward'].', '.ucfirst($this->address['municipalityRural']).', '.ucfirst($this->address['district']) . ', ' . ucfirst($this->address['province']) . ' Province';
-        } 
+        if ($this->address['district'] != '' && $this->address['province'] != '') {
+            return ucfirst($this->address['toleVillage']) . ', Ward-' . $this->address['ward'] . ', ' . ucfirst($this->address['municipalityRural']) . ', ' . ucfirst($this->address['district']) . ', ' . ucfirst($this->address['province']) . ' Province';
+        }
     }
 
     // register
@@ -143,7 +143,7 @@ class User
         global $conn;
         $status = false;
 
-        $query = "SELECT email FROM user_tb WHERE email = '$email'";
+        $query = "SELECT email FROM user_tb WHERE email = '$email' LIMIT 1";
 
         $result = mysqli_query($conn, $query);
 
@@ -227,7 +227,7 @@ class User
     {
         global $conn;
         $userExists = false;
-        $query = $howMuch == "all" ? "SELECT * FROM user_tb WHERE user_id = '$userId' LIMIT 1" : "SELECT first_name, last_name, role, email, flag, profile_photo FROM user_tb WHERE user_id = '$userId'";
+        $query = $howMuch == "all" ? "SELECT * FROM user_tb WHERE user_id = '$userId' LIMIT 1" : "SELECT first_name, last_name, role, email, flag, profile_photo FROM user_tb WHERE user_id = '$userId' LIMIT 1";
         $result = mysqli_query($conn, $query);
 
         if ($result->num_rows > 0) {
@@ -285,7 +285,7 @@ class User
         $query = "UPDATE user_tb SET kyc_front = '$kycFront', kyc_back = '$kycBack' WHERE user_id = '$this->userId'";
         $result = mysqli_query($conn, $query);
         return $result ? true : false;
-    } 
+    }
 
     // check if the account is eligible to apply for verification
     public function checkAccountEligibilityForVerification($userId)
@@ -307,7 +307,8 @@ class User
     }
 
     // apply for verificaion :: set flag to on-hold
-    public function applyForVerification($userId){
+    public function applyForVerification($userId)
+    {
         global $conn;
         $query = "UPDATE user_tb SET flag = 'on-hold' WHERE user_id = '$userId'";
         $result = $conn->query($query);
@@ -319,7 +320,7 @@ class User
     {
         global $conn;
         $userIdList = [];
-        $query = "SELECT user_id FROM user_tb";
+        $query = "SELECT user_id FROM user_tb ORDER BY user_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -395,7 +396,7 @@ class User
     {
         global $conn;
         $searchedUsers = [];
-        $query = "SELECT * FROM user_tb WHERE user_id = '$content' OR first_name LIKE '%$content%' OR last_name LIKE '%$content%' OR email LIKE '%$content%' OR phone_number LIKE '%$content%'";
+        $query = "SELECT * FROM user_tb WHERE user_id = '$content' OR first_name LIKE '%$content%' OR last_name LIKE '%$content%' OR email LIKE '%$content%' OR phone_number LIKE '%$content%' ORDER BY room_id DESC";
         $result = mysqli_query($conn, $query);
         if ($result->num_rows > 0) {
             while ($dbData = $result->fetch_assoc()) {

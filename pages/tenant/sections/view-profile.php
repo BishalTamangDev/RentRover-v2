@@ -10,7 +10,7 @@ if (!isset($tab))
     $tab = "view";
 ?>
 
-<div class="d-flex flex-column border rounded user-profile-container profile-content">
+<div class="d-flex flex-column user-profile-container profile-content">
     <p class="m-0 fs-4 fw-semibold"> Profile Information </p>
     <p class="m-0 small"> Manage your Account details </p>
 

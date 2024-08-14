@@ -221,7 +221,7 @@ class Room
 
         $arrayString = "'" . implode("','", $houseList) . "'";
 
-        $query = "SELECT room_id FROM room_tb WHERE house_id IN ($arrayString)";
+        $query = "SELECT room_id FROM room_tb WHERE house_id IN ($arrayString) ORDER BY room_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -239,7 +239,7 @@ class Room
 
         $arrayString = "'" . implode("','", $houseList) . "'";
 
-        $query = "SELECT * FROM room_tb WHERE house_id IN ($arrayString)";
+        $query = "SELECT * FROM room_tb WHERE house_id IN ($arrayString) ORDER BY room_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -319,7 +319,7 @@ class Room
     public function update()
     {
         global $conn;
-        $query = "UPDATE room_tb SET house_id = '$this->houseId', type = '$this->type', bhk = '$this->bhk', number_of_room = '$this->numberOfRoom', number = '$this->number', furnishing = '$this->furnishing', floor = '$this->floor', rent = '$this->rent', info = '$this->info' WHERE room_id = '$this->roomId'";
+        $query = "UPDATE room_tb SET house_id = '$this->houseId', type = '$this->type', bhk = '$this->bhk', number_of_room = '$this->numberOfRoom', number = '$this->number', furnishing = '$this->furnishing', floor = '$this->floor', rent = '$this->rent', info = '$this->info' WHERE room_id = '$this->roomId' LIMIT";
         $result = $conn->query($query);
         return $result ? true : false;
     }
@@ -384,7 +384,7 @@ class Room
     {
         global $conn;
         $roomIdList = [];
-        $query = "SELECT room_id FROM room_tb WHERE house_id = '$houseId'";
+        $query = "SELECT room_id FROM room_tb WHERE house_id = '$houseId' ORDER BY room_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -399,7 +399,7 @@ class Room
     {
         global $conn;
         $roomList = [];
-        $query = "SELECT * FROM room_tb WHERE house_id = '$houseId'";
+        $query = "SELECT * FROM room_tb WHERE house_id = '$houseId' ORDER BY room_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -413,7 +413,7 @@ class Room
     public function updateFlag($roomId, $flag)
     {
         global $conn;
-        $query = "UPDATE room_tb SET flag = '$flag' WHERE room_id = '$roomId'";
+        $query = "UPDATE room_tb SET flag = '$flag' WHERE room_id = '$roomId' LIMIT 1";
         $result = $conn->query($query);
         return $query;
     }
@@ -457,7 +457,7 @@ class Room
     public function removeTenant($roomId)
     {
         global $conn;
-        $query = "UPDATE room_tb SET tenant_id = '0', flag = 'verified' WHERE room_id = '$roomId'";
+        $query = "UPDATE room_tb SET tenant_id = '0', flag = 'verified' WHERE room_id = '$roomId' LIMIT 1";
         $result = $conn->query($query);
         return $result ? true : false;
     }

@@ -111,7 +111,7 @@ class Admin
         global $conn;
         $status = false;
 
-        $query = "SELECT * FROM admin_tb WHERE email = '$email'";
+        $query = "SELECT * FROM admin_tb WHERE email = '$email' LIMIT 1";
 
         $result = mysqli_query($conn, $query);
 
@@ -190,7 +190,7 @@ class Admin
     {
         global $conn;
 
-        $query = $howMuch == "all" ? "SELECT * FROM admin_tb WHERE admin_id = '$adminId' LIMIT 1" : "SELECT first_name, email, flag, profile_photo FROM admin_tb WHERE admin_id = '$adminId'";
+        $query = $howMuch == "all" ? "SELECT * FROM admin_tb WHERE admin_id = '$adminId' LIMIT 1" : "SELECT first_name, email, flag, profile_photo FROM admin_tb WHERE admin_id = '$adminId' LIMIT 1";
         $result = mysqli_query($conn, $query);
 
         if ($result->num_rows > 0) {
@@ -216,7 +216,7 @@ class Admin
         $toleVillage = $this->address['tole-village'];
         $ward = $this->address['ward'];
 
-        if($this->profilePhoto != ""){
+        if ($this->profilePhoto != "") {
             $query = "UPDATE admin_tb SET first_name = '$firstName', last_name = '$lastName', gender = '$this->gender', dob = '$this->dob', phone_number = '$this->phoneNumber', province = '$province', district = '$district', municipality_rural = '$municipalityRural', tole_village = '$toleVillage', ward = '$ward', profile_photo = '$this->profilePhoto' WHERE admin_id = '$adminId'";
         } else {
             $query = "UPDATE admin_tb SET first_name = '$firstName', last_name = '$lastName', gender = '$this->gender', dob = '$this->dob', phone_number = '$this->phoneNumber', province = '$province', district = '$district', municipality_rural = '$municipalityRural', tole_village = '$toleVillage', ward = '$ward' WHERE admin_id = '$adminId'";
@@ -227,7 +227,8 @@ class Admin
         return $response ? true : false;
     }
 
-    public function updatePassword($password) {
+    public function updatePassword($password)
+    {
         $encNewPassword = password_hash($password, PASSWORD_BCRYPT);
         global $conn;
         $query = "UPDATE admin_tb SET password = '$encNewPassword' WHERE email = '$this->email'";

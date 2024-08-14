@@ -209,10 +209,10 @@ class House
 
     // fetch house id by landlord id
     public function fetchHouseIdByLandlordId($landlordId)
-    {        
+    {
         global $conn;
         $houseIdList = [];
-        $query = "SELECT house_id from house_tb WHERE landlord_id = '$landlordId'";
+        $query = "SELECT house_id from house_tb WHERE landlord_id = '$landlordId' ORDER BY house_id DESC";
         $result = $conn->query($query);
 
         if ($result->num_rows > 0) {
@@ -227,7 +227,7 @@ class House
     {
         global $conn;
         $houseList = [];
-        $query = "SELECT * from house_tb WHERE landlord_id = '$landlordId'";
+        $query = "SELECT * from house_tb WHERE landlord_id = '$landlordId' ORDER BY house_id DESC";
         $result = mysqli_query($conn, $query);
 
         if ($result->num_rows > 0) {
@@ -260,7 +260,7 @@ class House
     {
         global $conn;
         $searchedHouses = [];
-        $query = "SELECT * FROM house_tb WHERE house_id LIKE '%$content%' OR municipality_rural LIKE '%$content%' OR tole_village LIKE '%$content%'";
+        $query = "SELECT * FROM house_tb WHERE house_id LIKE '%$content%' OR municipality_rural LIKE '%$content%' OR tole_village LIKE '%$content%' ORDER BY house_id DESC";
         $result = mysqli_query($conn, $query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -284,7 +284,7 @@ class House
         $latitude = $this->coordinate['latitude'];
         $this->flag = "verified";
 
-        $query = "UPDATE house_tb SET longitude = '$longitude', latitude = '$latitude', district = '$district', municipality_rural = '$municipalityRural', tole_village = '$toleVillage', ward = '$ward', nearest_landmark = '$nearestLandmark', info = '$this->info', flag = '$this->flag' WHERE house_id = '$this->houseId'";
+        $query = "UPDATE house_tb SET longitude = '$longitude', latitude = '$latitude', district = '$district', municipality_rural = '$municipalityRural', tole_village = '$toleVillage', ward = '$ward', nearest_landmark = '$nearestLandmark', info = '$this->info', flag = '$this->flag' WHERE house_id = '$this->houseId' LIMIT 1";
 
         $result = mysqli_query($conn, $query);
 
@@ -341,7 +341,7 @@ class House
             $amenityQueryResult = $conn->query($amenityQuery);
 
             // delete photos
-            $photoFetchQuery = "SELECT * FROM house_photo_tb WHERE house_id = '$houseId'";
+            $photoFetchQuery = "SELECT * FROM house_photo_tb WHERE house_id = '$houseId' LIMIT";
             $photoFetchQueryResult = $conn->query($photoFetchQuery);
 
             if ($photoFetchQueryResult->num_rows > 0) {
@@ -362,7 +362,7 @@ class House
     {
         global $conn;
         $searchedHouses = [];
-        $query = "SELECT * FROM house_tb WHERE municipality_rural LIKE '%$content%' OR tole_village LIKE '%$content%' OR nearest_landmark LIKE '%$content%'";
+        $query = "SELECT * FROM house_tb WHERE municipality_rural LIKE '%$content%' OR tole_village LIKE '%$content%' OR nearest_landmark LIKE '%$content%' ORDER BY house_id DESC";
         $result = mysqli_query($conn, $query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {

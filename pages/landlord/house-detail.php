@@ -296,7 +296,6 @@ $page = "houses";
                 type: "POST",
                 data: { houseId: <?= $houseId ?> },
                 success: function (data) {
-                    console.log(data);
                     $('#house-room-container').html(data);
                 }
             });

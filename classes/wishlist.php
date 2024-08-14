@@ -18,13 +18,15 @@ class Wishlist
     }
 
     // setter
-    public function setUserId($userId) {
+    public function setUserId($userId)
+    {
         $this->userId = $userId;
     }
 
     // getter
-    public function getUserId(){
-        return  $this->userId;
+    public function getUserId()
+    {
+        return $this->userId;
     }
 
     // add to wishlist
@@ -59,7 +61,7 @@ class Wishlist
     {
         global $conn;
         $list = [];
-        $query = "SELECT room_id FROM wishlist_tb WHERE user_id = '$this->userId'";
+        $query = "SELECT room_id FROM wishlist_tb WHERE user_id = '$this->userId' ORDER BY room_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0)
             while ($row = $result->fetch_assoc())
@@ -68,12 +70,13 @@ class Wishlist
     }
 
     // count wishlist
-    public function count($userId){
+    public function count($userId)
+    {
         global $conn;
         $count = 0;
         $query = "SELECT COUNT(*) AS total_rows FROM wishlist_tb WHERE user_id = '$userId'";
         $result = $conn->query($query);
-        if ($result->num_rows > 0){
+        if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $count = $row['total_rows'];
         }

@@ -109,6 +109,9 @@ if (!isset($profileUser)) {
 <!-- notification js -->
 <script src="/rentrover/js/count-unseen-user-notification.js"></script>
 
+<!-- click notification >> status :: seen -->
+<script src="/rentrover/js/click-notification.js"></script>
+
 <script>
     function loadWishlistCount() {
         $.ajax({

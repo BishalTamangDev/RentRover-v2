@@ -79,7 +79,7 @@ class Tenancy
     public function fetchHistoryOfTenant($tenantId)
     {
         global $conn;
-        $query = "SELECT * FROM tenancy_tb WHERE tenant_id = '$tenantId'";
+        $query = "SELECT * FROM tenancy_tb WHERE tenant_id = '$tenantId' ORDER BY tenancy_id DESC";
         $result = $conn->query($query);
         $list = [];
         if ($result->num_rows > 0) {
@@ -98,7 +98,7 @@ class Tenancy
 
         $arrayString = "'" . implode("','", $roomList) . "'";
 
-        $query = "SELECT tenancy_id FROM tenancy_tb WHERE room_id IN ($arrayString)";
+        $query = "SELECT tenancy_id FROM tenancy_tb WHERE room_id IN ($arrayString) ORDER BY tenancy_id DESC";
         $result = $conn->query($query);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {

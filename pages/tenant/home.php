@@ -276,7 +276,6 @@ $searchContent = $searchState == "search" ? $_GET['search'] : '';
             }
 
             function search(s_content) {
-                console.log("Content : " + s_content);
                 $.ajax({
                     url: '/rentrover/pages/tenant/sections/search.php',
                     type: 'POST',
@@ -348,14 +347,6 @@ $searchContent = $searchState == "search" ? $_GET['search'] : '';
                 minRent = $('#filter-min-rent').val() != '' ? parseFloat($('#filter-min-rent').val()) : 0;
                 maxRent = $('#filter-max-rent').val() != '' && $('#filter-max-rent').val() != 0 ? parseFloat($('#filter-max-rent').val()) : Infinity;
                 floor = $('#filter-floor').val() != '' && $('#filter-floor').val() != 0 ? $('#filter-floor').val() : Infinity;
-
-                console.log(district);
-                console.log(roomType);
-                console.log(furnishing);
-                console.log(minRent);
-                console.log(maxRent);
-                console.log(floor);
-
 
                 if (minRent <= maxRent) {
                     filterRoom();

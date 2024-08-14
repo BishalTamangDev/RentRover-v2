@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2024 at 10:26 AM
+-- Generation Time: Aug 14, 2024 at 03:54 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -153,7 +153,7 @@ CREATE TABLE `application_tb` (
 --
 
 INSERT INTO `application_tb` (`application_id`, `applicant_id`, `room_id`, `renting_type`, `move_in_date`, `move_out_date`, `note`, `flag`, `application_date`) VALUES
-(5, 7, 2, 'not-fixed', '2024-08-15', '0000-00-00', 'This is the first room application form melina', 'accepted-expired', '2024-08-14 13:57:05');
+(6, 2, 2, 'not-fixed', '2024-08-15', '0000-00-00', 'First application', 'accepted-expired', '2024-08-14 14:22:18');
 
 -- --------------------------------------------------------
 
@@ -180,7 +180,10 @@ INSERT INTO `feedback_tb` (`feedback_id`, `user_id`, `feedback`, `rating`, `feed
 (4, 2, 'fouth feedback', 4, '2024-08-12 08:46:52'),
 (5, 2, 'fifth feedback', 5, '2024-08-12 08:47:00'),
 (6, 1, 'first feedback from rupak', 3, '2024-08-12 09:39:10'),
-(7, 11, 'Easy to find suitable rooms', 3, '2024-08-13 13:39:47');
+(7, 11, 'Easy to find suitable rooms', 3, '2024-08-13 13:39:47'),
+(8, 2, 'Feedback 8', 1, '2024-08-14 16:07:42'),
+(9, 2, 'Feedback 9', 2, '2024-08-14 16:08:20'),
+(10, 1, 'a', 1, '2024-08-14 19:14:30');
 
 -- --------------------------------------------------------
 
@@ -248,6 +251,13 @@ CREATE TABLE `issue_tb` (
   `flag` varchar(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `issue_tb`
+--
+
+INSERT INTO `issue_tb` (`issue_id`, `room_id`, `tenant_id`, `issue`, `issued_date`, `solved_date`, `flag`) VALUES
+(3, 2, 2, 'First issue', '2024-08-14 14:51:00', '2024-08-14 14:58:19', 'solved');
+
 -- --------------------------------------------------------
 
 --
@@ -262,6 +272,13 @@ CREATE TABLE `leave_application_tb` (
   `move_out_date` date NOT NULL,
   `submitted_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `leave_application_tb`
+--
+
+INSERT INTO `leave_application_tb` (`leave_id`, `tenant_id`, `room_id`, `note`, `move_out_date`, `submitted_date`) VALUES
+(1, 2, 2, 'first leave applciation', '2024-08-16', '2024-08-14 15:20:45');
 
 -- --------------------------------------------------------
 
@@ -278,6 +295,13 @@ CREATE TABLE `notice_tb` (
   `description` varchar(255) NOT NULL,
   `notice_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notice_tb`
+--
+
+INSERT INTO `notice_tb` (`notice_id`, `house_id`, `room_id`, `tenant_id`, `title`, `description`, `notice_date`) VALUES
+(1, 1, 2, 2, 'first notice title', 'this is the first notice for his room', '2024-08-14 15:40:25');
 
 -- --------------------------------------------------------
 
@@ -314,10 +338,17 @@ INSERT INTO `notification_tb` (`notification_id`, `whose`, `type`, `date`, `stat
 (7, 'user', 'account-unverified', '2024-08-14 10:26:39', 'unseen', 6, 0, 0, 0, 0, 0, 0, 0, 0),
 (8, 'admin', 'account-verification-apply', '2024-08-14 10:26:50', 'unseen', 6, 0, 0, 0, 0, 0, 0, 0, 0),
 (9, 'user', 'account-verified', '2024-08-14 10:26:57', 'unseen', 6, 0, 0, 0, 0, 0, 0, 0, 0),
-(33, 'user', 'room-application-apply', '2024-08-14 13:57:05', 'unseen', 1, 7, 2, 0, 0, 0, 0, 0, 0),
-(34, 'user', 'room-application-accept', '2024-08-14 13:57:16', 'unseen', 7, 0, 2, 0, 0, 0, 0, 0, 0),
-(35, 'user', 'accept-as-tenant', '2024-08-14 13:57:30', 'unseen', 7, 0, 2, 0, 0, 0, 0, 0, 0),
-(36, 'user', 'remove-tenant', '2024-08-14 14:00:08', 'unseen', 7, 0, 2, 0, 0, 0, 0, 0, 0);
+(37, 'user', 'room-application-apply', '2024-08-14 14:22:18', 'seen', 1, 2, 2, 0, 0, 0, 0, 0, 0),
+(38, 'user', 'room-application-accept', '2024-08-14 14:22:27', 'unseen', 2, 0, 2, 0, 0, 0, 0, 0, 0),
+(39, 'user', 'accept-as-tenant', '2024-08-14 14:22:36', 'unseen', 2, 0, 2, 0, 0, 0, 0, 0, 0),
+(41, 'user', 'issue-submit', '2024-08-14 14:51:00', 'unseen', 1, 2, 2, 0, 0, 0, 0, 0, 0),
+(42, 'user', 'issue-solved', '2024-08-14 14:58:19', 'seen', 2, 2, 2, 0, 0, 0, 0, 0, 0),
+(43, 'user', 'leave-application-submit', '2024-08-14 15:20:45', 'seen', 1, 2, 2, 0, 0, 0, 0, 0, 0),
+(44, 'user', 'room-notice', '2024-08-14 15:40:25', 'seen', 2, 0, 2, 0, 0, 0, 0, 0, 0),
+(45, 'admin', 'feedback-submit', '2024-08-14 16:07:42', 'unseen', 2, 0, 0, 0, 0, 0, 0, 0, 0),
+(46, 'admin', 'feedback-submit', '2024-08-14 16:08:20', 'unseen', 2, 0, 0, 0, 0, 0, 0, 0, 0),
+(47, 'user', 'remove-tenant', '2024-08-14 16:37:40', 'seen', 2, 0, 2, 0, 0, 0, 0, 0, 0),
+(48, 'admin', 'feedback-submit', '2024-08-14 19:14:30', 'unseen', 1, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -333,6 +364,14 @@ CREATE TABLE `review_tb` (
   `rating` int(11) NOT NULL,
   `review_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `review_tb`
+--
+
+INSERT INTO `review_tb` (`review_id`, `user_id`, `room_id`, `review`, `rating`, `review_date`) VALUES
+(1, 2, 2, 'First room review', 3, '2024-08-14 16:15:49'),
+(2, 2, 2, 'Second room review', 4, '2024-08-14 16:16:08');
 
 -- --------------------------------------------------------
 
@@ -416,7 +455,7 @@ CREATE TABLE `tenancy_tb` (
 --
 
 INSERT INTO `tenancy_tb` (`tenancy_id`, `tenant_id`, `room_id`, `move_in_date`, `move_out_date`) VALUES
-(5, 7, 2, '2024-08-14 13:57:30', '2024-08-14 14:00:08');
+(6, 2, 2, '2024-08-14 14:22:36', '2024-08-14 16:37:40');
 
 -- --------------------------------------------------------
 
@@ -482,7 +521,6 @@ CREATE TABLE `wishlist_tb` (
 
 INSERT INTO `wishlist_tb` (`wishlist_id`, `user_id`, `room_id`) VALUES
 (48, 12, 2),
-(54, 2, 3),
 (57, 7, 2);
 
 --
@@ -605,13 +643,13 @@ ALTER TABLE `amenity_tb`
 -- AUTO_INCREMENT for table `application_tb`
 --
 ALTER TABLE `application_tb`
-  MODIFY `application_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `application_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `feedback_tb`
 --
 ALTER TABLE `feedback_tb`
-  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `house_photo_tb`
@@ -629,31 +667,31 @@ ALTER TABLE `house_tb`
 -- AUTO_INCREMENT for table `issue_tb`
 --
 ALTER TABLE `issue_tb`
-  MODIFY `issue_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `issue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `leave_application_tb`
 --
 ALTER TABLE `leave_application_tb`
-  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `notice_tb`
 --
 ALTER TABLE `notice_tb`
-  MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `notification_tb`
 --
 ALTER TABLE `notification_tb`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `review_tb`
 --
 ALTER TABLE `review_tb`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `room_photo_tb`
@@ -671,7 +709,7 @@ ALTER TABLE `room_tb`
 -- AUTO_INCREMENT for table `tenancy_tb`
 --
 ALTER TABLE `tenancy_tb`
-  MODIFY `tenancy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `tenancy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user_tb`
@@ -683,7 +721,7 @@ ALTER TABLE `user_tb`
 -- AUTO_INCREMENT for table `wishlist_tb`
 --
 ALTER TABLE `wishlist_tb`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

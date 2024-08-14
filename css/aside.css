@@ -105,7 +105,6 @@ header .notification-section .notification-container .notification {
 }
 header .notification-section .notification-container .notification:hover {
   cursor: pointer;
-  background-color: whitesmoke;
 }
 header .notification-section .notification-container .notification .notification-icon {
   width: 30px;

@@ -68,10 +68,10 @@ $tempPhotoSrc = '/rentrover/uploads/blank.jpg';
                 </li>
                 <li class="<?php if ($tab == 'security')
                     echo "active"; ?>" onclick="window.location.href='/rentrover/tenant/profile/security'"> <i
-                        class="fa fa-lock"></i> <span> Password & Security </span> </li>
+                        class="fa fa-lock"></i> <span> Security </span> </li>
                 <li class="<?php if ($tab == 'room-notices')
                     echo "active"; ?>" onclick="window.location.href='/rentrover/tenant/profile/room-notices'"> <i
-                        class="fa-solid fa-bullhorn"></i> <span> Landlord Notices </span> </li>
+                        class="fa-solid fa-bullhorn"></i> <span> Room Notices </span> </li>
                 <li class="<?php if ($tab == 'tenancy-histories')
                     echo "active"; ?>" onclick="window.location.href='/rentrover/tenant/profile/tenancy-histories'"> <i
                         class="fa-solid fa-timeline"></i> <span> Tenancy History </span> </li>

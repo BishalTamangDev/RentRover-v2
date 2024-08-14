@@ -52,7 +52,6 @@ header .header-container .wishlist-notification-profile .notification-section .n
 }
 header .header-container .wishlist-notification-profile .notification-section .notification-container .notification:hover {
   cursor: pointer;
-  background-color: whitesmoke;
 }
 header .header-container .wishlist-notification-profile .notification-section .notification-container .notification .notification-icon {
   width: 30px;

@@ -81,7 +81,7 @@ if ($roomExists) {
     <?php
     if (!$roomExists) {
         ?>
-        <section class="container room-detail-container pb-4">
+        <section class="container room-detail-container pb-4 main">
             <h3 class="m-0 fw-semibold mt-5"> You are not associated to any room at this moment. </h3>
             <a href="/rentrover/home" class="btn btn-brand mt-3 fit-content"> <i class="fa fa-search"></i> Find Room Now
             </a>
@@ -89,7 +89,7 @@ if ($roomExists) {
         <?php
     } else {
         ?>
-        <section class="container room-detail-container pb-4">
+        <section class="container room-detail-container pb-4 main">
             <!-- top section -->
             <!-- address, rating -->
             <div class="d-flex flex-row justify-content-between">
@@ -281,25 +281,27 @@ if ($roomExists) {
                     <div class="d-flex gap-2 flex-wrap room-operations">
                         <!-- check if leave application has been submitted already -->
                         <?php
-                            $alreadyApplied = $leaveObj->checkApplicantionForTenantAndRoom($r_id, $roomId);
+                        $alreadyApplied = $leaveObj->checkApplicantionForTenantAndRoom($r_id, $roomId);
 
-                            if ($alreadyApplied) {
-                                ?>
-                                <p class="text-danger small"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave application already submitted
-                                </p>
-                            <?php
-                            } else {
-                                ?>
-                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#leave-room-modal" id="leave-room-btn"> <i
-                                        class="fa-solid fa-arrow-right-from-bracket"></i> Leave room </button>
-                                        
-                                        <!-- report issue -->
-                                        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#report-an-issue" id="report-issue-btn">
-                                            <i class="fa-regular fa-comment"></i> Report an Issue </button>
-                            <?php
-                            }
+                        if ($alreadyApplied) {
                             ?>
-                        
+                            <p class="text-danger small"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave application
+                                already submitted
+                            </p>
+                            <?php
+                        } else {
+                            ?>
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#leave-room-modal"
+                                id="leave-room-btn"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Leave room </button>
+
+                            <!-- report issue -->
+                            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#report-an-issue"
+                                id="report-issue-btn">
+                                <i class="fa-regular fa-comment"></i> Report an Issue </button>
+                            <?php
+                        }
+                        ?>
+
                     </div>
                 </div>
         </section>
@@ -382,6 +384,9 @@ if ($roomExists) {
             </div>
         </div>
     </div>
+
+    <!-- footer -->
+    <?php require_once __DIR__ . '/../../sections/footer.php'; ?>
 
     <!-- popup alert -->
     <div class="popup-alert-container" id="popup-alert-container">
@@ -480,7 +485,7 @@ if ($roomExists) {
                         },
                         success: function (response) {
                             console.log(response);
-                            
+
                             if (response == true) {
                                 $('#issue-modal-close').click();
                                 showPopupAlert("Issue has been submitted.");

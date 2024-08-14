@@ -48,19 +48,28 @@ if (!isset($page))
     <!-- header -->
     <header class="position-fixed w-100 d-flex flex-row gap-3 p-3 justify-content-end align-items-center header">
         <!-- search form -->
-        <form class="d-flex flex-row" id="search-form">
-            <input type="search" id="content" name="content" placeholder="search here" class="form-control" required>
-        </form>
+        <?php
+        $page = $page ?? '';
+        if ($page != 'feedbacks' && $page != 'rooms' && $page != 'dashboard' && $page != 'profile') {
+            ?>
+            <form class="d-flex flex-row" id="search-form">
+                <input type="search" id="content" name="content" placeholder="search here" class="form-control" required>
+            </form>
+            <?php
+        }
+        ?>
 
         <!-- notification -->
         <div class="position-relative notification-section">
             <div class="position-relative notification-icon pointer" id="notification-icon">
                 <i class="fa-regular fa-bell fs-5 pt-1 text-secondary pointer"></i>
-                <div class="position-absolute text-danger fw-semibold notification-counter" id="notification-count"> 0 </div>
+                <div class="position-absolute text-danger fw-semibold notification-counter" id="notification-count"> 0
+                </div>
             </div>
 
             <!-- container -->
-            <div class="position-absolute flex-column shadow-lg rounded notification-container" id="notification-container">
+            <div class="position-absolute flex-column shadow-lg rounded notification-container"
+                id="notification-container">
                 <div class="d-flex flex-row justify-content-between p-3 border-bottom notification-heading">
                     <div class="d-flex flex-column gap-1 title">
                         <h5 class="m-0"> Notifications </h5>
@@ -71,25 +80,25 @@ if (!isset($page))
                 </div>
 
                 <div class="notification-box" id="notification-box"></div>
-                    <!-- notification 1 -->
-                    <div class="d-none notification">
-                        <!-- icon -->
-                        <div class="notification-icon">
-                            <img src="/rentrover/assets/icons/verified.png" alt="">
-                        </div>
+                <!-- notification 1 -->
+                <div class="d-none notification">
+                    <!-- icon -->
+                    <div class="notification-icon">
+                        <img src="/rentrover/assets/icons/verified.png" alt="">
+                    </div>
 
-                        <!-- details -->
-                        <div class="notification-details">
-                            <!-- detail -->
-                            <p class="note"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus,
-                                numquam? </p>
+                    <!-- details -->
+                    <div class="notification-details">
+                        <!-- detail -->
+                        <p class="note"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus,
+                            numquam? </p>
 
-                            <!-- date -->
-                            <p class="date"> 0000-00-00 00:00:00 </p>
-                        </div>
+                        <!-- date -->
+                        <p class="date"> 0000-00-00 00:00:00 </p>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
 
         <!-- profile -->
@@ -197,11 +206,11 @@ if (!isset($page))
             $('#notification-icon').click(function () {
                 // load notification
                 $.ajax({
-                        url: '/rentrover/pages/admin/app/fetch-admin-notification.php',
-                        success: function (data) {
-                            $('#notification-box').html(data);
-                        }
-                    });
+                    url: '/rentrover/pages/admin/app/fetch-admin-notification.php',
+                    success: function (data) {
+                        $('#notification-box').html(data);
+                    }
+                });
 
                 if ($('#notification-container:visible').length) {
                     $('#notification-container').hide();

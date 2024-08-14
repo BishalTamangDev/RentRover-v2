@@ -1,5 +1,5 @@
 <!-- room notices -->
-<div class="d-flex flex-column border rounded landlord-notice-container profile-content">
+<div class="d-flex flex-column landlord-notice-container profile-content">
     <p class="m-0 fs-4 fw-semibold"> Notice from Landlord </p>
     <!-- room notice -->
     <section class="room-notice-container mt-4" id="notice-container">

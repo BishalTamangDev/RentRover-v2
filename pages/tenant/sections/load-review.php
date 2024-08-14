@@ -55,7 +55,7 @@ if (sizeof($list) == 0) {
                 ?>
                 <div>
                     <abbr title="Delete">
-                        <i class="fa fa-trash delete-review-icon" data-review-id="<?= $review['review_id'] ?>"></i>
+                        <!-- <i class="fa fa-trash delete-review-icon" data-review-id="<?php // $review['review_id'] ?>"></i> -->
                     </abbr>
                 </div>
                 <?php

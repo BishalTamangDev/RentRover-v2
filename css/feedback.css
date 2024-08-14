@@ -7,7 +7,6 @@
 .user-feedback {
   display: flex;
   flex-direction: column;
-  background-color: whitesmoke;
   border-radius: 0.5rem;
   padding: 1rem;
   height: -moz-fit-content;

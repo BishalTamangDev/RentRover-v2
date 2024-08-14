@@ -102,7 +102,7 @@ class Issue
     public function fetchIssueForRoom($roomId)
     {
         global $conn;
-        $query = "SELECT * FROM issue_tb WHERE room_id = '$roomId'";
+        $query = "SELECT * FROM issue_tb WHERE room_id = '$roomId' ORDER BY issue_id DESC";
         $result = $conn->query($query);
         $list = [];
         if ($result->num_rows > 0) {
@@ -134,7 +134,7 @@ class Issue
     public function fetchIssueForTenant($tenantId)
     {
         global $conn;
-        $query = "SELECT * FROM issue_tb WHERE tenant_id = '$tenantId'";
+        $query = "SELECT * FROM issue_tb WHERE tenant_id = '$tenantId' ORDER BY issue_id DESC";
         $result = $conn->query($query);
         $list = [];
         if ($result->num_rows > 0) {
@@ -153,7 +153,7 @@ class Issue
         date_default_timezone_set('Asia/Kathmandu');
         $solvedDate = date('Y-m-d H:i:s');
 
-        $query = "UPDATE issue_tb SET flag = 'solved', solved_date = '$solvedDate' WHERE issue_id = '$issueId'";
+        $query = "UPDATE issue_tb SET flag = 'solved', solved_date = '$solvedDate' WHERE issue_id = '$issueId' LIMIT 1";
         $result = $conn->query($query);
 
         return $result ? true : false;

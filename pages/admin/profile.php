@@ -7,6 +7,8 @@ $profileUser = new Admin();
 
 $profileUser->fetch($r_id, "all");
 
+$page = "profile";
+
 if (!isset($tab))
     $tab = isset($_GET['tab']) ? $_GET['tab'] : "view";
 ?>

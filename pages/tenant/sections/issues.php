@@ -1,4 +1,4 @@
-<div class="d-flex flex-column border rounded issues-container profile-content">
+<div class="d-flex flex-column issues-container profile-content">
     <p class="m-0 fs-4 fw-semibold text-secondary"> Issues </p>
 
     <!-- simple card -->

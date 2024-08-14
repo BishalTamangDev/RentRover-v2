@@ -35,7 +35,7 @@ if (sizeof($list) == 0) {
             <div class="top">
                 <p class="title"> <?= ucwords($title) ?> </p>
                 <p class="location">
-                    House : <?= $location ?> Room : 
+                    <?= $location ?>, Room number : 
                     <?= $roomNumber ?>
                 </p>
                 <p class="room"> 

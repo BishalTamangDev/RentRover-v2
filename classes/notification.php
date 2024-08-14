@@ -89,7 +89,8 @@ class Notification
 
 
     // room application :: apply
-    public function applyForRoom($applicantId, $roomId, $landlordId) {
+    public function applyForRoom($applicantId, $roomId, $landlordId)
+    {
         $this->userId = $landlordId;
         $this->tenantId = $applicantId;
         $this->roomId = $roomId;
@@ -100,7 +101,8 @@ class Notification
     }
 
     // room application :: accept
-    public function acceptApplication($userId, $roomId) {
+    public function acceptApplication($userId, $roomId)
+    {
         $this->userId = $userId;
         $this->roomId = $roomId;
         $this->whose = "user";
@@ -110,7 +112,8 @@ class Notification
     }
 
     // room application :: reject
-    public function rejectApplication($userId, $roomId) {
+    public function rejectApplication($userId, $roomId)
+    {
         $this->userId = $userId;
         $this->roomId = $roomId;
         $this->whose = "user";
@@ -120,7 +123,8 @@ class Notification
     }
 
     // room aplication :: make tenant
-    public function acceptAsTenant($userId, $roomId) {
+    public function acceptAsTenant($userId, $roomId)
+    {
         $this->userId = $userId;
         $this->roomId = $roomId;
         $this->whose = "user";
@@ -130,7 +134,8 @@ class Notification
     }
 
     // room aplication :: remove tenant
-    public function removeTenant($userId, $roomId) {
+    public function removeTenant($userId, $roomId)
+    {
         $this->userId = $userId;
         $this->roomId = $roomId;
         $this->whose = "user";
@@ -140,7 +145,8 @@ class Notification
     }
 
     // issue :: submit
-    public function issueSubmit($landlordId, $roomId, $tenantId) {
+    public function issueSubmit($landlordId, $roomId, $tenantId)
+    {
         $this->userId = $landlordId;
         $this->roomId = $roomId;
         $this->tenantId = $tenantId;
@@ -151,7 +157,8 @@ class Notification
     }
 
     // issue :: solve
-    public function issueSolved($roomId, $tenantId) {
+    public function issueSolved($roomId, $tenantId)
+    {
         $this->userId = $tenantId;
         $this->roomId = $roomId;
         $this->tenantId = $tenantId;
@@ -161,8 +168,9 @@ class Notification
         return $res;
     }
 
-     // leave application :: submit
-     public function leaveApplicationSubmit($landlordId, $tenantId, $roomId) {
+    // leave application :: submit
+    public function leaveApplicationSubmit($landlordId, $tenantId, $roomId)
+    {
         $this->userId = $landlordId;
         $this->roomId = $roomId;
         $this->tenantId = $tenantId;
@@ -173,7 +181,8 @@ class Notification
     }
 
     // room notice
-    public function roomNotice($tenantId, $roomId){
+    public function roomNotice($tenantId, $roomId)
+    {
         $this->userId = $tenantId;
         $this->roomId = $roomId;
         $this->whose = "user";
@@ -183,7 +192,8 @@ class Notification
     }
 
     // room notice
-    public function feedbackSubmit($userId){
+    public function feedbackSubmit($userId)
+    {
         $this->userId = $userId;
         $this->whose = "admin";
         $this->type = "feedback-submit";
@@ -314,5 +324,14 @@ class Notification
         $query = "UPDATE notification_tb SET status = 'seen' WHERE whose = 'user' AND status = 'unseen' AND user_id = '$userId'";
         $result = mysqli_query($conn, $query);
         return $result ? true : false;
+    }
+
+    // set notification status to seen
+    public function click($notificationId)
+    {
+        global $conn;
+        $query = "UPDATE notification_tb SET status = 'seen' WHERE notification_id = '$notificationId'";
+        $result = $conn->query($query);
+        return $result;
     }
 }

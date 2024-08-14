@@ -20,7 +20,6 @@ $(document).ready(function () {
                     } else {
                         $('#feedback-error-message').html("Error occured.").fadeIn();
                     }
-                    console.log(response);
                 }
             });
         }

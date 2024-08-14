@@ -18,19 +18,49 @@
 }
 
 .service-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
     .service{
-        img{
-            height: 100px;
-            width: 100px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 3rem 2rem;
+
+        i{
+            font-size: 7rem;
+            text-align: center;
+            margin-bottom: 3rem;
         }
+
+        p{
+            margin: 0;
+        }
+
+        .service-title{
+            font-weight: 600;
+        }
+
+        .service-title{
+            font-size: 2rem;
+            justify-content: justify;
+        }
+    }
+
+    .odd-service {
+        background-color: black;
+        color: white;
+    }
+
+    .even-service {
+        background-color: white;
+        color: black;
     }
 }
 
 @media(min-width: 768px){
     .service{
-        width: 30%;
-        img{
-            width: 80px;
-        }
+        width: 50%;
     }
 }

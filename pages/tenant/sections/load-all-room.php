@@ -19,109 +19,119 @@ $wishlist = $tempWishlist->fetchList();
 
 $allRoomList = $tempRoom->fetchAvaibleRooms();
 
-foreach ($allRoomList as $room) {
-    $roomId = $room['room_id'];
-    $bhk = $room['bhk'];
-    $rent = $room['rent'];
-    $type = $room['type'];
-    $furnishing = $room['furnishing'];
-    $floor = $room['floor'];
-    $numberOfRoom = '';
-
-    $tempHouse->fetch($room['house_id']);
-
-    $location = $tempHouse->getAddress();
-
-    // class purpose
-    // district
-    $districtClass = 'district-' . $tempHouse->address['district'] . '-element';
-
-    // furnishing
-    if ($furnishing == 'unfurnished') {
-        $furnishingClass = "unfurnished-element";
-    } elseif ($furnishing == 'semi-furnished') {
-        $furnishingClass = "semi-furnished-element";
-    } else {
-        $furnishingClass = "full-furnished-element";
-    }
-
-    // room type
-    $typeClass = $type == 'bhk' ? "bhk-element" : 'non-bhk-element';
-
-    // photo
-    $tempRoom->fetchMainPhoto($roomId);
-
-    // main photo
-    $mainPhoto = $tempRoom->photo['first'];
+if (sizeof($allRoomList) == 0) {
     ?>
-    <div class="room shadow-sm room-element <?= $typeClass ?> <?= $furnishingClass ?> <?= $districtClass ?>"
-        data-rent="<?= $rent ?>" data-floor="<?= $floor ?>">
-        <!-- image -->
-        <div class="room-image-div">
-            <img src="/rentrover/uploads/rooms/<?= $mainPhoto ?>" alt="room image">
-        </div>
-
-        <!-- details -->
-        <div class="room-details">
-            <!-- location -->
-            <div class="location-wishlist">
-                <div class="location-container">
-                    <abbr title="Pipalboat, Kathmandu">
-                        <p class="location">
-                            <?= $location ?>
-                        </p>
-                    </abbr>
-                </div>
-
-                <!-- wishlist -->
-                <?php
-                if (in_array($roomId, $wishlist)) {
-                    ?>
-                    <i class="fa-solid fa-bookmark wish-icon" data-task="remove" data-id="<?= $roomId ?>"></i>
-                    <?php
-                } else {
-                    ?>
-                    <i class="fa-regular fa-bookmark wish-icon out" data-task="add" data-id="<?= $roomId ?>"></i>
-                    <?php
-                }
-                ?>
-            </div>
-
-            <!-- specs :: number of room & floor -->
-            <p class="spec">
-                <?= $type == 'bhk' ? $bhk . " BHK, " : "Non-BHK" . $numberOfRoom . ' Rooms, '; ?>
-                <?php
-                $x = $floor % 10;
-                switch ($x) {
-                    case 1:
-                        echo '1<sup>st</sup> Floor';
-                        break;
-                    case 2:
-                        echo '2<sup>nd</sup> Floor';
-                        break;
-                    case 3:
-                        echo '3<sup>rd</sup> Floor';
-                        break;
-                    default:
-                        echo "$floor<sup>th</sup> Floor";
-                }
-                ?>
-            </p>
-
-            <!-- rent -->
-            <p class="rent text-success"> <?= "NPR. " . number_format($rent, 2) ?> </p>
-
-            <div class="room-bottom">
-                <div class="rating">
-                    <img src="/rentrover/assets/icons/full-star.png" alt="">
-                    <p class="fw-semibold small"> <?= $tempReview->calculateRating($roomId) ?>
-                    </p>
-                </div>
-
-                <a href="/rentrover/tenant/room-detail/<?= $roomId ?>" class="btn btn-outlined-brand show-more-btn">
-                    Show More </a>
-            </div>
-        </div>
+    <!-- empty context -->
+    <div class="empty-context-container justify-content-center" id="empty-context-container">
+        <img src="/rentrover/assets/images/empty.png" alt="">
+        <p class="m-0 text-danger"> No room found! </p>
     </div>
     <?php
+} else {
+    foreach ($allRoomList as $room) {
+        $roomId = $room['room_id'];
+        $bhk = $room['bhk'];
+        $rent = $room['rent'];
+        $type = $room['type'];
+        $furnishing = $room['furnishing'];
+        $floor = $room['floor'];
+        $numberOfRoom = '';
+
+        $tempHouse->fetch($room['house_id']);
+
+        $location = $tempHouse->getAddress();
+
+        // class purpose
+        // district
+        $districtClass = 'district-' . $tempHouse->address['district'] . '-element';
+
+        // furnishing
+        if ($furnishing == 'unfurnished') {
+            $furnishingClass = "unfurnished-element";
+        } elseif ($furnishing == 'semi-furnished') {
+            $furnishingClass = "semi-furnished-element";
+        } else {
+            $furnishingClass = "full-furnished-element";
+        }
+
+        // room type
+        $typeClass = $type == 'bhk' ? "bhk-element" : 'non-bhk-element';
+
+        // photo
+        $tempRoom->fetchMainPhoto($roomId);
+
+        // main photo
+        $mainPhoto = $tempRoom->photo['first'];
+        ?>
+        <div class="room shadow-sm room-element <?= $typeClass ?> <?= $furnishingClass ?> <?= $districtClass ?>"
+            data-rent="<?= $rent ?>" data-floor="<?= $floor ?>">
+            <!-- image -->
+            <div class="room-image-div">
+                <img src="/rentrover/uploads/rooms/<?= $mainPhoto ?>" alt="room image">
+            </div>
+
+            <!-- details -->
+            <div class="room-details">
+                <!-- location -->
+                <div class="location-wishlist">
+                    <div class="location-container">
+                        <abbr title="Pipalboat, Kathmandu">
+                            <p class="location">
+                                <?= $location ?>
+                            </p>
+                        </abbr>
+                    </div>
+
+                    <!-- wishlist -->
+                    <?php
+                    if (in_array($roomId, $wishlist)) {
+                        ?>
+                        <i class="fa-solid fa-bookmark wish-icon" data-task="remove" data-id="<?= $roomId ?>"></i>
+                        <?php
+                    } else {
+                        ?>
+                        <i class="fa-regular fa-bookmark wish-icon out" data-task="add" data-id="<?= $roomId ?>"></i>
+                        <?php
+                    }
+                    ?>
+                </div>
+
+                <!-- specs :: number of room & floor -->
+                <p class="spec">
+                    <?= $type == 'bhk' ? $bhk . " BHK, " : "Non-BHK" . $numberOfRoom . ' Rooms, '; ?>
+                    <?php
+                    $x = $floor % 10;
+                    switch ($x) {
+                        case 1:
+                            echo '1<sup>st</sup> Floor';
+                            break;
+                        case 2:
+                            echo '2<sup>nd</sup> Floor';
+                            break;
+                        case 3:
+                            echo '3<sup>rd</sup> Floor';
+                            break;
+                        default:
+                            echo "$floor<sup>th</sup> Floor";
+                    }
+                    ?>
+                </p>
+
+                <!-- rent -->
+                <p class="rent text-success"> <?= "NPR. " . number_format($rent, 2) ?> </p>
+
+                <div class="room-bottom">
+                    <div class="rating">
+                        <img src="/rentrover/assets/icons/full-star.png" alt="">
+                        <p class="fw-semibold small"> <?= $tempReview->calculateRating($roomId) ?>
+                        </p>
+                    </div>
+
+                    <a href="/rentrover/tenant/room-detail/<?= $roomId ?>" class="btn btn-outlined-brand show-more-btn">
+                        Show More </a>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
 }

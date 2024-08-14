@@ -203,7 +203,8 @@ if ($roomExists) {
                                 <td class="title"> Floor </td>
                                 <td class="data">
                                     <?php
-                                    $x = $roomObj->floor % 10;
+                                    $floor = $roomObj->floor;
+                                    $x = $floor % 10;
                                     switch ($x) {
                                         case 1:
                                             echo '1<sup>st</sup>';
@@ -290,16 +291,23 @@ if ($roomExists) {
     }
     ?>
 
-    <!-- modal -->
+
+
+    <!-- login modal -->
     <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="p-3 modal-content">
-                <div class="d-flex flex-row justify-content-between heading">
-                    <h5 class="m-0"> You need to login first to proceed. </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+            <div class="modal-content">
+                <div class="d-flex flex-column modal-header">
+                    <div class="d-flex flex-column align-items-center gap-3 pt-3 mb-4 content">
+                        <img class="w-25" src="/rentrover/assets/icons/user-login.png" alt="">
+                    </div>
 
-                <a href="/rentrover/login" class="btn btn-brand fit-content mt-3"> Login Now </a>
+                    <h1 class="modal-title fs-5 fw-semibol mb-4" id="exampleModalLabel"> LOGIN TO FIRST TO APPLY </h1>
+
+                    <div class="action mb-3">
+                        <a href="/rentrover/login" class="btn btn-outlined-brand px-4"> Login Now </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

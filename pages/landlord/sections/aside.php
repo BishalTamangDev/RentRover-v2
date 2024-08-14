@@ -51,7 +51,8 @@ if (!isset($page))
         <div class="position-relative notification-section">
             <div class="position-relative notification-icon pointer" id="notification-icon">
                 <i class="fa-regular fa-bell fs-5 pt-1 text-secondary pointer"></i>
-                <div class="position-absolute text-danger fw-semibold notification-counter" id="notification-count">  </div>
+                <div class="position-absolute text-danger fw-semibold notification-counter" id="notification-count">
+                </div>
             </div>
 
             <!-- container -->
@@ -195,6 +196,9 @@ if (!isset($page))
     <!-- notification js -->
     <script src="/rentrover/js/count-unseen-user-notification.js"></script>
 
+    <!-- click notification >> status :: seen -->
+    <script src="/rentrover/js/click-notification.js"></script>
+
     <script>
         $(document).ready(function () {
             $('#notification-container').hide();
@@ -206,10 +210,9 @@ if (!isset($page))
                 $.ajax({
                     url: '/rentrover/app/fetch-user-notification.php',
                     success: function (data) {
-                            console.log("1");
-                            $('#notification-box').html(data);
-                        }
-                    });
+                        $('#notification-box').html(data);
+                    }
+                });
 
                 if ($('#notification-container:visible').length) {
                     $('#notification-container').hide();
