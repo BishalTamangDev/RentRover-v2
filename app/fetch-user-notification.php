@@ -298,6 +298,33 @@ if (sizeof($list) == 0) {
                     </div>
                 </div>
                 <?php
+            } elseif ($type == 'leave-application-submit') {
+                // issue solved
+                $link = "/rentrover/landlord/leave-applications";                
+                $tempUser->fetch($tenantId, "mandatory");
+
+                $tenantName = $tempUser->getFullName();
+
+                $tempRoom->fetch($roomId);
+                ?>
+                <!-- account unverified -->
+                <div class="notification <?=$statusClass?>" onclick="window.location.href='<?=$link?>'">
+                    <!-- icon -->
+                    <div class="notification-icon">
+                        <img src="/rentrover/assets/icons/notifications/leave-application-submit.png" alt="">
+                    </div>
+
+                    <!-- details -->
+                    <div class="notification-details">
+                        <!-- detail -->
+                        <p class="note"> <span class="text-danger"> <?=$tenantName?> </span> submitted the leave application for the room number <span class="text-danger"> <?=$tempRoom->number?> </span>.
+                        </p>
+
+                        <!-- date -->
+                        <p class="date"> <?=$date?> </p>
+                    </div>
+                </div>
+                <?php
             }
             ?>
             

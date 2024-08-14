@@ -160,6 +160,18 @@ class Notification
         $res = $this->register();
         return $res;
     }
+
+     // leave application :: submit
+     public function leaveApplicationSubmit($landlordId, $tenantId, $roomId) {
+        $this->userId = $landlordId;
+        $this->roomId = $roomId;
+        $this->tenantId = $tenantId;
+        $this->whose = "user";
+        $this->type = "leave-application-submit";
+        $res = $this->register();
+        return $res;
+    }
+
     // register
     public function register()
     {
