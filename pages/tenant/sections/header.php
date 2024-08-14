@@ -38,7 +38,7 @@ if (!isset($profileUser)) {
                 </div>
 
                 <!-- container -->
-                <div class="position-absolute flex-column fit-content shadow notification-container" id="notification-container">
+                <div class="position-absolute flex-column fit-content shadow-lg rounded notification-container" id="notification-container">
                     <div class="d-flex flex-row justify-content-between p-3 border-bottom notification-heading">
                         <div class="heading">
                             <h5 class="m-0"> Notifications </h5>

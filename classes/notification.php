@@ -172,6 +172,16 @@ class Notification
         return $res;
     }
 
+    // room notice
+    public function roomNotice($tenantId, $roomId){
+        $this->userId = $tenantId;
+        $this->roomId = $roomId;
+        $this->whose = "user";
+        $this->type = "room-notice";
+        $res = $this->register();
+        return $res;
+    }
+
     // register
     public function register()
     {
