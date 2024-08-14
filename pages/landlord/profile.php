@@ -96,6 +96,17 @@ if (!isset($tab))
             </div>
 
             <hr class="mt-4 text-secondary" />
+            
+            <!-- account status -->
+                <?php
+                if($profileUser->flag == 'on-hold') {
+                    ?>
+            <div class="alert alert-danger" role="alert">
+                    Your account is being verified. Please wait sometime.
+                    </div>
+                    <?php
+                }
+                ?>
 
             <?php
             switch ($tab) {

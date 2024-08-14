@@ -64,7 +64,7 @@ if (!isset($page))
                 <div class="d-flex flex-row justify-content-between p-3 border-bottom notification-heading">
                     <div class="d-flex flex-column gap-1 title">
                         <h5 class="m-0"> Notifications </h5>
-                        <a href="/rentrover/admin/notifications" class="m-0 small text-primary"> Show all </a>
+                        <!-- <a href="/rentrover/admin/notifications" class="m-0 small text-primary"> Show all </a> -->
                     </div>
 
                     <i class="fa fa-multiply fs-5 pointer" id="notification-close"></i>
@@ -72,7 +72,7 @@ if (!isset($page))
 
                 <div class="notification-box" id="notification-box"></div>
                     <!-- notification 1 -->
-                    <div class="d-none d-flex flex-row gap-2 notification">
+                    <div class="d-none notification">
                         <!-- icon -->
                         <div class="notification-icon">
                             <img src="/rentrover/assets/icons/verified.png" alt="">
@@ -81,11 +81,11 @@ if (!isset($page))
                         <!-- details -->
                         <div class="notification-details">
                             <!-- detail -->
-                            <p class="m-0 small"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus,
+                            <p class="note"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus,
                                 numquam? </p>
 
                             <!-- date -->
-                            <p class="m-0 small text-secondary"> 0000-00-00 00:00:00 </p>
+                            <p class="date"> 0000-00-00 00:00:00 </p>
                         </div>
                     </div>
                 </div>
@@ -184,6 +184,9 @@ if (!isset($page))
 
     <!-- jquery -->
     <script src="/rentrover/jquery/jquery-3.7.1.min.js"></script>
+
+    <!-- notification js-->
+    <script src="/rentrover/js/count-unseen-admin-notification.js"></script>
 
     <script>
         $(document).ready(function () {

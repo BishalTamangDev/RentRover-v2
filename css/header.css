@@ -26,17 +26,29 @@ header .header-container .wishlist-notification-profile .notification-section .n
   display: none;
   margin-top: 6px;
   right: 0;
-  min-width: 300px;
+  min-width: 360px;
+  height: -moz-fit-content;
+  height: fit-content;
   background-color: white;
 }
 header .header-container .wishlist-notification-profile .notification-section .notification-container .notification-box {
   display: flex;
+  flex-direction: column;
+  width: 100%;
   overflow-y: scroll;
-  height: 70vh;
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: 60vh;
+  min-height: -moz-fit-content;
+  min-height: fit-content;
 }
 header .header-container .wishlist-notification-profile .notification-section .notification-container .notification {
-  padding: 0.4rem;
-  min-width: 340px;
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 0.8rem;
+  border-bottom: 1px solid rgb(235, 235, 235);
 }
 header .header-container .wishlist-notification-profile .notification-section .notification-container .notification:hover {
   cursor: pointer;
@@ -49,6 +61,18 @@ header .header-container .wishlist-notification-profile .notification-section .n
   border-radius: 50%;
   overflow: hidden;
   background-color: whitesmoke;
+}
+header .header-container .wishlist-notification-profile .notification-section .notification-container .notification .notification-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+header .header-container .wishlist-notification-profile .notification-section .notification-container .notification .notification-details p {
+  margin: 0;
+}
+header .header-container .wishlist-notification-profile .notification-section .notification-container .notification .notification-details .date {
+  font-size: 0.8rem;
+  color: grey;
 }
 header .header-container .wishlist-notification-profile .profile-container .profile {
   height: 36px;

@@ -41,17 +41,27 @@ header {
                     display: none;
                     margin-top: 6px;
                     right: 0;
-                    min-width: 300px;
+                    min-width: 360px;
+                    height: fit-content;
                     background-color: white;
 
-                    .notification-box{
+                    .notification-box {
                         display: flex;
+                        flex-direction: column;
+                        width: 100%;
                         overflow-y: scroll;
-                        height: 70vh;
+                        height: fit-content;
+                        max-height: 60vh;
+                        min-height: fit-content;
                     }
 
                     .notification {
-                        padding: 0.4rem;
+                        display: flex;
+                        flex-direction: row;
+                        gap: 0.8rem;
+                        width: 100%;
+                        padding: 0.8rem;
+                        border-bottom: 1px solid rgb(235, 235, 235);
 
                         &:hover {
                             cursor: pointer;
@@ -67,8 +77,25 @@ header {
                             background-color: whitesmoke;
                         }
 
-                        min-width: 340px;
+                        .notification-details {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.5rem;
+
+                            p {
+                                margin: 0;
+                            }
+
+                            .date {
+                                font-size: 0.8rem;
+                                color: grey;
+                            }
+                        }
                     }
+
+                    // .unseen-notification{
+                    // background-color: rgb(226, 226, 226);
+                    // }
                 }
             }
 

@@ -59,30 +59,30 @@ if (!isset($page))
                 <div class="d-flex flex-row justify-content-between p-3 border-bottom notification-heading">
                     <div class="d-flex flex-column gap-1 heading">
                         <h5 class="m-0"> Notifications </h5>
-                        <a href="/rentrover/landlord/notifications" class="small"> See all </a>
+                        <!-- <a href="/rentrover/landlord/notifications" class="small"> See all </a> -->
                     </div>
                     <i class="fa fa-multiply fs-5 pointer pt-1" id="notification-close"></i>
                 </div>
 
                 <div class="notification-box" id="notification-box">
                     <!-- notification 1 -->
-                    <div class="d-flex flex-row gap-2 notification">
+                    <div class="d-none notification">
                         <!-- icon -->
                         <div class="notification-icon">
                             <img src="/rentrover/assets/icons/verified.png" alt="">
                         </div>
-                        
+
                         <!-- details -->
                         <div class="notification-details">
                             <!-- detail -->
-                            <p class="m-0 small"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus,
+                            <p class="note"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus,
                                 numquam? </p>
-                                
-                                <!-- date -->
-                                <p class="m-0 small text-secondary"> 0000-00-00 00:00:00 </p>
-                            </div>
+
+                            <!-- date -->
+                            <p class="date"> 0000-00-00 00:00:00 </p>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
 

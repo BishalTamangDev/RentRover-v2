@@ -38,21 +38,21 @@ if (!isset($profileUser)) {
                 </div>
 
                 <!-- container -->
-                <div class="position-absolute flex-column shadow notification-container" id="notification-container">
+                <div class="position-absolute flex-column fit-content shadow notification-container" id="notification-container">
                     <div class="d-flex flex-row justify-content-between p-3 border-bottom notification-heading">
                         <div class="heading">
                             <h5 class="m-0"> Notifications </h5>
-                            <a href="/rentrover/tenant/notifications" class="text-primary small"> See all </a>
+                            <!-- <a href="/rentrover/tenant/notifications" class="text-primary small"> See all </a> -->
                         </div>
                         <i class="fa fa-multiply fs-5 pointer" id="notification-close"></i>
                     </div>
                     
                     <div class="notification-box" id="notification-box">
                     <!-- notification 1 -->
-                        <div class="d-flex flex-row gap-2 notification">
+                        <div class="d-none d-flex flex-row gap-2 notification">
                             <!-- icon -->
                             <div class="notification-icon">
-                                <img src="/rentrover/assets/icons/verified.png" alt="">
+                                <img src="/rentrover/assets/notifications/icons/verified.png" alt="">
                             </div>
 
                             <!-- details -->

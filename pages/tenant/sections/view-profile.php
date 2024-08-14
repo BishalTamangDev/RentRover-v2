@@ -104,7 +104,6 @@ if (!isset($tab))
                     <p class="m-0 fw-semibold">
                         <?= ($profileUser->name['last'] != '') ? ucfirst($profileUser->name['last']) : "-" ?>
                     </p>
-                    </>
                 </div>
             </div>
 
@@ -135,16 +134,18 @@ if (!isset($tab))
                 </div>
             </div>
 
+            <hr>
+
             <p class="m-0 mt-3 text-secondary"> Address </p>
             <div class="d-flex flex-column">
                 <div class="d-flex flex-column flex-md-row row-gap-3 mt-3">
-                    <div class="w-50">
+                    <div class="w-100 w-md-50">
                         <p class="m-0 mt-2 text-secondary"> Province </p>
                         <p class="m-0 fw-semibold">
                             <?= ($profileUser->address['province'] != '') ? ucfirst($profileUser->address['province']) : "-" ?>
                         </p>
                     </div>
-                    <div class="w-50">
+                    <div class="w-100 w-md-50">
                         <p class="m-0 mt-2 text-secondary"> District </p>
                         <p class="m-0 fw-semibold">
                             <?= ($profileUser->address['district'] != '') ? ucfirst($profileUser->address['district']) : "-" ?>
@@ -153,14 +154,14 @@ if (!isset($tab))
                 </div>
 
                 <div class="d-flex flex-column flex-md-row row-gap-3 mt-3">
-                    <div class="w-50">
+                    <div class="w-100 w-md-50">
                         <p class="m-0 mt-3 text-secondary"> Municipality/ Rupal Municipality </p>
                         <p class="m-0 fw-semibold">
                             <?= ($profileUser->address['municipalityRural'] != '') ? ucfirst($profileUser->address['municipalityRural']) : "-" ?>
                         </p>
                     </div>
 
-                    <div class="w-50">
+                    <div class="w-100 w-md-50">
                         <p class="m-0 mt-3 text-secondary"> Ward </p>
                         <p class="m-0 fw-semibold">
                             <?= ($profileUser->address['ward'] != 0) ? $profileUser->address['ward'] : "-" ?>
@@ -168,7 +169,7 @@ if (!isset($tab))
                     </div>
                 </div>
 
-                <div class="">
+                <div class="w-100">
                     <p class="m-0 mt-3 text-secondary"> Tole/ Village </p>
                     <p class="m-0 fw-semibold">
                         <?= ($profileUser->address['toleVillage'] != '') ? ucfirst($profileUser->address['toleVillage']) : "-" ?>

@@ -21,7 +21,7 @@ if (sizeof($list) == 0) {
     ?>
     <!-- empty context -->
     <div class="d-flex flex-row gap-2 p-3 notification">
-        <p class="m-0 small text-secondary"> Empty! </p>
+        <p class="m-0 small text-secondary"> No new notification! </p>
     </div>
     <?php
 } else {
@@ -52,7 +52,7 @@ if (sizeof($list) == 0) {
             $link = "/rentrover/admin/user-detail/$userId";
             ?>
             <!-- room verification apply-->
-            <div class="d-flex flex-row gap-2 notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
+            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
                 <!-- icon -->
                 <div class="notification-icon">
                     <img src="/rentrover/uploads/users/<?= $profilePhoto ?>" alt="">
@@ -61,32 +61,34 @@ if (sizeof($list) == 0) {
                 <!-- details -->
                 <div class="notification-details">
                     <!-- detail -->
-                    <p class="m-0 small"> <?= $userName ?> applied for account verification. </p>
+                    <p class="note"> <?= $userName ?> applied for account verification. </p>
 
                     <!-- date -->
-                    <p class="m-0 small text-secondary"> <?= $date ?> </p>
+                    <p class="date"> <?= $date ?> </p>
                 </div>
             </div>
             <?php
         }
-        ?>
-        <!-- backup -->
-        <div class="d-none d-flex flex-row gap-2 notification">
-            <!-- icon -->
-            <div class="notification-icon">
-                <img src="/rentrover/assets/icons/verified.png" alt="">
-            </div>
-
-            <!-- details -->
-            <div class="notification-details">
-                <!-- detail -->
-                <p class="m-0 small"> asdqwe Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus,
-                    numquam? </p>
-
-                <!-- date -->
-                <p class="m-0 small text-secondary"> 0000-00-00 00:00:00 </p>
-            </div>
-        </div>
-        <?php
+    ?>
+    <?php
     }
 }
+?>
+
+<!-- backup -->
+<div class="d-none notifications">
+    <!-- icon -->
+    <div class="notification-icon">
+        <img src="/rentrover/assets/icons/verified.png" alt="">
+    </div>
+
+    <!-- details -->
+    <div class="notification-details">
+        <!-- detail -->
+        <p class="note"> asdqwe Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus,
+            numquam? </p>
+
+        <!-- date -->
+        <p class="date"> 0000-00-00 00:00:00 </p>
+    </div>
+</div>
