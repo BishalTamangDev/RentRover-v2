@@ -197,7 +197,7 @@ class House
     {
         global $conn;
         $houseList = [];
-        $query = "SELECT * from house_tb";
+        $query = "SELECT * from house_tb ORDER BY house_id DESC";
         $result = mysqli_query($conn, $query);
 
         if ($result->num_rows > 0) {

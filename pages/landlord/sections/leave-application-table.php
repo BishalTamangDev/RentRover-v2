@@ -20,7 +20,13 @@ $roomList = $tempRoom->fetchAllRoomIdByLandlord($houseList);
 
 $applicationList = $tempLeave->fetchAllLeaveApplicationForLandlord($roomList);
 
-if (sizeof($applicationList) > 0) {
+if (sizeof($applicationList) == 0) {
+    ?>
+    <tr>
+        <td colspan="5" class="text-danger" style="text-align:center;"> No leave application submitted yet! </td>
+    </tr>
+    <?php
+} else {
     $serial = 1;
     foreach ($applicationList as $application) {
         $applicationId = $application['leave_id'];

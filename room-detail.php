@@ -232,7 +232,7 @@ if ($roomExists) {
                             <!-- room acquired state -->
                             <tr>
                                 <td class="title"> Room state </td>
-                                <td class="data"> <?= $roomObj->flag == 'verified' ? "Available" : 'Nor-available' ?> </td>
+                                <td class="data"> <?= $roomObj->flag == 'verified' ? "Available" : 'Already acquired' ?> </td>
                             </tr>
                         </table>
 

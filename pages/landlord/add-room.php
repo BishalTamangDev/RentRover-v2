@@ -279,7 +279,7 @@ $page = "rooms";
                 <label for="info" class="mb-2 mt-3 fw-semibold"> Some additional informations </label>
                 <textarea name="info" class="form-control mb-2"
                     placeholder="Some information about the house or the requirements." id="info" <?php if (!$eligible)
-                        echo "disabled"; ?> maxlength="50"></textarea>
+                        echo "disabled"; ?> maxlength="255"></textarea>
 
                 <button type="submit" class="btn btn-brand fit-content mt-3" id="add-room-btn"> Add Now </button>
             </form>

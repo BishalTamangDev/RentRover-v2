@@ -157,9 +157,10 @@ $page = "houses";
 
                             <!-- actions :: edit || delete -->
                             <div class="room-operations">
-                                <a href="/rentrover/landlord/edit-house/<?= $houseId ?>" type="button" class="btn btn-outlined-brand"> <i
-                                        class="fa-solid fa-arrow-up-right-from-square"></i> Edit </a>
-                                <button class="btn btn-danger" data-leave-application-id="" data-bs-toggle="modal"
+                                <a href="/rentrover/landlord/edit-house/<?= $houseId ?>" type="button"
+                                    class="btn btn-outlined-brand"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Edit
+                                </a>
+                                <button class="d-none btn btn-danger" data-leave-application-id="" data-bs-toggle="modal"
                                     data-bs-target="#deleteHouseModal"> <i class="fa fa-trash"></i> Delete House </button>
                             </div>
                         </div>

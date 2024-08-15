@@ -10,7 +10,7 @@ $list = $tempFeedback->fetchLatest();
 
 if (sizeof($list) == 0) {
     ?>
-    <p class="feedback-user-name"> <?= "No feedback has been submitted yet." ?> </p>
+    <p class="feedback-user-name text-danger"> <?= "No feedback has been submitted yet." ?> </p>
     <?php
 } else {
     foreach ($list as $feedback) {

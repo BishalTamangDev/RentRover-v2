@@ -131,7 +131,7 @@ $page = "rooms";
                             <!-- additional info -->
                             <div class="requirements mt-4">
                                 <h3 class="m-0 fw-semibold"> Additional Information </h3>
-                                <p class="m-0 mt-3"> <?= ucfirst($houseObj->info) ?> </p>
+                                <p class="m-0 mt-3"> <?= ucfirst($roomObj->info) ?> </p>
                             </div>
 
                             <!-- amenities -->
@@ -235,7 +235,15 @@ $page = "rooms";
                                 <!-- room acquired state -->
                                 <tr>
                                     <td class="title"> Room state </td>
-                                    <td class="data"> <?= ucfirst($roomObj->flag) ?> </td>
+                                    <td class="data">
+                                        <?php
+                                        if ($roomObj->flag == 'verified') {
+                                            echo "Unacquired";
+                                        } elseif ($roomObj->flag == 'on-hold') {
+                                            echo "Acquired";
+                                        }
+                                        ?>
+                                    </td>
                                 </tr>
 
                                 <!-- added date -->
@@ -250,8 +258,8 @@ $page = "rooms";
                                 <a href="/rentrover/landlord/edit-room/<?= $roomId ?>" type="button"
                                     class="btn btn-outlined-brand"> <i class="fa-solid fa-arrow-up-right-from-square"></i> Edit
                                 </a>
-                                
-                                <button class="btn btn-danger" data-leave-application-id="" data-bs-toggle="modal"
+
+                                <button class="d-none btn btn-danger" data-leave-application-id="" data-bs-toggle="modal"
                                     data-bs-target="#deleteRoomModal"> <i class="fa fa-trash"></i> Delete Room </button>
 
                             </div>

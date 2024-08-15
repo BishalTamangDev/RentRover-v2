@@ -311,32 +311,39 @@ $tempPhotoSrc = '/rentrover/uploads/blank.jpg';
             $(document).on('submit', '#profile-form', function (e) {
                 e.preventDefault();
                 var formData = new FormData($('#profile-form')[0]);
-                $.ajax({
-                    url: '/rentrover/app/edit-profile.php',
-                    type: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    beforeSend: function () {
-                        $('#update-profile-btn').html('Updating Information...').prop('disabled', true);
-                    },
-                    success: function (response) {
-                        if (response) {
-                            // alert meesage
-                            showPopupAlert("Profile updated successfully.");
-                            setTimeout(function () {
-                                window.location.href = '/rentrover/tenant/profile'
-                            }, 2000);
-                        } else {
-                            $('#error-message').html(response).show();
+
+                // phone number validation
+                if($('#phone-number').val().length != 10) {
+                    $('#error-message').html('Please enter valid phone number.').fadeIn();
+                    $('#phone-number').focus();
+                } else {
+                    $.ajax({
+                        url: '/rentrover/app/edit-profile.php',
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $('#update-profile-btn').html('Updating Information...').prop('disabled', true);
+                        },
+                        success: function (response) {
+                            if (response) {
+                                // alert meesage
+                                showPopupAlert("Profile updated successfully.");
+                                setTimeout(function () {
+                                    window.location.href = '/rentrover/tenant/profile'
+                                }, 2000);
+                            } else {
+                                $('#error-message').html(response).show();
+                                $('#update-profile-btn').html('Update Information').prop('disabled', false);
+                            }
+                        },
+                        error: function () {
+                            $('#error-message').html("An unexpected error occured. Please try again.").show();
                             $('#update-profile-btn').html('Update Information').prop('disabled', false);
                         }
-                    },
-                    error: function () {
-                        $('#error-message').html("An unexpected error occured. Please try again.").show();
-                        $('#update-profile-btn').html('Update Information').prop('disabled', false);
-                    }
-                });
+                    });
+                }
             });
 
             // password change

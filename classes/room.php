@@ -198,6 +198,21 @@ class Room
         return $roomList;
     }
 
+    // fetch room for landing page
+    public function fetchRoomForLandingPage()
+    {
+        global $conn;
+        $roomList = [];
+        $query = "SELECT * FROM room_tb ORDER BY room_id DESC LIMIT 5";
+        $result = $conn->query($query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $roomList[] = $row;
+            }
+        }
+        return $roomList;
+    }
+
     // fetch all available rooms
     public function fetchAvaibleRooms()
     {
@@ -319,7 +334,7 @@ class Room
     public function update()
     {
         global $conn;
-        $query = "UPDATE room_tb SET house_id = '$this->houseId', type = '$this->type', bhk = '$this->bhk', number_of_room = '$this->numberOfRoom', number = '$this->number', furnishing = '$this->furnishing', floor = '$this->floor', rent = '$this->rent', info = '$this->info' WHERE room_id = '$this->roomId' LIMIT";
+        $query = "UPDATE room_tb SET house_id = '$this->houseId', type = '$this->type', bhk = '$this->bhk', number_of_room = '$this->numberOfRoom', number = '$this->number', furnishing = '$this->furnishing', floor = '$this->floor', rent = '$this->rent', info = '$this->info' WHERE room_id = '$this->roomId'";
         $result = $conn->query($query);
         return $result ? true : false;
     }

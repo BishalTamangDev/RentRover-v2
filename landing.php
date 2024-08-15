@@ -238,7 +238,7 @@ if (session_status() == PHP_SESSION_NONE)
             // load all room
             function loadAllRoom() {
                 $.ajax({
-                    url: '/rentrover/sections/load-all-room.php',
+                    url: '/rentrover/sections/load-all-room-for-landing-page.php',
                     success: function (data) {
                         $('#all-room-container').html(data);
                     }, error: function () {

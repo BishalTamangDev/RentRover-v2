@@ -187,7 +187,13 @@ if (!isset($tab))
             $(document).on('submit', '#profile-form', function (e) {
                 e.preventDefault();
                 var formData = new FormData($('#profile-form')[0]);
-                $.ajax({
+
+                // phone number validation
+                if($('#phone-number').val().length != 10) {
+                    $('#error-message').html('Please enter valid phone number.').fadeIn();
+                    $('#phone-number').focus();
+                } else {
+                    $.ajax({
                     url: '/rentrover/app/edit-profile.php',
                     type: "POST",
                     data: formData,
@@ -213,6 +219,7 @@ if (!isset($tab))
                         $('#update-profile-btn').html('Update Information').prop('disabled', false);
                     }
                 });
+                }
             });
 
             // profile photo change :: instant preview
@@ -345,7 +352,6 @@ if (!isset($tab))
                 $.ajax({
                     url: '/rentrover/app/apply-for-verification.php',
                     success: function (response) {
-                        console.log(response);
                         if (response == true) {
                             showPopupAlert("Your account has been submitted for the verification process.");
                             setTimeout(function () {

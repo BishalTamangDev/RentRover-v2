@@ -61,7 +61,7 @@ $page = "dashboard";
                 </div>
 
                 <div class="details">
-                    <p class="title"> Tenants </p>
+                    <p class="title"> Users </p>
                     <p class="data" id="user-count"> 0 </p>
                 </div>
             </div>
