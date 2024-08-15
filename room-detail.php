@@ -86,9 +86,9 @@ if ($roomExists) {
 
                         <div class="d-flex flex-row gap-2 align-items-center rating-div" id="rating-div">
                             <div class="rating">
-                                <img src="/rentrover/assets/icons/full-star.png" alt="">
+                                <!-- <img src="/rentrover/assets/icons/full-star.png" alt=""> -->
                             </div>
-                            <p class="m-0 text-secondary small pt-1"> (0 Review) </p>
+                            <p class="m-0 text-secondary small pt-1"> </p>
                         </div>
                     </div>
                 </div>

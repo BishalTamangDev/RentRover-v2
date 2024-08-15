@@ -88,6 +88,7 @@ header {
             min-width: 360px;
             height: fit-content;
             background-color: white;
+            z-index: 150;
 
             .notification-box {
                 display: flex;

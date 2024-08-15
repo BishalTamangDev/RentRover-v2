@@ -366,9 +366,9 @@ if (!isset($tab))
 
             <!-- phone number -->
             <label for="phone-number" class="mt-4 mb-2"> Phone number </label>
-            <input type="text" value="<?php if ($profileUser->getPhoneNumber() != '')
+            <input type="number" value="<?php if ($profileUser->getPhoneNumber() != '')
                 echo $profileUser->getPhoneNumber(); ?>" name="phone-number" class="form-control" id="phone-number"
-                placeholder="phone number" minlength="10"  maxlength="10" />
+                placeholder="phone number" minlength="10" max="9999999999" maxlength="10" />
 
             <div class="d-flex flex-row gap-2 action">
                 <button type="submit" class="mt-4 btn btn-success fit-content" id="update-profile-btn"> Update

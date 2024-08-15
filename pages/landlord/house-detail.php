@@ -8,7 +8,11 @@ $profileUser = new User();
 $profileUser->fetch($r_id, "all");
 
 require_once __DIR__ . '/../../classes/house.php';
+require_once __DIR__ . '/../../classes/room.php';
+
 $houseObj = new House();
+$roomObj = new Room();
+
 $houseExists = $houseObj->fetch($houseId);
 
 if (!isset($tab))
@@ -141,7 +145,7 @@ $page = "houses";
                                 <!-- number of rooms -->
                                 <tr>
                                     <td class="title"> No. of Rooms </td>
-                                    <td class="data"> <?= "-" ?> </td>
+                                    <td class="data"> <?= $roomObj->countRoomOfThisHouse($houseId) ?> </td>
                                 </tr>
 
                                 <!-- added date -->

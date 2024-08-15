@@ -109,6 +109,6 @@ class Review
             $rating = $total / $count;
         }
 
-        return $rating;
+        return round($rating, 1);
     }
 }

@@ -52,42 +52,33 @@ if (sizeof($list) == 0) {
             $link = "/rentrover/admin/user-detail/$userId";
             ?>
             <!-- room verification apply-->
-            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                <!-- icon -->
+            <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                data-notification-id="<?= $id ?>">
                 <div class="notification-icon">
                     <img src="/rentrover/uploads/users/<?= $profilePhoto ?>" alt="">
                 </div>
 
-                <!-- details -->
                 <div class="notification-details">
-                    <!-- detail -->
                     <p class="note"> <?= $userName ?> applied for account verification. </p>
-
-                    <!-- date -->
                     <p class="date"> <?= $date ?> </p>
                 </div>
             </div>
             <?php
         } elseif ($type == 'feedback-submit') {
-            // user feedbcal
+            // user feedback
             $tempUser->fetch($userId, "mandatory");
             $userName = $tempUser->getFullName();
             $profilePhoto = $tempUser->profilePhoto;
 
             $link = "/rentrover/admin/feedbacks";
             ?>
-            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'">
-                <!-- icon -->
+            <div class="notification notification-card <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'"
+                data-notification-id="<?= $id ?>">
                 <div class="notification-icon">
                     <img src="/rentrover/assets/icons/notifications/feedback.png" alt="">
                 </div>
-
-                <!-- details -->
                 <div class="notification-details">
-                    <!-- detail -->
                     <p class="note"> <?= $userName ?> submitted the feedback. </p>
-
-                    <!-- date -->
                     <p class="date"> <?= $date ?> </p>
                 </div>
             </div>

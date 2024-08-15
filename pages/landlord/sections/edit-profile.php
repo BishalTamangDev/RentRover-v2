@@ -19,7 +19,7 @@ if(!isset($profileUser)) {
     </div>
 
     <!-- error message -->
-    <p class="text-danger small error-message mb-3" id="error-message"> error message appeags here... </p>
+    <p class="text-danger small error-message mb-3" id="error-message"> </p>
 
     <!-- profile photo label -->
     <div class="d-flex flex-row gap-3">

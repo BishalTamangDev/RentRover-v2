@@ -83,6 +83,7 @@ header .notification-section .notification-container {
   height: -moz-fit-content;
   height: fit-content;
   background-color: white;
+  z-index: 150;
 }
 header .notification-section .notification-container .notification-box {
   display: flex;

@@ -327,7 +327,7 @@ $page = "rooms";
                 <label for="info" class="mb-2 mt-3 fw-semibold"> Some additional informations </label>
                 <textarea name="info" class="form-control mb-2"
                     placeholder="Some information about the house or the requirements." id="info" <?php if (!$eligible)
-                        echo "disabled"; ?>><?= $roomObj->info ?></textarea>
+                        echo "disabled"; ?> maxlength="50"><?= $roomObj->info ?></textarea>
 
                 <button type="submit" class="btn btn-brand fit-content mt-3" id="update-room-btn"> Update Now </button>
             </form>

@@ -1,0 +1,16 @@
+TRUNCATE TABLE admin_tb;
+TRUNCATE TABLE amenity_tb;
+TRUNCATE TABLE application_tb;
+TRUNCATE TABLE feedback_tb;
+TRUNCATE TABLE house_photo_tb;
+TRUNCATE TABLE house_tb;
+TRUNCATE TABLE issue_tb;
+TRUNCATE TABLE leave_application_tb;
+TRUNCATE TABLE notice_tb;
+TRUNCATE TABLE notification_tb;
+TRUNCATE TABLE review_tb;
+TRUNCATE TABLE room_photo_tb;
+TRUNCATE TABLE room_tb;
+TRUNCATE TABLE tenancy_tb;
+TRUNCATE TABLE user_tb;
+TRUNCATE TABLE wishlist_tb;

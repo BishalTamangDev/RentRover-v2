@@ -159,6 +159,10 @@ if (session_status() == PHP_SESSION_NONE)
                     success: function (response) {
                         if (response == "true") {
                             $('#error-message').html("Registration successful.").fadeIn();
+                            setTimeout(function(){
+                                window.location.href='/rentrover/admin/login';
+                                $('#registration-form').trigger("reset");
+                            }, 2000);
                         } else {
                             $('#error-message').html(response).fadeIn();
                         }

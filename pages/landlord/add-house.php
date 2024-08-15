@@ -146,7 +146,7 @@ $page = "houses";
                 <div class="d-flex flex-column flex-md-row w-100 w-md-50 flex-row gap-3 mt-3">
                     <div class="w-100">
                         <label for="nearest-landmark" class="fw-semibold mb-2"> Nearest Landmark </label>
-                        <input type="text" name="nearest-landmark" id="nearest-landmark" class="form-control" required>
+                        <input type="text" name="nearest-landmark" id="nearest-landmark" class="form-control" maxlength="50" required>
                     </div>
                 </div>
 
@@ -200,7 +200,7 @@ $page = "houses";
                 <!-- additional informations -->
                 <label for="additional-info" class="mb-2 mt-3 fw-semibold"> Some additional informations </label>
                 <textarea name="additional-info" class="form-control mb-2"
-                    placeholder="Some information about the house or the requirements." id="additional-info"></textarea>
+                    placeholder="Some information about the house or the requirements." id="additional-info" maxlength="255"></textarea>
 
                 <!-- submit -->
                 <button type="submit" class="btn btn-brand fit-content mt-3" id="add-house-btn"> Add Now </button>
@@ -266,6 +266,10 @@ $page = "houses";
 
                             // reset form
                             $('#add-house-form').trigger("reset");
+
+                            setTimeout(function(){
+                                location.reload();
+                            }, 2000);
                         } else {
                             $('#error-message').html("House counldn't be added.").fadeIn();
                         }
