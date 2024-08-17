@@ -162,11 +162,36 @@ $page = "dashboard";
                 </div>
             </div>
         </section>
+
+        <!-- demo purpose -->
+        <div class="mt-4 reset-selective-table-container">
+            <button class="btn btn-danger" id="reset-selective-table-trigger" data-bs-toggle="modal"
+                data-bs-target="#reset-table-modal"> Reset Selective Table </button>
+        </div>
     </main>
 
     <!-- popup alert -->
     <div class="popup-alert-container" id="popup-alert-container">
         <p id="popup-message"> Popup alert content. </p>
+    </div>
+
+    <!-- modal -->
+    <div class="modal fade" id="reset-table-modal" tabindex="-1" aria-labelledby="reset table modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="d-flex flex-column modal-header">
+                    <div class="d-flex flex-column align-items-center gap-3 pt-3 mb-4 content">
+                        <h2 class="m-0"> Are you sure you want to reset table? </h2>
+                    </div>
+
+                    <div class="d-flex flex-row w-100 gap-2 action mb-2">
+                        <button class="btn btn-danger" id="reset-selective-table-btn"> Reset </button>
+                        <button class="btn btn-outline-success" id="reset-cancel-btn" data-bs-dismiss="modal"
+                            aria-label="Close"> Cancel </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- bootstrap js :: cdn -->
@@ -355,6 +380,20 @@ $page = "dashboard";
             }
 
             countFeedback();
+
+            $('#reset-selective-table-btn').click(function () {
+                $.ajax({
+                    url: '/rentrover/pages/admin/app/reset-selective-table.php',
+                    success: function (response) {
+                        if (response) {
+                            console.log('Reset successfully!');
+                        } else {
+                            console.log("Reset failed!");
+                        }
+                        $('#reset-cancel-btn').click();
+                    }
+                });
+            });
         });
     </script>
 </body>
